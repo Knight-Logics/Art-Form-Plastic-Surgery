@@ -46,15 +46,48 @@
 
   function collectAnimationTargets() {
     const set = new Set();
-    document.querySelectorAll('.elementor-invisible').forEach((el) => set.add(el));
-    document.querySelectorAll('.elementor-section.animated-slow').forEach((el) => set.add(el));
+    document.querySelectorAll('.elementor-invisible').forEach((el) => {
+      if (!el.classList.contains('artform-help-band')) set.add(el);
+    });
+    document.querySelectorAll('.elementor-section.animated-slow').forEach((el) => {
+      if (!el.classList.contains('artform-help-band')) set.add(el);
+    });
     document.querySelectorAll('.elementor-widget.elementor-invisible').forEach((el) => set.add(el));
     return [...set];
+  }
+
+  /**
+   * Help band: run on homepage load (not scroll).
+   * On ultra-wide the hero is 80–100svh so this block is below the fold — it should still
+   * animate at refresh; users see it finish as they scroll down.
+   */
+  function revealHelpBandOnLoad() {
+    const band = document.querySelector('.artform-help-band.elementor-invisible');
+    if (!band) return;
+
+    /** After hero paints; keeps motion visible when user scrolls on ultra-wide. */
+    const HELP_BAND_LOAD_DELAY_MS = 1100;
+
+    const start = () => {
+      reveal(band);
+      band.style.animationDuration = '1.75s';
+    };
+
+    const schedule = () => {
+      setTimeout(() => requestAnimationFrame(start), HELP_BAND_LOAD_DELAY_MS);
+    };
+
+    if (document.readyState === 'complete') {
+      schedule();
+    } else {
+      window.addEventListener('load', schedule, { once: true });
+    }
   }
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reduceMotion) {
+    revealHelpBandOnLoad();
     const targets = collectAnimationTargets();
     const io = new IntersectionObserver(
       (entries) => {

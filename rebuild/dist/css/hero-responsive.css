@@ -44,7 +44,7 @@
 
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {
-    min-height: clamp(460px, 62svh, 820px) !important;
+    min-height: clamp(288px, 42svh, 560px) !important;
   }
 
   /* Cancel Elementor tablet negative margin that collapses hero */

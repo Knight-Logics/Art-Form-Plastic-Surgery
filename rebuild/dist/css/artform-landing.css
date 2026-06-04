@@ -1,66 +1,75 @@
 /**
- * Landing — one grid cell, hero + cards stacked; cards overlap hero ~10%.
- * Replaces absolute positioning + max-height clipping (form cut off).
+ * Homepage landing layout.
+ *
+ * Structure (set in build.mjs → enhanceHomepage):
+ *   .artform-landing            → hero band: headline + consult form
+ *     .elementor-element-79fd65b0  → hero section (bg image)
+ *       .elementor-element-54fe6ad8     → headline column
+ *       .elementor-element-54fb05d4     → consult-form column (.artform-hero-form-col)
+ *   .artform-help-band          → full-width "How Can We Help You" row, BELOW the hero
+ *     .elementor-element-dcb08e9   → white help card (full width, short)
+ *
+ * Goal: "How Can We Help You" is always its own full-width row beneath the hero
+ * (every breakpoint). The consult form sits beside the headline on desktop and
+ * drops below the hero image on phones.
  */
 
 :root {
   --artform-chrome: 128px;
-  --artform-hero-base: 831px;
-  --artform-cards-overlap: clamp(72px, 10vh, 152px);
-  --artform-cards-clearance: clamp(260px, 30vh, 420px);
-  --artform-cards-after: clamp(20px, 3vh, 40px);
+  --artform-hero-base: 610px;
   --artform-uw-start: 2100px;
   --artform-uw-end: 3440px;
-  --artform-landing-min: 80svh;
-  --artform-landing-max: calc(100svh - var(--artform-chrome));
+  /* Ultra-wide ramp: 80svh @ 2100px → 100svh @ 3440px */
+  --artform-hero-vh-min: 80svh;
+  --artform-hero-vh-max: 100svh;
+  --artform-hero-content-max: 2100px;
 }
 
-/* ── Grid stack (all breakpoints) ── */
+/* ───────────────────────── Hero band ───────────────────────── */
 .artform-landing {
-  display: grid;
-  grid-template-areas: 'landing';
   position: relative;
   width: 100%;
-  min-height: clamp(520px, 78svh, 920px);
-  margin-bottom: var(--artform-cards-after);
   isolation: isolate;
-}
-
-.artform-landing > .elementor-element.elementor-element-79fd65b0,
-.artform-landing > .elementor-element.elementor-element-37fbd314 {
-  grid-area: landing;
 }
 
 .artform-landing > .elementor-element.elementor-element-79fd65b0 {
   position: relative !important;
   inset: auto !important;
-  align-self: stretch;
   margin: 0 !important;
-  padding-left: clamp(0px, 2vw, 30px) !important;
-  padding-right: 0 !important;
   width: 100% !important;
-  min-height: inherit;
-  z-index: 1;
+  min-height: var(--artform-hero-base);
   overflow: hidden;
 }
 
+/* Hero inner = headline (left) + consult form (right) on desktop */
 .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
-  min-height: inherit !important;
-  height: 100%;
-  align-items: flex-start !important;
-  align-content: flex-start !important;
-  padding-top: clamp(44px, 8vh, 104px) !important;
-  padding-bottom: calc(var(--artform-cards-overlap) + var(--artform-cards-clearance)) !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: clamp(24px, 3vw, 56px);
+  min-height: var(--artform-hero-base);
+  padding: clamp(36px, 5.5vh, 76px) clamp(20px, 4vw, 60px) !important;
   box-sizing: border-box !important;
 }
 
+/* Cap headline + form row width on large screens; hero bg stays full bleed */
+@media (min-width: 1227px) {
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    width: min(100%, var(--artform-hero-content-max)) !important;
+    max-width: var(--artform-hero-content-max) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Headline column */
 .artform-landing .elementor-element.elementor-element-54fe6ad8 {
-  max-width: min(95%, 1470px);
-  flex: 0 1 auto;
+  flex: 1 1 auto;
+  max-width: 58%;
 }
 
 .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
-  align-content: flex-start !important;
+  align-content: center !important;
   align-items: flex-start !important;
 }
 
@@ -68,115 +77,177 @@
 .artform-landing .artform-hero-h1.elementor-heading-title {
   font-size: clamp(2rem, 4vw, 4.25rem) !important;
   line-height: 1.08 !important;
-  max-width: 24ch;
+  max-width: 22ch;
 }
 
-.artform-landing > .elementor-element.elementor-element-37fbd314 {
-  position: relative !important;
-  inset: auto !important;
-  align-self: end;
-  justify-self: center;
-  width: 100% !important;
-  max-width: 100%;
-  max-height: none !important;
-  overflow: visible !important;
-  z-index: 10 !important;
+/* Consult-form column → right-side panel on desktop */
+.artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
+  flex: 0 0 auto;
+  width: clamp(340px, 34vw, 460px);
+  align-self: center;
+}
+
+/* Knight-style hero card shell — dark glass, gold edge (fields styled in home-hero-cards.css) */
+.artform-landing .artform-hero-form-col:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.artform-landing .artform-hero-form-col > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+.artform-landing .artform-hero-form-col > .elementor-element-populated {
   margin: 0 !important;
-  padding: 0 clamp(10px, 2vw, 24px) !important;
-  transform: translateY(calc(-1 * var(--artform-cards-overlap)));
-  margin-bottom: calc(-1 * var(--artform-cards-overlap) + var(--artform-cards-after)) !important;
+  padding: clamp(26px, 2.2vw, 32px) clamp(24px, 2vw, 30px) !important;
+  border-radius: 28px !important;
+  background: linear-gradient(165deg, rgba(14, 13, 12, 0.97) 0%, rgba(6, 6, 8, 0.98) 100%) !important;
+  border: 1px solid rgba(212, 183, 106, 0.3) !important;
+  box-shadow:
+    0 24px 55px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-.artform-landing > .elementor-element.elementor-element-37fbd314 > .elementor-container {
-  max-width: 1290px;
-  margin-left: auto;
-  margin-right: auto;
+/* ─────────────── "How Can We Help You" — full-width row below hero ─────────────── */
+.artform-help-band.elementor-element-37fbd314 {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  /* ~half prior band padding around the white card */
+  padding: clamp(14px, 2vw, 28px) clamp(8px, 1.5vw, 16px) !important;
+  background-color: #000000 !important;
+  background-image: none !important;
+  z-index: auto !important;
+}
+
+/* Entrance: slide down from well above final position (visible when scrolling after tall hero) */
+@keyframes artform-help-slide-down {
+  from {
+    opacity: 0;
+    transform: translate3d(0, calc(-1 * clamp(220px, 42vh, 560px)), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.artform-help-band.elementor-invisible {
+  will-change: transform, opacity;
+}
+
+.artform-help-band.animated.fadeInDown {
+  animation-name: artform-help-slide-down !important;
+  animation-duration: 1.75s !important;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.artform-help-band.elementor-element-37fbd314 > .elementor-background-overlay {
+  background-color: transparent !important;
+  opacity: 0 !important;
+}
+
+.artform-help-band.elementor-element-37fbd314 > .elementor-container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
   align-items: stretch !important;
 }
 
-.artform-landing .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
-  margin: calc(-1 * var(--artform-cards-overlap) * 0.5) 20px 0 20px !important;
+.artform-help-band .elementor-element.elementor-element-dcb08e9 {
+  width: 100% !important;
 }
 
-.artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
-  margin: calc(-1 * var(--artform-cards-overlap) * 0.15) 20px 10px 20px !important;
+/* White card: full width, no overlap, shorter */
+.artform-help-band .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
+  margin: 0 !important;
+  padding: clamp(24px, 2.4vw, 40px) clamp(24px, 3vw, 56px) !important;
+  border-radius: 16px;
 }
 
-@media (min-width: 1227px) {
-  .artform-landing {
-    min-height: max(var(--artform-hero-base), 88svh);
-  }
-
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
-    max-width: min(95%, 1470px);
-  }
-
-  @media (min-width: 1600px) {
-    .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
-    .artform-landing .artform-hero-h1.elementor-heading-title {
-      max-width: 30ch;
-    }
-  }
+/* Keep the card's inner intro|services as a wide two-column on desktop */
+.artform-help-band .elementor-element.elementor-element-12a3ae6d > .elementor-container {
+  align-items: center !important;
 }
 
+/* ───────────────────────── Ultra-wide (2100px → 3440px) ───────────────────────── */
 @media (min-width: 2100px) {
-  .artform-landing {
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 {
     --artform-uw-progress: clamp(
       0,
       calc((100vw - var(--artform-uw-start)) / (var(--artform-uw-end) - var(--artform-uw-start))),
       1
     );
     min-height: calc(
-      var(--artform-landing-min) +
-        (var(--artform-landing-max) - var(--artform-landing-min)) * var(--artform-uw-progress)
+      var(--artform-hero-vh-min) +
+        (var(--artform-hero-vh-max) - var(--artform-hero-vh-min)) * var(--artform-uw-progress)
     );
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    min-height: inherit !important;
   }
 }
 
 @media (min-width: 3440px) {
-  .artform-landing {
-    min-height: var(--artform-landing-max);
+  .artform-landing > .elementor-element.elementor-element-79fd65b0,
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    min-height: var(--artform-hero-vh-max) !important;
   }
 }
 
+/* ───────────────────────── Tablet + phone ───────────────────────── */
 @media (max-width: 1226px) {
-  :root {
-    --artform-cards-overlap: clamp(64px, 10vh, 128px);
-    --artform-cards-clearance: clamp(200px, 28vh, 340px);
-  }
-
-  .artform-landing {
-    min-height: clamp(480px, 68svh, 860px);
+  /* Hero stacks: image+headline first, consult form below */
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
   }
 
   .artform-landing .elementor-element.elementor-element-54fe6ad8 {
-    max-width: 100%;
+    max-width: 100% !important;
     width: 100% !important;
+    min-height: clamp(288px, 42svh, 416px);
+    display: flex;
+    align-items: center;
+    padding: clamp(22px, 4.5vh, 44px) clamp(18px, 5vw, 28px) !important;
+    box-sizing: border-box;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
+    align-content: center !important;
+  }
+
+  /* Form drops below the hero image, full width, solid panel */
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
+    width: 100% !important;
+    align-self: stretch;
+  }
+
+  .artform-landing .artform-hero-form-col > .elementor-element-populated {
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    padding: clamp(26px, 6vw, 40px) clamp(20px, 6vw, 32px) !important;
   }
 
   .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
   .artform-landing .artform-hero-h1.elementor-heading-title {
-    max-width: 27ch;
+    max-width: 24ch;
     font-size: clamp(1.85rem, 6.5vw, 2.75rem) !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
-    padding: clamp(20px, 4vh, 40px) clamp(18px, 4vw, 28px)
-      calc(var(--artform-cards-overlap) + var(--artform-cards-clearance)) !important;
-  }
-
-  .artform-landing .elementor-element.elementor-element-37fbd314 > .elementor-container {
-    flex-direction: column !important;
-  }
-
-  .artform-landing .elementor-element.elementor-element-dcb08e9,
-  .artform-landing .elementor-element.elementor-element-54fb05d4 {
+  /* Help band inner columns stack */
+  .artform-help-band .elementor-element.elementor-element-dcb08e9 .elementor-col-50,
+  .artform-help-band .elementor-element.elementor-element-12a3ae6d .elementor-column {
     width: 100% !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated,
-  .artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
+  .artform-help-band .elementor-element.elementor-element-56864c16 > .elementor-element-populated {
     margin-left: 0 !important;
-    margin-right: 0 !important;
+    --e-column-margin-left: 0px !important;
   }
 }

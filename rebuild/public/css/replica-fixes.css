@@ -2,6 +2,12 @@
  * Art Form Plastic Surgery rebuild — layout, header, animations
  */
 
+/* ── Page background ── */
+html,
+body {
+  background-color: #000000 !important;
+}
+
 /* ── Announcement bar ── */
 .simple-banner {
   display: block !important;

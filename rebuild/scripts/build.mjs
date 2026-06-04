@@ -285,7 +285,8 @@ function cleanFragment(html) {
 }
 
 function renderHeroConsultForm() {
-  return `<div class="artform-consult-form">
+  return `<div class="artform-consult-form artform-consult-form--hero">
+  <p class="artform-consult-form__kicker">Free consultation</p>
   <h3 class="artform-consult-form__title">Consultation With Our Doctor</h3>
   <p class="artform-consult-form__subtitle">Get on a call with Dr. Kieliszak</p>
   <form class="artform-consult-form__form" action="/book-consultation/" method="get" novalidate>
@@ -336,11 +337,35 @@ function enhanceHomepage(html) {
 
   const hero = $('.elementor-element-79fd65b0').first();
   const cards = $('.elementor-element-37fbd314').first();
-  if (hero.length && cards.length && !hero.parent().hasClass('artform-landing')) {
+  if (hero.length && !hero.parent().hasClass('artform-landing')) {
     const landing = $('<div class="artform-landing"></div>');
     hero.before(landing);
     landing.append(hero);
-    landing.append(cards);
+
+    // Consult form → into the hero (right-side panel on desktop, stacked below the image on mobile).
+    const formCol = $('.elementor-element-54fb05d4').first();
+    const heroInner = hero.find('> .elementor-container').first();
+    if (formCol.length && heroInner.length) {
+      formCol.addClass('artform-hero-form-col');
+      heroInner.append(formCol);
+    }
+
+    // "How Can We Help You" → its own full-width row BELOW the hero (same on every screen size).
+    if (cards.length) {
+      cards.addClass('artform-help-band');
+      cards.removeClass('fadeInUp').addClass('fadeInDown');
+      const settings = cards.attr('data-settings');
+      if (settings) {
+        cards.attr('data-settings', settings.replace(/fadeInUp/g, 'fadeInDown'));
+      }
+      landing.after(cards);
+    }
+  }
+
+  const section3965 = $('.elementor-element-3965ab9f').first();
+  const section63d6 = $('.elementor-element-63d63482').first();
+  if (section3965.length && section63d6.length) {
+    section3965.after(section63d6);
   }
 
   return $('#wrap').html() || html;

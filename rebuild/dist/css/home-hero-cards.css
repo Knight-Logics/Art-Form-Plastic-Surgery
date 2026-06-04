@@ -6,23 +6,19 @@
   align-items: stretch !important;
 }
 
-/* Never clip the consult form inside the landing overlap */
-.artform-landing .elementor-element.elementor-element-37fbd314,
-.artform-landing .elementor-element.elementor-element-37fbd314 > .elementor-container,
-.artform-landing .elementor-element.elementor-element-54fb05d4,
-.artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated,
+/* Never clip the consult form */
+.artform-landing .artform-hero-form-col,
+.artform-landing .artform-hero-form-col > .elementor-element-populated,
 .artform-landing .artform-consult-form {
   max-height: none !important;
   overflow: visible !important;
 }
 
-/* ── Left “How Can We Help You?” card ── */
+/* ── "How Can We Help You?" card content (box layout in artform-landing.css) ── */
 .elementor-975 .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
   display: flex !important;
   flex-direction: column;
-  justify-content: center;
   box-sizing: border-box;
-  padding: clamp(32px, 3vw, 48px) clamp(28px, 3vw, 50px) clamp(32px, 3vw, 48px) !important;
 }
 
 .elementor-975 .elementor-element.elementor-element-dcb08e9 .elementor-element-12a3ae6d {
@@ -81,126 +77,143 @@
   margin-top: 1rem !important;
 }
 
-/* Gold consult column — match left padding, stay fully visible */
-.elementor-975 .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated,
-.artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
+/* Gold consult-form panel — keep contents stacked; box layout in artform-landing.css */
+.elementor-975 .artform-hero-form-col > .elementor-element-populated {
   display: flex !important;
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
-  margin-bottom: 10px !important;
-  padding: clamp(32px, 3vw, 48px) clamp(28px, 3vw, 44px) !important;
 }
 
-/* ── Hero consultation form ── */
-.artform-consult-form {
+/* ── Hero consultation form (Knight Logics card pattern — black & gold) ── */
+.artform-consult-form--hero {
   width: 100%;
-  color: #ffffff;
+  color: #f5f0e6;
+}
+
+.artform-consult-form__kicker {
+  margin: 0 0 0.55rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4b76a !important;
 }
 
 .artform-consult-form__title {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.45rem;
   font-family: 'Antic Didone', Georgia, serif;
-  font-size: clamp(1.5rem, 1.75vw, 1.85rem);
+  font-size: clamp(1.35rem, 1.6vw, 1.65rem);
   font-weight: 400;
-  line-height: 1.2;
-  color: #ffffff !important;
+  line-height: 1.12;
+  color: #f8f4ec !important;
 }
 
 .artform-consult-form__subtitle {
-  margin: 0 0 1.15rem;
+  margin: 0 0 1.2rem;
+  padding-bottom: 1.05rem;
+  border-bottom: 1px solid rgba(212, 183, 106, 0.22);
   font-family: Poppins, sans-serif;
-  font-size: clamp(0.95rem, 1vw, 1.05rem);
+  font-size: clamp(0.92rem, 1vw, 0.98rem);
   font-weight: 400;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.95) !important;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72) !important;
 }
 
 .artform-consult-form__form {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.85rem;
 }
 
 .artform-consult-form__field label {
   display: block;
-  margin-bottom: 0.28rem;
+  margin-bottom: 0.45rem;
   font-family: Poppins, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9) !important;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(245, 240, 230, 0.95) !important;
 }
 
 .artform-consult-form__field input,
 .artform-consult-form__field textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.6rem 0.8rem;
+  padding: 12px 14px;
   font-family: Poppins, sans-serif;
-  font-size: 0.9rem;
-  color: #1a1408;
-  background: rgba(255, 255, 255, 0.97);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #f5f0e6;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(212, 183, 106, 0.22);
+  border-radius: 10px;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .artform-consult-form__field input::placeholder,
 .artform-consult-form__field textarea::placeholder {
-  color: #8a7a5c;
+  color: rgba(245, 240, 230, 0.42);
 }
 
 .artform-consult-form__field input:focus,
 .artform-consult-form__field textarea:focus {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  border-color: #d4b76a;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 0 0 3px rgba(212, 183, 106, 0.2);
 }
 
 .artform-consult-form__field textarea {
   resize: vertical;
-  min-height: 4.25rem;
+  min-height: 4.5rem;
 }
 
 .artform-consult-form__submit,
 .artform-consult-form__submit:visited {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   width: 100%;
-  padding: 0.8rem 1rem;
+  min-height: 50px;
+  padding: 13px 22px;
   font-family: Poppins, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #ffffff !important;
-  background: linear-gradient(135deg, #d4b76a 0%, #a88648 100%);
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #0c0b0a !important;
+  background: linear-gradient(135deg, #e8c878 0%, #c9a84a 48%, #a88648 100%);
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+  box-shadow: 0 16px 32px rgba(212, 183, 106, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .artform-consult-form__submit:hover,
 .artform-consult-form__submit:focus-visible {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-  background: #ffffff;
-  color: #b89856 !important;
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 18px 36px rgba(212, 183, 106, 0.38);
+  color: #0c0b0a !important;
 }
 
 .artform-consult-form__phone {
-  margin: 0.9rem 0 0;
+  margin: 1rem 0 0;
   font-family: Poppins, sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   text-align: center;
-  color: rgba(255, 255, 255, 0.92) !important;
+  color: rgba(255, 255, 255, 0.62) !important;
 }
 
 .artform-consult-form__phone a {
-  color: #ffffff !important;
-  font-weight: 600;
+  color: #d4b76a !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.artform-consult-form__phone a:hover,
+.artform-consult-form__phone a:focus-visible {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -224,20 +237,6 @@
 }
 
 @media (max-width: 1226px) {
-  .elementor-975 .elementor-element.elementor-element-37fbd314 .elementor-col-50 {
-    width: 100% !important;
-  }
-
-  .elementor-975 .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated,
-  .elementor-975 .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
-    margin-top: 0 !important;
-    padding: 28px 22px !important;
-  }
-
-  .elementor-975 .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
-    justify-content: flex-start;
-  }
-
   .artform-consult-form__field textarea {
     min-height: 3.75rem;
   }
