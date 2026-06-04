@@ -251,3 +251,34 @@
     --e-column-margin-left: 0px !important;
   }
 }
+
+/* ───────────────────────── Stats band (below Google Reviews) ───────────────────────── */
+.artform-stats-band.elementor-top-section {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  margin-top: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+
+.artform-stats-band > .elementor-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.artform-stats-band .elementor-element-76035f93 {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.artform-stats-band .elementor-element-76035f93 > .elementor-element-populated {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  --e-column-margin-left: 0px !important;
+  --e-column-margin-right: 0px !important;
+}

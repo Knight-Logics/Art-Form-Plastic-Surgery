@@ -313,6 +313,44 @@ function renderHeroConsultForm() {
 </div>`;
 }
 
+/** Knight Logics–style Google Reviews widget (static shell; JS hydrates from JSON). */
+function renderGoogleReviewsWidget() {
+  const googleG = `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.56 2.98-2.26 5.5-4.82 7.18l7.73 6c4.51-4.16 7.12-10.27 7.12-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24 24 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>`;
+  return `<div class="artform-greviews" data-afg-widget>
+  <header class="artform-greviews__header">
+    <div class="artform-greviews__brand">
+      ${googleG}
+      <h2 class="artform-greviews__title">Google Reviews</h2>
+    </div>
+    <div class="artform-greviews__summary">
+      <span class="artform-greviews__stars" aria-hidden="true">★★★★★</span>
+      <span data-afg-summary>5.0 • 102 reviews</span>
+    </div>
+  </header>
+  <div class="artform-greviews__tabs" role="tablist" aria-label="Filter reviews">
+    <button type="button" class="artform-greviews__tab is-active" role="tab" aria-selected="true" data-afg-tab="all">All</button>
+    <button type="button" class="artform-greviews__tab" role="tab" aria-selected="false" data-afg-tab="replied">Replied</button>
+    <button type="button" class="artform-greviews__tab" role="tab" aria-selected="false" data-afg-tab="unreplied">Unreplied</button>
+  </div>
+  <div class="artform-greviews__carousel">
+    <button type="button" class="artform-greviews__nav" data-afg-prev aria-label="Previous reviews">
+      <svg class="artform-greviews__nav-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="artform-greviews__viewport">
+      <div class="artform-greviews__track" data-afg-track></div>
+    </div>
+    <button type="button" class="artform-greviews__nav" data-afg-next aria-label="Next reviews">
+      <svg class="artform-greviews__nav-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M10 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <footer class="artform-greviews__footer">
+    <a href="https://www.google.com/maps/search/Art+Form+Plastic+Surgery+801+2nd+St+N+Safety+Harbor+FL+34695" target="_blank" rel="noopener noreferrer" data-afg-maps>See our Google profile</a>
+    <span aria-hidden="true">•</span>
+    <a href="https://www.google.com/maps/search/Art+Form+Plastic+Surgery+801+2nd+St+N+Safety+Harbor+FL+34695" target="_blank" rel="noopener noreferrer" data-afg-write>Leave a review</a>
+  </footer>
+</div>`;
+}
+
 /** Landing wrapper, consult form, layout fixes for homepage. */
 function enhanceHomepage(html) {
   const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
@@ -362,10 +400,27 @@ function enhanceHomepage(html) {
     }
   }
 
+  // Google Reviews (photo + carousel) directly above Our Services; stats bar tucked under reviews only.
   const section3965 = $('.elementor-element-3965ab9f').first();
   const section63d6 = $('.elementor-element-63d63482').first();
+  const ourServices = $('.elementor-element-5b9d1682').first();
+
+  if (section63d6.length && ourServices.length) {
+    ourServices.before(section63d6);
+  }
   if (section3965.length && section63d6.length) {
-    section3965.after(section63d6);
+    section63d6.after(section3965);
+    section3965.addClass('artform-stats-band');
+  }
+
+  const reviewsWidget = $('.elementor-element-7691a215 .jkit-testimonials').first();
+  if (reviewsWidget.length) {
+    reviewsWidget.replaceWith(renderGoogleReviewsWidget());
+  } else {
+    const widgetWrap = $('[data-id="6a3d4f6f"] .elementor-widget-container').first();
+    if (widgetWrap.length) {
+      widgetWrap.html(renderGoogleReviewsWidget());
+    }
   }
 
   return $('#wrap').html() || html;
@@ -405,7 +460,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   ${inlineBlock}
   <link rel="stylesheet" href="/css/replica-fixes.css">
   <link rel="stylesheet" href="/css/artform-header.css">
-  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">' : ''}
+  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">' : ''}
   <link rel="canonical" href="${BASE}${pagePath === '/' ? '/' : pagePath}">
   <script type="application/ld+json">${schemaJson(pagePath)}</script>
 </head>
@@ -419,7 +474,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <script src="/js/elementor-animations.js" defer></script>
   <script src="/js/swiper-init.js" defer></script>
   <script src="/js/site.js" defer></script>
-  ${pagePath === '/' ? '<script src="/js/home-consult-form.js" defer></script>' : ''}
+  ${pagePath === '/' ? '<script src="/js/home-consult-form.js" defer></script>\n  <script src="/js/artform-google-reviews.js" defer></script>' : ''}
 </body>
 </html>`;
 }
