@@ -1,0 +1,6 @@
+rebuild/node_modules/
+rebuild/pages-deploy/
+rebuild/public/wp-content/
+.DS_Store
+Thumbs.db
+*.log

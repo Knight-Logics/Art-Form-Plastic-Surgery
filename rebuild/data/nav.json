@@ -1,0 +1,21 @@
+{
+  "items": [
+    { "label": "Home", "href": "/" },
+    {
+      "label": "Services",
+      "href": "/services/",
+      "children": [
+        { "label": "Cosmetic", "href": "/cosmetic-procedures/" },
+        { "label": "Reconstructive and Functional", "href": "/functional/" },
+        { "label": "Non Surgical", "href": "/non-surgical-procedures-2/" },
+        { "label": "Hair Restoration", "href": "/hair-restoration/" },
+        { "label": "Skincare", "href": "/skincare/" }
+      ]
+    },
+    { "label": "Gallery", "href": "/gallery/" },
+    { "label": "About", "href": "/about-us/" },
+    { "label": "Contact", "href": "/contact/" },
+    { "label": "Payment Plans", "href": "/payment-plans/" },
+    { "label": "Blog", "href": "/blog/" }
+  ]
+}

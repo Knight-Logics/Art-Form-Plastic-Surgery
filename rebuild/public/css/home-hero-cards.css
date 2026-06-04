@@ -1,0 +1,244 @@
+/**
+ * Homepage hero cards — typography, consult form (layout → artform-landing.css).
+ */
+
+.elementor-975 .elementor-element.elementor-element-37fbd314 > .elementor-container {
+  align-items: stretch !important;
+}
+
+/* Never clip the consult form inside the landing overlap */
+.artform-landing .elementor-element.elementor-element-37fbd314,
+.artform-landing .elementor-element.elementor-element-37fbd314 > .elementor-container,
+.artform-landing .elementor-element.elementor-element-54fb05d4,
+.artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated,
+.artform-landing .artform-consult-form {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* ── Left “How Can We Help You?” card ── */
+.elementor-975 .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: clamp(32px, 3vw, 48px) clamp(28px, 3vw, 50px) clamp(32px, 3vw, 48px) !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-dcb08e9 .elementor-element-12a3ae6d {
+  width: 100%;
+  margin: 0 !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-dcb08e9 .elementor-element-12a3ae6d > .elementor-container {
+  align-items: center !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-65c61a99 .elementor-heading-title {
+  font-family: 'Antic Didone', Georgia, serif !important;
+  font-size: clamp(2rem, 2.5vw, 2.75rem) !important;
+  line-height: 1.15 !important;
+  margin-bottom: 0.85rem !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-71fd40d3,
+.elementor-975 .elementor-element.elementor-element-71fd40d3 .elementor-widget-container,
+.elementor-975 .elementor-element.elementor-element-71fd40d3 p {
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1.1rem, 1.2vw, 1.25rem) !important;
+  line-height: 1.75 !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-71fd40d3 > .elementor-widget-container {
+  padding-right: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-fe18eed p {
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1.1rem, 1.15vw, 1.2rem) !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.65rem !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-69b74e65 .elementor-icon-list-text {
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1.05rem, 1.1vw, 1.15rem) !important;
+  line-height: 1.55 !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-69b74e65 .elementor-icon-list-item {
+  padding-block: 0.28rem;
+}
+
+.elementor-975 .elementor-element.elementor-element-5fd18328 .elementor-button {
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1.05rem, 1.08vw, 1.12rem) !important;
+  padding: 0.9rem 1.6rem !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-5fd18328 > .elementor-widget-container {
+  margin-top: 1rem !important;
+}
+
+/* Gold consult column — match left padding, stay fully visible */
+.elementor-975 .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated,
+.artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  margin-bottom: 10px !important;
+  padding: clamp(32px, 3vw, 48px) clamp(28px, 3vw, 44px) !important;
+}
+
+/* ── Hero consultation form ── */
+.artform-consult-form {
+  width: 100%;
+  color: #ffffff;
+}
+
+.artform-consult-form__title {
+  margin: 0 0 0.4rem;
+  font-family: 'Antic Didone', Georgia, serif;
+  font-size: clamp(1.5rem, 1.75vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #ffffff !important;
+}
+
+.artform-consult-form__subtitle {
+  margin: 0 0 1.15rem;
+  font-family: Poppins, sans-serif;
+  font-size: clamp(0.95rem, 1vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.artform-consult-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.artform-consult-form__field label {
+  display: block;
+  margin-bottom: 0.28rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.artform-consult-form__field input,
+.artform-consult-form__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.8rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  color: #1a1408;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artform-consult-form__field input::placeholder,
+.artform-consult-form__field textarea::placeholder {
+  color: #8a7a5c;
+}
+
+.artform-consult-form__field input:focus,
+.artform-consult-form__field textarea:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.artform-consult-form__field textarea {
+  resize: vertical;
+  min-height: 4.25rem;
+}
+
+.artform-consult-form__submit,
+.artform-consult-form__submit:visited {
+  margin-top: 0.4rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #d4b76a 0%, #a88648 100%);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.artform-consult-form__submit:hover,
+.artform-consult-form__submit:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  background: #ffffff;
+  color: #b89856 !important;
+}
+
+.artform-consult-form__phone {
+  margin: 0.9rem 0 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.8rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.artform-consult-form__phone a {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.artform-consult-form.is-submitted .artform-consult-form__form {
+  display: none;
+}
+
+.artform-consult-form__thanks {
+  display: none;
+  padding: 1rem 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+  color: #ffffff !important;
+}
+
+.artform-consult-form.is-submitted .artform-consult-form__thanks {
+  display: block;
+}
+
+@media (max-width: 1226px) {
+  .elementor-975 .elementor-element.elementor-element-37fbd314 .elementor-col-50 {
+    width: 100% !important;
+  }
+
+  .elementor-975 .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated,
+  .elementor-975 .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
+    margin-top: 0 !important;
+    padding: 28px 22px !important;
+  }
+
+  .elementor-975 .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
+    justify-content: flex-start;
+  }
+
+  .artform-consult-form__field textarea {
+    min-height: 3.75rem;
+  }
+}

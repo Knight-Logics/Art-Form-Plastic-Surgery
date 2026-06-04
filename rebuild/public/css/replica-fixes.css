@@ -1,0 +1,121 @@
+/**
+ * Art Form Plastic Surgery rebuild — layout, header, animations
+ */
+
+/* ── Announcement bar ── */
+.simple-banner {
+  display: block !important;
+  width: 100%;
+  background-color: #b89956 !important;
+  color: #000000 !important;
+  text-align: center;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0;
+}
+.simple-banner-text {
+  margin: 0;
+  color: #000000 !important;
+}
+
+/* ── Elementor entrance (hidden until .animated runs) ── */
+.elementor-invisible {
+  opacity: 0;
+  visibility: hidden;
+}
+.elementor-invisible.animated {
+  opacity: 1;
+  visibility: visible;
+  animation-fill-mode: both;
+}
+.animated-slow.animated {
+  animation-duration: 1.25s !important;
+}
+
+/* ── Legacy Astra header (hidden when .artform-header is present) ── */
+#ast-desktop-header,
+.ast-above-header-wrap,
+.ast-above-header-bar,
+.site-above-header-wrap,
+.site-above-header-wrap .ast-builder-grid-row {
+  background-color: #000000 !important;
+}
+
+#masthead,
+.site-header,
+header.site-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background-color: #000000 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#ast-mobile-header,
+.ast-mobile-header-wrap {
+  background-color: #000000 !important;
+}
+
+.main-header-menu .menu-link {
+  color: #b89856 !important;
+}
+.main-header-menu .menu-link:hover,
+.main-header-menu .current-menu-item > .menu-link {
+  color: #ffffff !important;
+}
+
+/* ── Icons ── */
+.elementor-icon-list-icon .fas,
+.elementor-icon-list-icon .fa {
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900 !important;
+}
+.elementor-icon-list-icon .fa-check-circle {
+  color: #b89856;
+}
+[class^="jki-"],
+[class*=" jki-"] {
+  font-family: jkiticon !important;
+  font-style: normal;
+  font-weight: 400;
+}
+.jkit-fun-fact .icon .jki {
+  color: #b89856;
+}
+.jkit-fun-fact .number-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0.1em;
+}
+.jkit-fun-fact .number {
+  font-variant-numeric: tabular-nums;
+}
+.jkit-fun-fact .super {
+  font-size: 0.65em;
+  vertical-align: super;
+  color: #b89856;
+}
+
+/* ── Icon list ── */
+.elementor-icon-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* ── Footer ── */
+.site-footer,
+#colophon {
+  background-color: #000000;
+  color: #f2f1e5;
+}
+
+#wpadminbar,
+.poptin-cast,
+[class*="popup-builder"] {
+  display: none !important;
+}

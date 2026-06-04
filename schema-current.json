@@ -1,0 +1,47 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://artformplasticsurgery.com/#breadcrumblist",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "@id": "https://artformplasticsurgery.com#listItem",
+          "position": 1,
+          "name": "Home"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://artformplasticsurgery.com/#organization",
+      "name": "artformplasticsurgery.com",
+      "description": "Art Form Plastic Surgery",
+      "url": "https://artformplasticsurgery.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://artformplasticsurgery.com/wp-content/uploads/2024/10/1000513852-removebg-preview-e1730100950292.png",
+        "@id": "https://artformplasticsurgery.com/#organizationLogo",
+        "width": 375,
+        "height": 164
+      },
+      "image": { "@id": "https://artformplasticsurgery.com/#organizationLogo" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://artformplasticsurgery.com/#webpage",
+      "url": "https://artformplasticsurgery.com/",
+      "name": "Home - artformplasticsurgery.com",
+      "description": "Unlock Your Natural Radiance with Expert Care..."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://artformplasticsurgery.com/#website",
+      "url": "https://artformplasticsurgery.com/",
+      "name": "artformplasticsurgery.com",
+      "description": "Art Form Plastic Surgery",
+      "publisher": { "@id": "https://artformplasticsurgery.com/#organization" }
+    }
+  ]
+}

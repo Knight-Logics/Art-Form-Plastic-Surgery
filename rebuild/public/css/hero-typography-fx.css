@@ -1,0 +1,84 @@
+/**
+ * Hero h1 — aura glow (Knight Group) + glimmer sweep (Knight hero-fx / Moms-style).
+ */
+
+/* Soft gold aura behind headline column */
+.artform-landing .elementor-element.elementor-element-79fd65b0::after {
+  content: '';
+  position: absolute;
+  left: -6%;
+  bottom: 8%;
+  width: min(62vw, 780px);
+  height: min(52vw, 620px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184, 152, 86, 0.42) 0%, rgba(184, 152, 86, 0.08) 42%, transparent 72%);
+  filter: blur(36px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.artform-landing .elementor-element.elementor-element-54fe6ad8 {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes artformHeroGlimmer {
+  0%,
+  34% {
+    background-position: 0% 50%;
+  }
+  66%,
+  100% {
+    background-position: 188% 50%;
+  }
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .artform-landing .artform-hero-h1.elementor-heading-title {
+    background-image: linear-gradient(
+      112deg,
+      #ffffff 0%,
+      #faf6ec 16%,
+      #e8d4a8 28%,
+      #ffffff 40%,
+      #fffdf8 50%,
+      #ffffff 58%,
+      #d4b76a 70%,
+      #ffffff 82%,
+      #f5ecd8 100%
+    );
+    background-size: 330% auto;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: artformHeroGlimmer 8.4s ease-in-out infinite;
+    text-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artform-landing .artform-hero-h1.elementor-heading-title {
+    animation: none;
+    background-position: 55% 50%;
+    -webkit-text-fill-color: #ffffff;
+    color: #ffffff !important;
+  }
+}
+
+.artform-hero-h2 {
+  margin: 0.65rem 0 0;
+  padding: 0;
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1.05rem, 1.22vw, 1.32rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.94) !important;
+  max-width: 38em;
+}
+
+.artform-hero-subcopy .elementor-widget-container {
+  padding: 0 !important;
+}

@@ -1,0 +1,182 @@
+/**
+ * Landing — one grid cell, hero + cards stacked; cards overlap hero ~10%.
+ * Replaces absolute positioning + max-height clipping (form cut off).
+ */
+
+:root {
+  --artform-chrome: 128px;
+  --artform-hero-base: 831px;
+  --artform-cards-overlap: clamp(72px, 10vh, 152px);
+  --artform-cards-clearance: clamp(260px, 30vh, 420px);
+  --artform-cards-after: clamp(20px, 3vh, 40px);
+  --artform-uw-start: 2100px;
+  --artform-uw-end: 3440px;
+  --artform-landing-min: 80svh;
+  --artform-landing-max: calc(100svh - var(--artform-chrome));
+}
+
+/* ── Grid stack (all breakpoints) ── */
+.artform-landing {
+  display: grid;
+  grid-template-areas: 'landing';
+  position: relative;
+  width: 100%;
+  min-height: clamp(520px, 78svh, 920px);
+  margin-bottom: var(--artform-cards-after);
+  isolation: isolate;
+}
+
+.artform-landing > .elementor-element.elementor-element-79fd65b0,
+.artform-landing > .elementor-element.elementor-element-37fbd314 {
+  grid-area: landing;
+}
+
+.artform-landing > .elementor-element.elementor-element-79fd65b0 {
+  position: relative !important;
+  inset: auto !important;
+  align-self: stretch;
+  margin: 0 !important;
+  padding-left: clamp(0px, 2vw, 30px) !important;
+  padding-right: 0 !important;
+  width: 100% !important;
+  min-height: inherit;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+  min-height: inherit !important;
+  height: 100%;
+  align-items: flex-start !important;
+  align-content: flex-start !important;
+  padding-top: clamp(44px, 8vh, 104px) !important;
+  padding-bottom: calc(var(--artform-cards-overlap) + var(--artform-cards-clearance)) !important;
+  box-sizing: border-box !important;
+}
+
+.artform-landing .elementor-element.elementor-element-54fe6ad8 {
+  max-width: min(95%, 1470px);
+  flex: 0 1 auto;
+}
+
+.artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
+  align-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+.artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
+.artform-landing .artform-hero-h1.elementor-heading-title {
+  font-size: clamp(2rem, 4vw, 4.25rem) !important;
+  line-height: 1.08 !important;
+  max-width: 24ch;
+}
+
+.artform-landing > .elementor-element.elementor-element-37fbd314 {
+  position: relative !important;
+  inset: auto !important;
+  align-self: end;
+  justify-self: center;
+  width: 100% !important;
+  max-width: 100%;
+  max-height: none !important;
+  overflow: visible !important;
+  z-index: 10 !important;
+  margin: 0 !important;
+  padding: 0 clamp(10px, 2vw, 24px) !important;
+  transform: translateY(calc(-1 * var(--artform-cards-overlap)));
+  margin-bottom: calc(-1 * var(--artform-cards-overlap) + var(--artform-cards-after)) !important;
+}
+
+.artform-landing > .elementor-element.elementor-element-37fbd314 > .elementor-container {
+  max-width: 1290px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: stretch !important;
+}
+
+.artform-landing .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated {
+  margin: calc(-1 * var(--artform-cards-overlap) * 0.5) 20px 0 20px !important;
+}
+
+.artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
+  margin: calc(-1 * var(--artform-cards-overlap) * 0.15) 20px 10px 20px !important;
+}
+
+@media (min-width: 1227px) {
+  .artform-landing {
+    min-height: max(var(--artform-hero-base), 88svh);
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
+    max-width: min(95%, 1470px);
+  }
+
+  @media (min-width: 1600px) {
+    .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
+    .artform-landing .artform-hero-h1.elementor-heading-title {
+      max-width: 30ch;
+    }
+  }
+}
+
+@media (min-width: 2100px) {
+  .artform-landing {
+    --artform-uw-progress: clamp(
+      0,
+      calc((100vw - var(--artform-uw-start)) / (var(--artform-uw-end) - var(--artform-uw-start))),
+      1
+    );
+    min-height: calc(
+      var(--artform-landing-min) +
+        (var(--artform-landing-max) - var(--artform-landing-min)) * var(--artform-uw-progress)
+    );
+  }
+}
+
+@media (min-width: 3440px) {
+  .artform-landing {
+    min-height: var(--artform-landing-max);
+  }
+}
+
+@media (max-width: 1226px) {
+  :root {
+    --artform-cards-overlap: clamp(64px, 10vh, 128px);
+    --artform-cards-clearance: clamp(200px, 28vh, 340px);
+  }
+
+  .artform-landing {
+    min-height: clamp(480px, 68svh, 860px);
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
+    max-width: 100%;
+    width: 100% !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
+  .artform-landing .artform-hero-h1.elementor-heading-title {
+    max-width: 27ch;
+    font-size: clamp(1.85rem, 6.5vw, 2.75rem) !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    padding: clamp(20px, 4vh, 40px) clamp(18px, 4vw, 28px)
+      calc(var(--artform-cards-overlap) + var(--artform-cards-clearance)) !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-37fbd314 > .elementor-container {
+    flex-direction: column !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-dcb08e9,
+  .artform-landing .elementor-element.elementor-element-54fb05d4 {
+    width: 100% !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-dcb08e9 > .elementor-element-populated,
+  .artform-landing .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}

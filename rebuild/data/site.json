@@ -1,0 +1,35 @@
+{
+  "announcement": "Dr. Christopher Kieliszak | Facial Plastic Surgeon | Board-Certified | Safety Harbor FL | Accepting New Patients | Financing Available.",
+  "name": "Art Form Plastic Surgery",
+  "domain": "https://artformplasticsurgery.com",
+  "phone": "(813) 563-3735",
+  "phoneTel": "8135633735",
+  "email": "info@artformplasticsurgery.com",
+  "doctor": "Dr. Christopher Kieliszak",
+  "logo": "https://artformplasticsurgery.com/wp-content/uploads/2024/10/1000513852-removebg-preview-e1730100950292.png",
+  "favicon": "https://artformplasticsurgery.com/wp-content/uploads/2024/10/1000513861-removebg-preview-150x150.png",
+  "heroImage": "/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg",
+  "heroImageFull": "/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1.jpg",
+  "instagram": "https://www.instagram.com/faceplasticsurgeon/",
+  "tiktok": "https://www.tiktok.com/@faceplasticsurgeon",
+  "addresses": [
+    {
+      "label": "Safety Harbor",
+      "street": "801 2nd St N",
+      "city": "Safety Harbor",
+      "state": "FL",
+      "zip": "34695"
+    },
+    {
+      "label": "Tampa",
+      "street": "1000 W Kennedy Blvd #202",
+      "city": "Tampa",
+      "state": "FL",
+      "zip": "33606"
+    }
+  ],
+  "stats": {
+    "patients": "452",
+    "years": "10"
+  }
+}

@@ -1,0 +1,62 @@
+/**
+ * Homepage hero imagery — cover + top anchor on tablet/mobile; width-scale on desktop.
+ */
+
+:root {
+  --artform-chrome: 128px;
+  --artform-hero-base: 831px;
+}
+
+.elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+.elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg') !important;
+  background-repeat: no-repeat !important;
+  background-position: center top !important;
+}
+
+.artform-hero-media {
+  display: none !important;
+}
+
+/* Desktop: cover + top — fills hero cell (no black band above cards) */
+@media (min-width: 1227px) {
+  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-size: cover !important;
+    background-position: center top !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-attachment: scroll !important;
+  }
+}
+
+/* Tablet + phone: fill section — no black bands; anchor faces to top */
+@media (max-width: 1226px) {
+  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+  .elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-size: cover !important;
+    background-position: center top !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    min-height: clamp(460px, 62svh, 820px) !important;
+  }
+
+  /* Cancel Elementor tablet negative margin that collapses hero */
+  .artform-landing .elementor-element.elementor-element-79fd65b0,
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 2560px) {
+  .elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1.jpg') !important;
+  }
+}
