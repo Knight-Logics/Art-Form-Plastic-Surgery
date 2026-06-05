@@ -57,6 +57,26 @@ const SERVICE_PREFIXES = [
   '/skincare/',
 ];
 
+const APPOINTMENT_FORM_PATHS = [
+  '/services/',
+  '/cosmetic-procedures/',
+  '/functional/',
+  '/non-surgical-procedures-2/',
+  '/hair-restoration/',
+  '/skincare/',
+];
+
+const FORM_PAGE_PATHS = [...APPOINTMENT_FORM_PATHS, '/contact/', '/book-consultation/'];
+
+const ANNOUNCEMENT_LINKS = [
+  { label: 'Dr. Christopher Kieliszak', href: '/meet-dr-kieliszak/' },
+  { label: 'Facial Plastic Surgeon', href: '/services/' },
+  { label: 'Board-Certified', href: '/about-us/' },
+  { label: 'Safety Harbor FL', href: '/contact/' },
+  { label: 'Accepting New Patients', href: '/book-consultation/' },
+  { label: 'Financing Available.', href: '/payment-plans/' },
+];
+
 function normalizePath(p) {
   return p === '/' ? '/' : p.replace(/\/?$/, '/');
 }
@@ -342,7 +362,10 @@ function collectBodyClass($) {
 }
 
 function announcementBar() {
-  return `<div class="simple-banner" role="region" aria-label="Announcement"><p class="simple-banner-text">${site.announcement}</p></div>`;
+  const inner = ANNOUNCEMENT_LINKS.map(
+    (item) => `<a href="${item.href}" class="simple-banner-link">${item.label}</a>`
+  ).join('<span class="simple-banner-sep" aria-hidden="true"> | </span>');
+  return `<div class="simple-banner" role="region" aria-label="Announcement"><p class="simple-banner-text">${inner}</p></div>`;
 }
 
 function cleanFragment(html) {
@@ -681,19 +704,36 @@ function enhanceHomepage(html) {
   return $('#wrap').html() || html;
 }
 
-/** Replace empty MetForm wrapper on /services/ appointment section. */
-function enhanceServices(html) {
+/** Replace empty MetForm shells in appointment sections (services + category pages). */
+function enhanceAppointmentForms(html) {
   const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
   const formHtml = renderServicesAppointmentForm();
 
-  const metform = $('.mf-form-wrapper[data-form-id="581"]').first();
-  if (metform.length) {
-    metform.replaceWith(formHtml);
-  } else {
-    const widget = $('[data-id="69743078"] .elementor-widget-container').first();
+  $('.mf-form-wrapper').each((_, el) => {
+    $(el).replaceWith(formHtml);
+  });
+
+  if (!$('.artform-contact-form--services').length) {
+    const widget = $('[data-widget_type="metform.default"] .elementor-widget-container').first();
     if (widget.length) widget.html(formHtml);
   }
 
+  return $('#wrap').html() || html;
+}
+
+/** Book Consultation — ensure IntakeQ mount point survives static clean. */
+function enhanceBookConsultation(html) {
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+  const widget = $('[data-id="205bff1"] .elementor-widget-container').first();
+  if (widget.length) {
+    widget.html('<div id="intakeq" style="max-width:720px;width:100%;margin:0 auto;"></div>');
+  } else if (!$('#intakeq').length) {
+    $('[data-id="e8fe17f"]').after(
+      `<div class="elementor-element elementor-element-artform-intakeq elementor-widget" data-id="artform-intakeq" data-element_type="widget">
+        <div class="elementor-widget-container"><div id="intakeq" style="max-width:720px;width:100%;margin:0 auto;"></div></div>
+      </div>`
+    );
+  }
   return $('#wrap').html() || html;
 }
 
@@ -799,14 +839,25 @@ function buildPageBody($, pagePath) {
   let c = fixContent(rewriteUrls(cleanFragment(content)));
   if (pagePath === '/') c = enhanceHomepage(c);
   else c = enhanceSharedButtons(c);
-  if (pagePath === '/services/') c = enhanceServices(c);
+  if (APPOINTMENT_FORM_PATHS.includes(pagePath)) c = enhanceAppointmentForms(c);
   if (pagePath === '/contact/') c = enhanceContact(c);
+  if (pagePath === '/book-consultation/') c = enhanceBookConsultation(c);
   if (pagePath === '/payment-plans/') c = enhancePaymentPlans(c);
   if (pagePath === '/blog/') c = enhanceBlog(c);
   return `${announcementBar()}${h}${c}${shellFooter}`;
 }
 
+function augmentBodyClass(bodyClass, pagePath) {
+  let cls = bodyClass;
+  if (pagePath === '/services/' || APPOINTMENT_FORM_PATHS.includes(pagePath)) {
+    cls += ' artform-service-page';
+  }
+  if (pagePath === '/meet-dr-kieliszak/') cls += ' artform-meet-dr-page';
+  return cls;
+}
+
 function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyClass, body }) {
+  const pageBodyClass = augmentBodyClass(bodyClass, pagePath);
   const favicon = '/wp-content/uploads/2024/10/1000513861-removebg-preview-150x150.png';
   const inlineBlock = inlineStyles
     ? `<style id="replica-inline-custom">\n${inlineStyles}\n</style>`
@@ -828,12 +879,14 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <link rel="stylesheet" href="/css/artform-header.css">
   <link rel="stylesheet" href="/css/artform-footer.css">
   <link rel="stylesheet" href="/css/artform-page-fixes.css">
+  <link rel="stylesheet" href="/css/artform-content-typography.css">
   ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-tiktok-feed.css">' : ''}
-  ${pagePath === '/services/' || pagePath === '/contact/' ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
+  ${FORM_PAGE_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
+  ${pagePath === '/book-consultation/' ? '<link rel="stylesheet" href="/css/artform-book-consultation.css">' : ''}
   <link rel="canonical" href="${BASE}${pagePath === '/' ? '/' : pagePath}">
   <script type="application/ld+json">${schemaJson(pagePath)}</script>
 </head>
-<body class="${bodyClass}" data-chat-src="">
+<body class="${pageBodyClass}" data-chat-src="">
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
   <div class="hfeed site" id="page">
     ${body}
@@ -844,7 +897,8 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <script src="/js/swiper-init.js" defer></script>
   <script src="/js/site.js" defer></script>
   ${pagePath === '/' ? '<script src="/js/home-consult-form.js" defer></script>\n  <script src="/js/artform-google-reviews.js" defer></script>\n  <script src="/js/artform-tiktok-feed.js" defer></script>' : ''}
-  ${pagePath === '/services/' || pagePath === '/contact/' ? '<script src="/js/artform-contact-form.js" defer></script>' : ''}
+  ${FORM_PAGE_PATHS.includes(pagePath) ? '<script src="/js/artform-contact-form.js" defer></script>' : ''}
+  ${pagePath === '/book-consultation/' ? '<script src="/js/artform-intakeq.js" defer></script>' : ''}
 </body>
 </html>`;
 }

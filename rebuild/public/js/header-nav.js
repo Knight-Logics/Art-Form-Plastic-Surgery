@@ -69,7 +69,10 @@
     closeBtn.type = 'button';
     closeBtn.className = 'artform-drawer-close';
     closeBtn.setAttribute('aria-label', 'Close menu');
-    closeBtn.textContent = '×';
+    closeBtn.innerHTML =
+      '<svg class="artform-drawer-close-icon" width="50" height="50" viewBox="0 0 50 50" aria-hidden="true" focusable="false">' +
+      '<path d="M14 14 36 36M36 14 14 36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>' +
+      '</svg>';
     head.appendChild(closeBtn);
 
     const navWrap = document.createElement('nav');
@@ -77,13 +80,42 @@
     const navList = buildDrawerNav();
     if (navList) navWrap.appendChild(navList);
 
+    const bottom = document.createElement('div');
+    bottom.className = 'artform-drawer-bottom';
+
     const cta = document.createElement('div');
     cta.className = 'artform-drawer-cta';
     cta.innerHTML =
       '<a class="artform-drawer-book" href="/book-consultation/">Book Consultation</a>' +
-      '<a class="artform-drawer-phone" href="tel:8135633735"><span style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;display:block;opacity:0.9">Call</span>(813) 563-3735</a>';
+      '<a class="artform-drawer-phone" href="tel:8135633735"><span class="artform-drawer-phone-label">Call</span>(813) 563-3735</a>';
 
-    drawer.append(head, navWrap, cta);
+    const social = document.createElement('div');
+    social.className = 'artform-drawer-social';
+    social.setAttribute('aria-label', 'Social media');
+    const footerSocial = document.querySelector('.artform-footer__social');
+    if (footerSocial) {
+      footerSocial.querySelectorAll('a').forEach((link) => {
+        social.appendChild(link.cloneNode(true));
+      });
+    } else {
+      social.innerHTML =
+        '<a href="https://www.instagram.com/faceplasticsurgeon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="/images/social/instagram.svg" width="44" height="44" alt="" decoding="async"></a>' +
+        '<a href="https://www.tiktok.com/@faceplasticsurgeon" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><img src="/images/social/tiktok.svg" width="44" height="44" alt="" decoding="async"></a>';
+    }
+
+    const foot = document.createElement('div');
+    foot.className = 'artform-drawer-foot';
+    const rule = document.createElement('div');
+    rule.className = 'artform-drawer-rule';
+    rule.setAttribute('aria-hidden', 'true');
+    const copy = document.createElement('p');
+    copy.className = 'artform-drawer-copyright';
+    const year = new Date().getFullYear();
+    copy.textContent = `© ${year} Art Form Plastic Surgery. All rights reserved.`;
+    foot.append(rule, copy);
+
+    bottom.append(cta, social, foot);
+    drawer.append(head, navWrap, bottom);
     document.body.append(backdrop, drawer);
 
     closeBtn.addEventListener('click', close);

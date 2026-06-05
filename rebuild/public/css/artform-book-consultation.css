@@ -1,0 +1,16 @@
+/**
+ * Book a Consultation — IntakeQ scheduling widget area.
+ */
+
+.elementor-element-205bff1 .elementor-widget-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem 2.5rem;
+}
+
+#intakeq {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 520px;
+}

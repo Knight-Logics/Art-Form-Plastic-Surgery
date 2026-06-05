@@ -1,0 +1,79 @@
+/**
+ * Gold typography on dark service / about pages.
+ * Elementor kit defaults h2/text to black — invisible on the black rebuild canvas.
+ */
+
+:root {
+  --artform-gold: #d4b76a;
+  --artform-gold-soft: #e9d19f;
+  --artform-gold-muted: rgba(233, 209, 159, 0.9);
+}
+
+/* ── Service hub + category pages ── */
+body.artform-service-page #content .elementor-heading-title.elementor-size-default {
+  color: var(--artform-gold) !important;
+}
+
+body.artform-service-page #content .elementor-widget-text-editor,
+body.artform-service-page #content .elementor-widget-text-editor p,
+body.artform-service-page #content .elementor-widget-icon-list .elementor-icon-list-text {
+  color: var(--artform-gold-muted) !important;
+}
+
+body.artform-service-page #content .elementor-element-275bf073,
+body.artform-service-page #content .elementor-element-275bf073 .elementor-heading-title,
+body.artform-service-page #content .elementor-element-275bf073 .feature-list-title,
+body.artform-service-page #content .elementor-element-275bf073 .feature-list-content-box,
+body.artform-service-page #content .elementor-element-275bf073 p {
+  color: var(--artform-gold) !important;
+}
+
+body.artform-service-page #content .elementor-element-275bf073 .feature-list-icon {
+  color: var(--artform-gold) !important;
+  border-color: rgba(212, 183, 106, 0.55) !important;
+}
+
+/* White appointment / card columns keep dark readable text */
+body.artform-service-page #content .elementor-element-232658a .elementor-heading-title,
+body.artform-service-page #content .elementor-element-232658a .elementor-widget-text-editor,
+body.artform-service-page #content .elementor-element-232658a .elementor-widget-text-editor p,
+body.artform-service-page #content .elementor-element-59a8531b .elementor-heading-title,
+body.artform-service-page #content .elementor-element-59a8531b .elementor-widget-text-editor,
+body.artform-service-page #content .elementor-element-59a8531b .elementor-widget-text-editor p {
+  color: #1a1a1a !important;
+}
+
+body.artform-service-page #content .artform-contact-form,
+body.artform-service-page #content .artform-contact-form * {
+  color: revert;
+}
+
+/* Partner logo strip beside appointment form — always visible (not hover-only) */
+.elementor-element-169898a1 .jkit-client-logo .client-slider .image-list,
+.elementor-element-169898a1 .jkit-client-logo .client-slider:hover .image-list,
+.elementor-element-76d5356b .jkit-client-logo .client-slider .image-list,
+.elementor-element-76d5356b .jkit-client-logo .client-slider:hover .image-list {
+  opacity: 1 !important;
+}
+
+.elementor-element-169898a1 .jkit-client-logo .client-slider .content-image img {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* ── Meet Dr. Kieliszak ── */
+body.artform-meet-dr-page .elementor-element-6268318d,
+body.artform-meet-dr-page .elementor-element-6268318d p,
+body.artform-meet-dr-page .elementor-element-6268318d .elementor-heading-title,
+body.artform-meet-dr-page .elementor-element-6268318d .feature-list-title,
+body.artform-meet-dr-page .elementor-element-6268318d .elementor-icon-list-text,
+body.artform-meet-dr-page .elementor-element-f6943c8,
+body.artform-meet-dr-page .elementor-element-f6943c8 p,
+body.artform-meet-dr-page .elementor-element-f6943c8 .elementor-heading-title {
+  color: var(--artform-gold) !important;
+}
+
+body.artform-meet-dr-page .elementor-element-6268318d .feature-list-icon,
+body.artform-meet-dr-page .elementor-element-6268318d .elementor-icon-list-icon i {
+  color: var(--artform-gold) !important;
+}

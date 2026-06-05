@@ -25,6 +25,20 @@ body {
   margin: 0;
   color: #000000 !important;
 }
+.simple-banner-link {
+  color: #000000 !important;
+  text-decoration: none;
+}
+.simple-banner-link:hover,
+.simple-banner-link:focus-visible {
+  color: #1a1a1a !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.simple-banner-sep {
+  text-decoration: none;
+  user-select: none;
+}
 
 /* ── Elementor entrance (hidden until .animated runs) ── */
 .elementor-invisible {
