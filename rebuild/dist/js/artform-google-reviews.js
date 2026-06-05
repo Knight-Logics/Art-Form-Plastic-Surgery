@@ -4,13 +4,14 @@
     return;
   }
 
+  var viewport = root.querySelector('.artform-greviews__viewport');
   var track = root.querySelector('[data-afg-track]');
   var prev = root.querySelector('[data-afg-prev]');
   var next = root.querySelector('[data-afg-next]');
   var summaryEl = root.querySelector('[data-afg-summary]');
   var tabs = root.querySelectorAll('[data-afg-tab]');
 
-  if (!track || !prev || !next) {
+  if (!viewport || !track || !prev || !next) {
     return;
   }
 
@@ -19,6 +20,7 @@
   var allReviews = [];
   var activeFilter = 'all';
   var pageIndex = 0;
+  var TRACK_GAP = 12;
 
   function escapeHtml(value) {
     return String(value || '')
@@ -134,18 +136,22 @@
     summaryEl.textContent = rating + ' \u2022 ' + count + ' reviews';
   }
 
+  /** Cards per slide — only use N columns if N cards actually fit in the viewport */
   function perView() {
-    if (window.innerWidth < 760) {
+    var w = viewport.getBoundingClientRect().width;
+    if (w < 1) {
       return 1;
     }
-    if (window.innerWidth < 960) {
-      return 2;
+    var minCard = 200;
+    var maxCards = 3;
+    var n = maxCards;
+    while (n > 1) {
+      if (w >= minCard * n + TRACK_GAP * (n - 1)) {
+        break;
+      }
+      n -= 1;
     }
-    return 3;
-  }
-
-  function trackGap() {
-    return 12;
+    return n;
   }
 
   function pageCount() {
@@ -153,8 +159,22 @@
     return Math.max(1, Math.ceil(cards / perView()));
   }
 
+  /** Size cards from visible viewport so flex % never references the full track */
+  function syncCardWidths() {
+    var vpW = viewport.getBoundingClientRect().width;
+    var n = perView();
+    var cardW = Math.max(180, Math.floor((vpW - TRACK_GAP * (n - 1)) / n));
+    viewport.style.setProperty('--afg-card-width', cardW + 'px');
+    Array.prototype.forEach.call(track.children, function (card) {
+      card.style.flex = '0 0 ' + cardW + 'px';
+      card.style.width = cardW + 'px';
+      card.style.minWidth = cardW + 'px';
+      card.style.maxWidth = cardW + 'px';
+    });
+    return cardW;
+  }
+
   function updateCarousel() {
-    var cards = track.children;
     var pages = pageCount();
     if (pageIndex > pages - 1) {
       pageIndex = pages - 1;
@@ -162,10 +182,9 @@
     if (pageIndex < 0) {
       pageIndex = 0;
     }
-    var sample = cards[0];
-    var gap = trackGap();
-    var width = sample ? sample.getBoundingClientRect().width : 0;
-    var offset = pageIndex * (width + gap) * perView();
+    var cardW = syncCardWidths();
+    var n = perView();
+    var offset = pageIndex * n * (cardW + TRACK_GAP);
     track.style.transform = 'translateX(' + -offset + 'px)';
     prev.disabled = pageIndex === 0;
     next.disabled = pageIndex === pages - 1;
@@ -178,6 +197,14 @@
     updateCarousel();
   }
 
+  function onLayoutChange() {
+    var pages = pageCount();
+    if (pageIndex > pages - 1) {
+      pageIndex = pages - 1;
+    }
+    updateCarousel();
+  }
+
   function bindCarousel() {
     prev.addEventListener('click', function () {
       pageIndex -= 1;
@@ -187,7 +214,11 @@
       pageIndex += 1;
       updateCarousel();
     });
-    window.addEventListener('resize', updateCarousel);
+    window.addEventListener('resize', onLayoutChange);
+    if (typeof ResizeObserver !== 'undefined') {
+      var ro = new ResizeObserver(onLayoutChange);
+      ro.observe(viewport);
+    }
   }
 
   function bindTabs() {
@@ -209,7 +240,7 @@
   }
 
   function loadFeed() {
-    return fetch('/data/google-reviews.json?v=20260605', { cache: 'no-store' })
+    return fetch('/data/google-reviews.json?v=20260606', { cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) {
           return null;

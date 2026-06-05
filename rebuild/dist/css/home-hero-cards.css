@@ -241,3 +241,21 @@
     min-height: 3.75rem;
   }
 }
+
+/* ── "Schedule an Appointment" CTA — Book Consultation button ── */
+.elementor-975 .elementor-element-d251f3c .elementor-button {
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1.05rem, 2.8vw, 1.2rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  padding: 0.85rem 1.4rem !important;
+}
+
+.elementor-975 .elementor-element-d251f3c .elementor-button .elementor-button-text {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+.elementor-975 .elementor-element-d251f3c .elementor-button .elementor-button-icon i {
+  font-size: 1em !important;
+}

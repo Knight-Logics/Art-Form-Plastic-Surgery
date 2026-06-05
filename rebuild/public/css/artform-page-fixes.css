@@ -1,0 +1,305 @@
+/**
+ * Cross-page UI fixes — service CTAs, blog, financing, maps
+ */
+
+/* ── Service pages: pricing + phone outline buttons ── */
+#content a.artform-btn-gold-outline.elementor-button,
+#content a.artform-btn-gold-outline.elementor-button:visited {
+  color: #d4b76a !important;
+  background: transparent !important;
+  border: 2px solid #d4b76a !important;
+  border-radius: 999px !important;
+  padding: 0.75rem 1.35rem !important;
+  box-shadow: none !important;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+#content a.artform-btn-gold-outline.elementor-button:hover,
+#content a.artform-btn-gold-outline.elementor-button:focus-visible {
+  color: #0c0b0a !important;
+  background: #d4b76a !important;
+  transform: translateY(-1px);
+}
+
+#content a.artform-btn-gold-outline .elementor-button-text {
+  color: inherit !important;
+}
+
+/* ── Schedule appointment “Book Consultation” — homepage-style pill ── */
+#content a.artform-btn-book.elementor-button,
+#content a.artform-btn-book.elementor-button:visited {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px !important;
+  padding: 0.85rem 1.5rem !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: clamp(1rem, 1.1vw, 1.12rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  color: #0c0b0a !important;
+  background: linear-gradient(135deg, #e8c878 0%, #c9a84a 48%, #a88648 100%) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  box-shadow: 0 14px 28px rgba(212, 183, 106, 0.32) !important;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+#content a.artform-btn-book.elementor-button:hover,
+#content a.artform-btn-book.elementor-button:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: 0 16px 32px rgba(212, 183, 106, 0.42) !important;
+  color: #0c0b0a !important;
+}
+
+#content a.artform-btn-book .elementor-button-text {
+  color: inherit !important;
+  font-size: inherit !important;
+}
+
+#content a.artform-btn-book .elementor-button-icon {
+  font-size: 0.95em;
+}
+
+/* White speech-bubble appointment cards */
+#content .elementor-inner-section:has(.artform-btn-book) > .elementor-container > .elementor-column > .elementor-element-populated {
+  padding: 1.35rem 1.5rem !important;
+}
+
+/* ── Blog: Load More ── */
+.jkit-pagination-button.jkit-block-loadmore {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  min-height: 48px;
+  padding: 12px 28px !important;
+  margin: 1.5rem auto 0;
+  font-family: Poppins, sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d4b76a !important;
+  background: #0a0a0a !important;
+  border: 2px solid #d4b76a !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.jkit-pagination-button.jkit-block-loadmore:hover,
+.jkit-pagination-button.jkit-block-loadmore:focus-visible {
+  color: #0c0b0a !important;
+  background: #d4b76a !important;
+  transform: translateY(-1px);
+}
+
+.jkit-block-pagination.jkit-align {
+  text-align: center;
+}
+
+/* ── Blog: missing thumbnails ── */
+.thumbnail-container.artform-blog-fallback {
+  display: block;
+  min-height: 220px;
+  background: #1a1a1a center / cover no-repeat;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.thumbnail-container.artform-blog-fallback img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Contact maps (below form) ── */
+.artform-contact-maps {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem) clamp(2.5rem, 4vw, 3.5rem);
+  display: grid;
+  gap: 1.75rem;
+}
+
+.artform-map__title {
+  margin: 0 0 0.65rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a88648 !important;
+}
+
+.artform-map__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(184, 152, 86, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.artform-map__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (min-width: 768px) {
+  .artform-contact-maps--dual {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Payment plans / financing placeholder ── */
+.artform-financing {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2rem) 3rem;
+}
+
+.artform-financing__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.artform-financing__kicker {
+  margin: 0 0 0.5rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4b76a !important;
+}
+
+.artform-financing__title {
+  margin: 0 0 0.65rem;
+  font-family: 'Antic Didone', Georgia, serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 400;
+  color: #f5f0e6 !important;
+}
+
+.artform-financing__subtitle {
+  margin: 0 auto;
+  max-width: 42rem;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(245, 240, 230, 0.75) !important;
+}
+
+.artform-financing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.artform-financing__card {
+  padding: 1.35rem 1.25rem;
+  background: linear-gradient(165deg, #141414 0%, #1c1a16 100%);
+  border: 1px solid rgba(184, 152, 86, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.artform-financing__card h3 {
+  margin: 0 0 0.5rem;
+  font-family: 'Antic Didone', Georgia, serif;
+  font-size: 1.45rem;
+  color: #f8f4ec !important;
+}
+
+.artform-financing__card p {
+  margin: 0 0 0.85rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(245, 240, 230, 0.72) !important;
+}
+
+.artform-financing__card ul {
+  margin: 0 0 1rem;
+  padding: 0 0 0 1.1rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(245, 240, 230, 0.8) !important;
+}
+
+.artform-financing__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.55rem 1.1rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #0c0b0a !important;
+  background: linear-gradient(135deg, #e8c878 0%, #c9a84a 100%);
+  border-radius: 999px;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.artform-financing__cta:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.artform-financing__mock {
+  margin-top: 1.75rem;
+  padding: 1.5rem;
+  background: #0f0f0f;
+  border: 1px dashed rgba(184, 152, 86, 0.45);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.artform-financing__mock-label {
+  margin: 0 0 0.75rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888 !important;
+}
+
+.artform-financing__mock-ui {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.artform-financing__mock-pill {
+  padding: 0.5rem 1rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.85rem;
+  color: #d4b76a !important;
+  background: rgba(212, 183, 106, 0.08);
+  border: 1px solid rgba(212, 183, 106, 0.35);
+  border-radius: 999px;
+}
+
+.artform-financing__note {
+  margin: 1.5rem 0 0;
+  text-align: center;
+  font-family: Poppins, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgba(245, 240, 230, 0.5) !important;
+}

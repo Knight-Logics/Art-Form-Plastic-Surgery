@@ -1,0 +1,70 @@
+/**
+ * Our Services — fix Cosmetic Procedures card overlay under ~1024px.
+ * Elementor tablet CSS uses margin-top: -40% on the absolute icon box (542e7d70),
+ * which pulls the white box into the section headings above.
+ */
+
+@media (max-width: 1024px) {
+  .elementor-element-5b9d1682 .elementor-element-46f86030 > .elementor-container > .elementor-column > .elementor-widget-wrap {
+    align-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-599b9241 {
+    overflow: hidden;
+    margin-top: 2rem !important;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-43805ac7 > .elementor-element-populated {
+    position: relative;
+    min-height: clamp(260px, 52vw, 420px);
+    padding-bottom: 0 !important;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-43805ac7 > .elementor-element-populated > .elementor-widget-wrap {
+    position: relative;
+    min-height: inherit;
+    align-items: stretch !important;
+    align-content: stretch !important;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-6f5d8a7a {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    z-index: 0;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-6f5d8a7a img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none;
+    display: block;
+    object-fit: cover;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-542e7d70 {
+    position: absolute !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 5% !important;
+    right: 5% !important;
+    width: auto !important;
+    z-index: 2;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-542e7d70 > .elementor-widget-container {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .elementor-element-5b9d1682 .elementor-element-43805ac7 {
+    width: 100% !important;
+  }
+
+  .elementor-element-5b9d1682 .elementor-element-43805ac7 > .elementor-element-populated {
+    min-height: clamp(240px, 70vw, 360px);
+  }
+}

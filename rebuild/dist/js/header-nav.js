@@ -140,3 +140,64 @@
     bind();
   }
 })();
+
+/**
+ * Desktop dropdowns — hover only (no click toggle); brief delay before close.
+ */
+(function initDesktopSubmenus() {
+  const BP = 1265;
+  const CLOSE_MS = 280;
+
+  function isDesktop() {
+    return window.matchMedia(`(min-width: ${BP}px)`).matches;
+  }
+
+  function bindSubmenus() {
+    document.querySelectorAll('.artform-header__menu > li.has-children').forEach((item) => {
+      if (item.dataset.submenuBound) return;
+      item.dataset.submenuBound = '1';
+
+      let closeTimer;
+
+      function open() {
+        clearTimeout(closeTimer);
+        item.classList.add('is-submenu-open');
+      }
+
+      function scheduleClose() {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => {
+          item.classList.remove('is-submenu-open');
+        }, CLOSE_MS);
+      }
+
+      item.addEventListener('mouseenter', open);
+      item.addEventListener('mouseleave', scheduleClose);
+      item.addEventListener('focusin', open);
+      item.addEventListener('focusout', (e) => {
+        if (!item.contains(e.relatedTarget)) scheduleClose();
+      });
+    });
+  }
+
+  function init() {
+    if (!isDesktop()) return;
+    bindSubmenus();
+  }
+
+  window.addEventListener('resize', () => {
+    if (!isDesktop()) {
+      document.querySelectorAll('.artform-header__menu > li.is-submenu-open').forEach((li) => {
+        li.classList.remove('is-submenu-open');
+      });
+    } else {
+      bindSubmenus();
+    }
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

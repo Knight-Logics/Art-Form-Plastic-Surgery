@@ -1,0 +1,299 @@
+/**
+ * Art Form footer — Knight Logics layout (brand, Quick Links, contact, bottom bar).
+ */
+
+.artform-footer {
+  background: linear-gradient(180deg, #0a0a0a 0%, #12100c 55%, #1a160e 100%);
+  color: #f2f1e5;
+  margin-top: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.artform-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 183, 106, 0.45), transparent);
+  pointer-events: none;
+}
+
+.artform-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(36px, 4vw, 48px) clamp(20px, 3vw, 32px) 0;
+  box-sizing: border-box;
+}
+
+.artform-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+  margin-bottom: clamp(20px, 3vw, 28px);
+}
+
+.artform-footer__logo {
+  display: inline-block;
+  line-height: 0;
+  margin-bottom: 12px;
+}
+
+.artform-footer__logo img {
+  width: clamp(140px, 14vw, 168px);
+  height: auto;
+  max-height: 56px;
+  object-fit: contain;
+  display: block;
+}
+
+.artform-footer__tagline {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(242, 241, 229, 0.78);
+  max-width: 28ch;
+}
+
+.artform-footer .artform-footer__heading,
+.artform-footer h2.artform-footer__heading,
+.artform-footer h2.artform-footer__heading.artform-footer__heading--sub {
+  margin: 0 0 14px;
+  font-family: 'Antic Didone', Poppins, serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #d4b76a !important;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.artform-footer h2.artform-footer__heading.artform-footer__heading--sub {
+  margin-top: 20px;
+}
+
+.artform-footer__heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 36px;
+  height: 2px;
+  background: #d4b76a;
+}
+
+.artform-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.artform-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 4px 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #d4b76a;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease, padding-left 0.2s ease;
+}
+
+.artform-footer__links a:hover,
+.artform-footer__links a:focus-visible {
+  color: #f0dc9a;
+  padding-left: 6px;
+  outline: none;
+}
+
+.artform-footer__contact {
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.artform-footer__contact-line {
+  margin: 0 0 10px;
+  color: #d4b76a;
+}
+
+.artform-footer__contact-line a {
+  color: #d4b76a;
+  text-decoration: none;
+}
+
+.artform-footer__contact-line a:hover,
+.artform-footer__contact-line a:focus-visible {
+  color: #f0dc9a;
+  outline: none;
+}
+
+.artform-footer__contact-line strong {
+  color: #d4b76a;
+  font-weight: 600;
+}
+
+.artform-footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.artform-footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 183, 106, 0.35);
+  background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+  line-height: 0;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artform-footer__social-link img {
+  width: 44px;
+  height: 44px;
+  display: block;
+  object-fit: contain;
+}
+
+.artform-footer__social-link:hover,
+.artform-footer__social-link:focus-visible {
+  border-color: #d4b76a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  outline: none;
+}
+
+.artform-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.65rem;
+  margin: 0 calc(-1 * clamp(20px, 3vw, 32px));
+  padding: 16px clamp(20px, 3vw, 32px);
+  border-top: 1px solid rgba(212, 183, 106, 0.22);
+  background: rgba(0, 0, 0, 0.25);
+  text-align: center;
+  font-family: Poppins, sans-serif;
+  font-size: 0.88rem;
+}
+
+.artform-footer__legal a {
+  color: #d4b76a;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.artform-footer__legal a:hover,
+.artform-footer__legal a:focus-visible {
+  color: #f0dc9a;
+  outline: none;
+}
+
+.artform-footer__legal-sep {
+  color: rgba(242, 241, 229, 0.45);
+}
+
+.artform-footer__bottom {
+  margin: 0 calc(-1 * clamp(20px, 3vw, 32px));
+  padding: 12px clamp(20px, 3vw, 32px) 16px;
+  background: rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.artform-footer__copyright,
+.artform-footer__credit-line {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: rgba(242, 241, 229, 0.72);
+}
+
+.artform-footer__credit-line {
+  margin-top: 6px;
+}
+
+.artform-footer__credit {
+  color: rgba(242, 241, 229, 0.88);
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.85;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.artform-footer__credit:hover,
+.artform-footer__credit:focus-visible {
+  color: #d4b76a;
+  opacity: 1;
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  .artform-footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .artform-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .artform-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .artform-footer__tagline {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .artform-footer__heading::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .artform-footer__links {
+    align-items: center;
+  }
+
+  .artform-footer__links a {
+    justify-content: center;
+  }
+
+  .artform-footer__links a:hover,
+  .artform-footer__links a:focus-visible {
+    padding-left: 0;
+  }
+
+  .artform-footer__social {
+    justify-content: center;
+  }
+
+  .artform-footer__legal {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .artform-footer__legal-sep {
+    display: none;
+  }
+}

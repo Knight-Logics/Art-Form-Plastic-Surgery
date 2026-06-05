@@ -53,7 +53,7 @@
 }
 
 /* Cap headline + form row width on large screens; hero bg stays full bleed */
-@media (min-width: 1227px) {
+@media (min-width: 1401px) {
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
     width: min(100%, var(--artform-hero-content-max)) !important;
     max-width: var(--artform-hero-content-max) !important;
@@ -66,6 +66,39 @@
 .artform-landing .elementor-element.elementor-element-54fe6ad8 {
   flex: 1 1 auto;
   max-width: 58%;
+}
+
+/* ~1024–1400px: keep hero side-by-side; form ~half width (not full bleed at 1225px) */
+@media (min-width: 1024px) and (max-width: 1400px) {
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: clamp(20px, 2.5vw, 40px) !important;
+    padding: clamp(36px, 5.5vh, 76px) clamp(20px, 4vw, 48px) !important;
+    min-height: var(--artform-hero-base) !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
+    flex: 1 1 50% !important;
+    max-width: 50% !important;
+    width: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+    align-self: center;
+  }
+
+  .artform-landing .artform-hero-form-col > .elementor-element-populated {
+    border-radius: 28px !important;
+    border-left: 1px solid rgba(212, 183, 106, 0.3) !important;
+    border-right: 1px solid rgba(212, 183, 106, 0.3) !important;
+  }
 }
 
 .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
@@ -196,7 +229,7 @@
 }
 
 /* ───────────────────────── Tablet + phone ───────────────────────── */
-@media (max-width: 1226px) {
+@media (max-width: 1023px) {
   /* Hero stacks: image+headline first, consult form below */
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
     flex-direction: column !important;
@@ -210,7 +243,7 @@
   .artform-landing .elementor-element.elementor-element-54fe6ad8 {
     max-width: 100% !important;
     width: 100% !important;
-    min-height: clamp(288px, 42svh, 416px);
+    min-height: clamp(260px, 48svh, 440px);
     display: flex;
     align-items: center;
     padding: clamp(22px, 4.5vh, 44px) clamp(18px, 5vw, 28px) !important;
@@ -221,17 +254,21 @@
     align-content: center !important;
   }
 
-  /* Form drops below the hero image, full width, solid panel */
+  /* Form below hero — inset on phones (not edge-to-edge) */
   .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
-    width: 100% !important;
-    align-self: stretch;
+    width: min(88vw, 420px) !important;
+    max-width: min(88vw, 420px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-self: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .artform-landing .artform-hero-form-col > .elementor-element-populated {
-    border-radius: 0 !important;
-    border-left: none !important;
-    border-right: none !important;
-    padding: clamp(26px, 6vw, 40px) clamp(20px, 6vw, 32px) !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(212, 183, 106, 0.3) !important;
+    padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 24px) !important;
   }
 
   .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
@@ -249,6 +286,67 @@
   .artform-help-band .elementor-element.elementor-element-56864c16 > .elementor-element-populated {
     margin-left: 0 !important;
     --e-column-margin-left: 0px !important;
+  }
+}
+
+/* Phones: headline over single photo band; form on black below (see hero-responsive.css) */
+@media (max-width: 767px) {
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 {
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 60vh !important;
+    max-height: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
+    align-content: flex-end !important;
+    justify-content: flex-end !important;
+    min-height: 60vh;
+    padding: clamp(16px, 3vh, 28px) clamp(14px, 4vw, 22px) clamp(20px, 4vh, 32px) !important;
+    box-sizing: border-box;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
+    margin-top: 0 !important;
+    padding-top: clamp(12px, 2vh, 20px) !important;
+    padding-bottom: clamp(20px, 3vh, 32px) !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
+  .artform-landing .artform-hero-h1.elementor-heading-title {
+    font-size: clamp(1.65rem, 5.8vw, 2.15rem) !important;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
+  }
+
+  .artform-landing .artform-hero-h2 {
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Soft legibility gradient at bottom of photo band */
+  .artform-landing .elementor-element.elementor-element-54fe6ad8::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
+    position: relative;
+    z-index: 2;
   }
 }
 

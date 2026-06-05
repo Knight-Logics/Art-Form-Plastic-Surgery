@@ -8,7 +8,8 @@
     "build": "node scripts/download-assets.mjs && node scripts/build.mjs",
     "build:fast": "node scripts/build.mjs",
     "serve": "npx --yes serve dist -l 3456",
-    "screenshot:header": "node scripts/screenshot-header.mjs"
+    "screenshot:header": "node scripts/screenshot-header.mjs",
+    "screenshot:hero-mobile": "node scripts/screenshot-hero-mobile.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0"

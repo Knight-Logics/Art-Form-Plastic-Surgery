@@ -2,19 +2,21 @@
  * Hero h1 — aura glow (Knight Group) + glimmer sweep (Knight hero-fx / Moms-style).
  */
 
-/* Soft gold aura behind headline column */
-.artform-landing .elementor-element.elementor-element-79fd65b0::after {
-  content: '';
-  position: absolute;
-  left: -6%;
-  bottom: 8%;
-  width: min(62vw, 780px);
-  height: min(52vw, 620px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(184, 152, 86, 0.42) 0%, rgba(184, 152, 86, 0.08) 42%, transparent 72%);
-  filter: blur(36px);
-  pointer-events: none;
-  z-index: 0;
+/* Soft gold aura behind headline column (desktop/tablet only) */
+@media (min-width: 768px) {
+  .artform-landing .elementor-element.elementor-element-79fd65b0::after {
+    content: '';
+    position: absolute;
+    left: -6%;
+    bottom: 8%;
+    width: min(62vw, 780px);
+    height: min(52vw, 620px);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184, 152, 86, 0.42) 0%, rgba(184, 152, 86, 0.08) 42%, transparent 72%);
+    filter: blur(36px);
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
 .artform-landing .elementor-element.elementor-element-54fe6ad8 {

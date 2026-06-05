@@ -33,8 +33,18 @@ function fixContent(html) {
   return out;
 }
 
-/** Shared footer extracted once from homepage. */
+/** Shared custom footer (generated once per build). */
 let shellFooter = null;
+
+const FOOTER_QUICK_LINKS = [
+  { label: 'About', href: '/about-us/' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Gallery', href: '/gallery/' },
+  { label: 'Book Consultation', href: '/book-consultation/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Payment Plans', href: '/payment-plans/' },
+  { label: 'Contact', href: '/contact/' },
+];
 
 const LOGO_SRC = '/wp-content/uploads/2024/10/1000513852-removebg-preview-e1730100950292-186x81.png';
 
@@ -113,6 +123,65 @@ function renderCustomHeader(pagePath) {
     </button>
   </div>
 </header>`;
+}
+
+function renderCustomFooter() {
+  const year = new Date().getFullYear();
+  const addresses = site.addresses
+    .map(
+      (a) =>
+        `<p class="artform-footer__contact-line"><strong>${a.label}:</strong><br>${a.street}, ${a.city}, ${a.state} ${a.zip}</p>`
+    )
+    .join('\n          ');
+
+  const quickLinks = FOOTER_QUICK_LINKS.map((l) => `<a href="${l.href}">${l.label}</a>`).join('\n          ');
+
+  return `<footer class="artform-footer site-footer" id="colophon" role="contentinfo">
+  <div class="artform-footer__inner">
+    <div class="artform-footer__grid">
+      <div class="artform-footer__brand">
+        <a class="artform-footer__logo" href="/">
+          <img src="${LOGO_SRC}" width="168" height="73" alt="${site.name}" decoding="async" loading="lazy">
+        </a>
+        <p class="artform-footer__tagline">${site.doctor} — facial plastic surgery in Safety Harbor &amp; Tampa Bay.</p>
+      </div>
+      <div class="artform-footer__col">
+        <h2 class="artform-footer__heading">Quick Links</h2>
+        <nav class="artform-footer__links" aria-label="Footer navigation">
+          ${quickLinks}
+        </nav>
+      </div>
+      <div class="artform-footer__col artform-footer__col--contact">
+        <h2 class="artform-footer__heading">Contact</h2>
+        <div class="artform-footer__contact">
+          <p class="artform-footer__contact-line"><a href="tel:${site.phoneTel}">${site.phone}</a></p>
+          <p class="artform-footer__contact-line"><a href="mailto:${site.email}">${site.email}</a></p>
+          ${addresses}
+        </div>
+        <h2 class="artform-footer__heading artform-footer__heading--sub">Connect</h2>
+        <div class="artform-footer__social">
+          <a class="artform-footer__social-link" href="${site.instagram}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <img src="/images/social/instagram.svg" width="44" height="44" alt="" decoding="async" loading="lazy">
+          </a>
+          <a class="artform-footer__social-link" href="${site.tiktok}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <img src="/images/social/tiktok.svg" width="44" height="44" alt="" decoding="async" loading="lazy">
+          </a>
+        </div>
+      </div>
+    </div>
+    <nav class="artform-footer__legal" aria-label="Legal">
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <span class="artform-footer__legal-sep" aria-hidden="true">&middot;</span>
+      <a href="/terms-and-conditions/">Terms &amp; Conditions</a>
+    </nav>
+    <div class="artform-footer__bottom">
+      <p class="artform-footer__copyright">&copy; 2024&ndash;${year} ${site.name}. All rights reserved.</p>
+      <p class="artform-footer__credit-line">
+        <a class="artform-footer__credit" href="https://knightlogics.com" target="_blank" rel="noopener noreferrer">Site by Knight Logics</a>
+      </p>
+    </div>
+  </div>
+</footer>`;
 }
 
 function splitPage($) {
@@ -284,6 +353,174 @@ function cleanFragment(html) {
   return $w('#wrap').html() || '';
 }
 
+const CONTACT_GUARANTEES = [
+  'Board-certified facial plastic surgeon',
+  'One-on-one consultation with Dr. Kieliszak',
+  'Safety Harbor & Tampa Bay locations',
+  'Financing & payment plans available',
+  'Natural, refined aesthetic results',
+  'Dedicated, discreet patient care',
+];
+
+function renderContactGuaranteesPanel() {
+  const items = CONTACT_GUARANTEES.map(
+    (text) =>
+      `<li class="artform-contact-form__guarantee"><span class="artform-contact-form__check-icon" aria-hidden="true">✓</span><span>${text}</span></li>`
+  ).join('\n          ');
+  return `<aside class="artform-contact-form__aside" aria-labelledby="artform-ct-guarantees-label">
+    <p class="artform-contact-form__aside-title" id="artform-ct-guarantees-label">Why patients choose us</p>
+    <ul class="artform-contact-form__guarantees">${items}</ul>
+  </aside>`;
+}
+
+function renderGoogleMapEmbed(label, addressQuery) {
+  const q = encodeURIComponent(addressQuery);
+  return `<div class="artform-map">
+  <h3 class="artform-map__title">${label}</h3>
+  <div class="artform-map__frame">
+    <iframe title="Map: ${label}" src="https://maps.google.com/maps?q=${q}&amp;hl=en&amp;z=14&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  </div>
+</div>`;
+}
+
+function renderContactMapsBlock() {
+  const safety = site.addresses[0];
+  const tampa = site.addresses[1];
+  const safetyQ = `${safety.street}, ${safety.city}, ${safety.state} ${safety.zip}`;
+  const tampaQ = `${tampa.street}, ${tampa.city}, ${tampa.state} ${tampa.zip}`;
+  return `<div class="artform-contact-maps artform-contact-maps--dual">
+  ${renderGoogleMapEmbed(`${safety.label} office`, safetyQ)}
+  ${renderGoogleMapEmbed(`${tampa.label} office`, tampaQ)}
+</div>`;
+}
+
+function renderPaymentPlansSection() {
+  return `<div class="artform-financing">
+  <header class="artform-financing__header">
+    <p class="artform-financing__kicker">Flexible financing</p>
+    <h1 class="artform-financing__title">Payment Plans</h1>
+    <p class="artform-financing__subtitle">Explore monthly payment options for your procedure. Checking eligibility is quick and does not require commitment to treatment.</p>
+  </header>
+  <div class="artform-financing__grid">
+    <article class="artform-financing__card">
+      <h3>Cherry</h3>
+      <p>Apply in minutes for flexible monthly plans with competitive rates.</p>
+      <ul>
+        <li>Quick online application</li>
+        <li>Multiple term lengths</li>
+        <li>Ideal for cosmetic procedures</li>
+      </ul>
+      <a class="artform-financing__cta" href="https://pay.withcherry.com/" target="_blank" rel="noopener noreferrer">Learn about Cherry</a>
+    </article>
+    <article class="artform-financing__card">
+      <h3>CareCredit</h3>
+      <p>Healthcare credit card accepted for surgical and non-surgical treatments.</p>
+      <ul>
+        <li>Widely accepted in medical aesthetics</li>
+        <li>Promotional financing may apply</li>
+        <li>Manage payments online</li>
+      </ul>
+      <a class="artform-financing__cta" href="https://www.carecredit.com/" target="_blank" rel="noopener noreferrer">Visit CareCredit</a>
+    </article>
+    <article class="artform-financing__card">
+      <h3>PatientFi</h3>
+      <p>Another option for spreading costs into manageable monthly payments.</p>
+      <ul>
+        <li>Simple approval process</li>
+        <li>Transparent terms</li>
+        <li>No hidden fees</li>
+      </ul>
+      <a class="artform-financing__cta" href="https://patientfi.com/" target="_blank" rel="noopener noreferrer">Explore PatientFi</a>
+    </article>
+  </div>
+  <div class="artform-financing__mock" aria-hidden="true">
+    <p class="artform-financing__mock-label">Financing application preview (not connected on static preview)</p>
+    <div class="artform-financing__mock-ui">
+      <span class="artform-financing__mock-pill">Check eligibility</span>
+      <span class="artform-financing__mock-pill">Choose your plan</span>
+      <span class="artform-financing__mock-pill">Monthly payments</span>
+    </div>
+  </div>
+  <p class="artform-financing__note">Financing is subject to credit approval. Terms vary by provider. Call ${site.phone} to discuss options with our team.</p>
+</div>`;
+}
+
+const BLOG_FALLBACK_THUMB = '/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg';
+
+/** Services page — replaces empty MetForm shell in white appointment card. */
+function renderServicesAppointmentForm() {
+  return `<div class="artform-contact-form artform-contact-form--services">
+  <h3 class="artform-contact-form__title">Request an Appointment</h3>
+  <p class="artform-contact-form__subtitle">Tell us how to reach you and we'll follow up to schedule your visit.</p>
+  <form class="artform-contact-form__form artform-contact-form__form--compact" data-source="services" action="/book-consultation/" method="get" novalidate>
+    <div class="artform-contact-form__field">
+      <label for="artform-svc-name">Full name <span class="artform-contact-form__req">*</span></label>
+      <input id="artform-svc-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
+    </div>
+    <div class="artform-contact-form__field">
+      <label for="artform-svc-phone">Phone <span class="artform-contact-form__req">*</span></label>
+      <input id="artform-svc-phone" name="phone" type="tel" autocomplete="tel" required placeholder="${site.phone}">
+    </div>
+    <div class="artform-contact-form__field">
+      <label for="artform-svc-email">Email</label>
+      <input id="artform-svc-email" name="email" type="email" autocomplete="email" placeholder="you@email.com">
+    </div>
+    <div class="artform-contact-form__field">
+      <label for="artform-svc-message">How can we help?</label>
+      <textarea id="artform-svc-message" name="message" rows="3" placeholder="Optional message"></textarea>
+    </div>
+    <div class="artform-contact-form__submit-row">
+      <button type="submit" class="artform-contact-form__submit">Request Appointment</button>
+    </div>
+  </form>
+  <p class="artform-contact-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
+  <p class="artform-contact-form__phone">Prefer to call? <a href="tel:${site.phoneTel}">${site.phone}</a></p>
+</div>`;
+}
+
+/** Contact page — replaces WPForms with themed two-column layout. */
+function renderContactPageForm() {
+  return `<div class="artform-contact-form artform-contact-form--page">
+  <header class="artform-contact-form__header">
+    <h2 class="artform-contact-form__title">How can we help?</h2>
+    <p class="artform-contact-form__subtitle">Feel free to ask a question or simply leave a comment.</p>
+  </header>
+  <form class="artform-contact-form__form" data-source="contact" action="/book-consultation/" method="get" novalidate>
+    <div class="artform-contact-form__grid">
+      <div class="artform-contact-form__fields">
+        <div class="artform-contact-form__row">
+          <div class="artform-contact-form__field">
+            <label for="artform-ct-first">First name <span class="artform-contact-form__req">*</span></label>
+            <input id="artform-ct-first" name="first" type="text" autocomplete="given-name" required placeholder="First">
+          </div>
+          <div class="artform-contact-form__field">
+            <label for="artform-ct-last">Last name <span class="artform-contact-form__req">*</span></label>
+            <input id="artform-ct-last" name="last" type="text" autocomplete="family-name" required placeholder="Last">
+          </div>
+        </div>
+        <div class="artform-contact-form__field">
+          <label for="artform-ct-email">Email <span class="artform-contact-form__req">*</span></label>
+          <input id="artform-ct-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com">
+        </div>
+        <div class="artform-contact-form__field">
+          <label for="artform-ct-phone">Phone</label>
+          <input id="artform-ct-phone" name="phone" type="tel" autocomplete="tel" placeholder="${site.phone}">
+        </div>
+        <div class="artform-contact-form__field artform-contact-form__field--message">
+          <label for="artform-ct-message">Comment or message</label>
+          <textarea id="artform-ct-message" name="message" rows="5" placeholder="Your message"></textarea>
+        </div>
+        <div class="artform-contact-form__submit-row">
+          <button type="submit" class="artform-contact-form__submit">Submit</button>
+        </div>
+      </div>
+      ${renderContactGuaranteesPanel()}
+    </div>
+  </form>
+  <p class="artform-contact-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
+</div>`;
+}
+
 function renderHeroConsultForm() {
   return `<div class="artform-consult-form artform-consult-form--hero">
   <p class="artform-consult-form__kicker">Free consultation</p>
@@ -310,6 +547,14 @@ function renderHeroConsultForm() {
   </form>
   <p class="artform-consult-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
   <p class="artform-consult-form__phone">Prefer to call? <a href="tel:${site.phoneTel}">${site.phone}</a></p>
+</div>`;
+}
+
+/** Static TikTok grid (replaces Smash Balloon shortcode on static hosting). */
+function renderTikTokFeedWidget() {
+  return `<div class="artform-tiktok" data-artform-tiktok>
+  <header class="artform-tiktok__header" data-tiktok-header aria-busy="true"></header>
+  <div class="artform-tiktok__grid" data-tiktok-grid aria-busy="true"></div>
 </div>`;
 }
 
@@ -423,21 +668,142 @@ function enhanceHomepage(html) {
     }
   }
 
+  const tiktokFeed = $('.sbtt-tiktok-feed').first();
+  if (tiktokFeed.length) {
+    tiktokFeed.replaceWith(renderTikTokFeedWidget());
+  } else {
+    const tiktokShortcode = $('[data-id="e4515a6"] .elementor-shortcode').first();
+    if (tiktokShortcode.length) {
+      tiktokShortcode.html(renderTikTokFeedWidget());
+    }
+  }
+
+  return $('#wrap').html() || html;
+}
+
+/** Replace empty MetForm wrapper on /services/ appointment section. */
+function enhanceServices(html) {
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+  const formHtml = renderServicesAppointmentForm();
+
+  const metform = $('.mf-form-wrapper[data-form-id="581"]').first();
+  if (metform.length) {
+    metform.replaceWith(formHtml);
+  } else {
+    const widget = $('[data-id="69743078"] .elementor-widget-container').first();
+    if (widget.length) widget.html(formHtml);
+  }
+
+  return $('#wrap').html() || html;
+}
+
+/** Replace WPForms on /contact/ with static themed form + guarantees + maps. */
+function enhanceContact(html) {
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+  const formHtml = renderContactPageForm();
+
+  const wpforms = $('.elementor-widget-wpforms[data-id="46c3601"]').first();
+  if (wpforms.length) {
+    wpforms.replaceWith(
+      `<div class="elementor-element elementor-element-artform-contact elementor-widget" data-id="artform-contact" data-element_type="widget">
+        <div class="elementor-widget-container">${formHtml}</div>
+      </div>`
+    );
+  } else {
+    const container = $('.wpforms-container').first();
+    if (container.length) container.replaceWith(formHtml);
+  }
+
+  const contactSection = $('[data-id="799aee1"]').first();
+  contactSection.addClass('artform-contact-section');
+
+  /* Restore map embed stripped by cleanFragment; add second map below form section */
+  const mapWidget = $('.elementor-widget-google_maps .elementor-custom-embed').first();
+  if (mapWidget.length) {
+    const safety = site.addresses[0];
+    const safetyQ = `${safety.street}, ${safety.city}, ${safety.state} ${safety.zip}`;
+    mapWidget.html(renderGoogleMapEmbed(`${safety.label} office`, safetyQ));
+  }
+
+  if (contactSection.length) {
+    const tampa = site.addresses[1];
+    const tampaQ = `${tampa.street}, ${tampa.city}, ${tampa.state} ${tampa.zip}`;
+    contactSection.after(
+      `<div class="artform-contact-maps">${renderGoogleMapEmbed(`${tampa.label} office`, tampaQ)}</div>`
+    );
+  }
+
+  return $('#wrap').html() || html;
+}
+
+/** Payment plans — replace empty Cherry widget shell with financing cards. */
+function enhancePaymentPlans(html) {
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+  const widget = $('[data-id="1c1c2e1"] .elementor-widget-container').first();
+  if (widget.length) {
+    widget.html(renderPaymentPlansSection());
+  } else {
+    $('#all').parent().html(renderPaymentPlansSection());
+  }
+  $('[data-id="46589a3"]').remove();
+  return $('#wrap').html() || html;
+}
+
+/** Blog — fallback image for posts missing thumbnails. */
+function enhanceBlog(html) {
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+  $('.thumbnail-container.no_thumbnail').each((_, el) => {
+    const $el = $(el);
+    const label = $el.closest('a').attr('aria-label') || 'Blog post';
+    $el.removeClass('no_thumbnail').addClass('artform-blog-fallback');
+    $el.html(
+      `<img src="${BLOG_FALLBACK_THUMB}" alt="${label.replace(/"/g, '&quot;')}" loading="lazy" decoding="async" width="800" height="450">`
+    );
+  });
+  return $('#wrap').html() || html;
+}
+
+/** Gold outline pricing/phone CTAs + homepage-style Book Consultation bubbles. */
+function enhanceSharedButtons(html) {
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+
+  $('a.elementor-button').each((_, el) => {
+    const $a = $(el);
+    const text = $a.find('.elementor-button-text').text().replace(/\s+/g, ' ').trim();
+    if (/view pricing/i.test(text)) {
+      $a.addClass('artform-btn-gold-outline');
+    }
+    if (/\(813\)|563-3735|5633735/.test(text)) {
+      $a.addClass('artform-btn-gold-outline');
+      $a.attr('href', `tel:${site.phoneTel}`);
+    }
+    if (/book consultation/i.test(text)) {
+      const sectionText = $a.closest('section').text().replace(/\s+/g, ' ');
+      if (/schedule an appointment|book a consultation/i.test(sectionText)) {
+        $a.addClass('artform-btn-book');
+        $a.attr('href', '/book-consultation/');
+      }
+    }
+  });
+
   return $('#wrap').html() || html;
 }
 
 function buildPageBody($, pagePath) {
-  const { content, footer } = splitPage($);
+  const { content } = splitPage($);
   if (!shellFooter) {
-    shellFooter = cleanFragment(footer);
-    const headerHtml = renderCustomHeader(pagePath);
-    cacheShellTemplates(headerHtml, shellFooter).catch(() => {});
+    shellFooter = renderCustomFooter();
+    cacheShellTemplates(renderCustomHeader(pagePath), shellFooter).catch(() => {});
   }
   const h = renderCustomHeader(pagePath);
   let c = fixContent(rewriteUrls(cleanFragment(content)));
   if (pagePath === '/') c = enhanceHomepage(c);
-  const f = fixContent(rewriteUrls(shellFooter));
-  return `${announcementBar()}${h}${c}${f}`;
+  else c = enhanceSharedButtons(c);
+  if (pagePath === '/services/') c = enhanceServices(c);
+  if (pagePath === '/contact/') c = enhanceContact(c);
+  if (pagePath === '/payment-plans/') c = enhancePaymentPlans(c);
+  if (pagePath === '/blog/') c = enhanceBlog(c);
+  return `${announcementBar()}${h}${c}${shellFooter}`;
 }
 
 function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyClass, body }) {
@@ -460,7 +826,10 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   ${inlineBlock}
   <link rel="stylesheet" href="/css/replica-fixes.css">
   <link rel="stylesheet" href="/css/artform-header.css">
-  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">' : ''}
+  <link rel="stylesheet" href="/css/artform-footer.css">
+  <link rel="stylesheet" href="/css/artform-page-fixes.css">
+  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-tiktok-feed.css">' : ''}
+  ${pagePath === '/services/' || pagePath === '/contact/' ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
   <link rel="canonical" href="${BASE}${pagePath === '/' ? '/' : pagePath}">
   <script type="application/ld+json">${schemaJson(pagePath)}</script>
 </head>
@@ -474,7 +843,8 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <script src="/js/elementor-animations.js" defer></script>
   <script src="/js/swiper-init.js" defer></script>
   <script src="/js/site.js" defer></script>
-  ${pagePath === '/' ? '<script src="/js/home-consult-form.js" defer></script>\n  <script src="/js/artform-google-reviews.js" defer></script>' : ''}
+  ${pagePath === '/' ? '<script src="/js/home-consult-form.js" defer></script>\n  <script src="/js/artform-google-reviews.js" defer></script>\n  <script src="/js/artform-tiktok-feed.js" defer></script>' : ''}
+  ${pagePath === '/services/' || pagePath === '/contact/' ? '<script src="/js/artform-contact-form.js" defer></script>' : ''}
 </body>
 </html>`;
 }

@@ -19,7 +19,7 @@
 }
 
 /* Desktop: cover + top — fills hero cell (no black band above cards) */
-@media (min-width: 1227px) {
+@media (min-width: 1024px) {
   .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
     background-size: cover !important;
@@ -32,22 +32,77 @@
   }
 }
 
-/* Tablet + phone: fill section — no black bands; anchor faces to top */
-@media (max-width: 1226px) {
+/* Tablet: shorter hero band than desktop */
+@media (max-width: 1023px) and (min-width: 768px) {
   .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
   .elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
     background-size: cover !important;
-    background-position: center top !important;
+    background-position: center 28% !important;
   }
 
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {
-    min-height: clamp(288px, 42svh, 560px) !important;
+    min-height: clamp(260px, 48svh, 480px) !important;
+  }
+}
+
+/* Phones: ONE photo band (60vh) — no section bg + column bg stack */
+@media (max-width: 767px) {
+  /* Kill outer hero section image (Elementor uses 100% auto = “floating” strip) */
+  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay,
+  .elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay {
+    background-image: none !important;
+    background-color: #000000 !important;
+    opacity: 1 !important;
   }
 
-  /* Cancel Elementor tablet negative margin that collapses hero */
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay {
+    display: none !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0 {
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: #000000 !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
+  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: #000000 !important;
+  }
+
+  /* Single full-width cover image on headline column only */
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-element-populated,
+  .artform-landing .elementor-element.elementor-element-54fe6ad8:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg') !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center 42% !important;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-element-populated {
+    min-height: 60vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+  }
+
+  /* Form column: solid black below photo — not over the image */
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col,
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col > .elementor-element-populated {
+    background: #000000 !important;
+    background-image: none !important;
+  }
+
   .artform-landing .elementor-element.elementor-element-79fd65b0,
   .elementor-975 .elementor-element.elementor-element-79fd65b0 {
     margin-top: 0 !important;

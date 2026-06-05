@@ -17,11 +17,18 @@
 
 .elementor-element-63d63482 .elementor-element-7691a215 > .elementor-container {
   align-items: stretch !important;
-  justify-content: flex-end !important;
+  justify-content: flex-start !important;
   max-width: 100% !important;
+  width: 100% !important;
+  overflow: hidden;
 }
 
-/* Layer 1 — full-size photo (Elementor contain / bottom-left) above the black panel */
+.elementor-element-63d63482 .elementor-element-7691a215 {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* Layer 1 — full-size photo (contain / top-left) behind the reviews panel */
 .elementor-element-63d63482 .elementor-element-78e5dbb2 {
   position: relative;
   z-index: 1;
@@ -45,7 +52,7 @@
   --spacer-size: 0px !important;
 }
 
-/* Left image column — fixed minimum width for the photo area */
+/* Left image column — fixed width reserves space for the photo */
 .elementor-element-63d63482 .elementor-element-57aabc70 {
   min-width: 380px !important;
   width: 380px !important;
@@ -70,7 +77,7 @@
   margin: 0 !important;
 }
 
-/* Layer 2 — reviews carousel in front of photo + black */
+/* Layer 2 — reviews carousel in front of photo */
 .elementor-element-63d63482 .elementor-element-7691a215 {
   position: relative;
   z-index: 2;
@@ -95,6 +102,7 @@
 .artform-greviews {
   position: relative;
   z-index: 1;
+  min-width: 0;
   --afg-accent: #d4b76a;
   --afg-accent-dark: #a88648;
   --afg-ink: #f5f0e6;
@@ -199,17 +207,22 @@
 }
 
 .artform-greviews__carousel {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.5rem;
+  position: relative;
+  display: block;
   overflow: visible;
   max-width: 100%;
+  --afg-nav-size: 38px;
+  --afg-nav-edge: 1%;
 }
 
 .artform-greviews__viewport {
   overflow: hidden;
   min-width: 0;
+  width: 100%;
+  margin-left: calc(var(--afg-nav-edge) + var(--afg-nav-size) + 0.35rem);
+  margin-right: calc(var(--afg-nav-edge) + var(--afg-nav-size) + 0.35rem);
+  container-type: inline-size;
+  container-name: afg-reviews;
 }
 
 .artform-greviews__track {
@@ -217,13 +230,15 @@
   gap: 12px;
   transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  width: max-content;
 }
 
+/* Widths use container queries (viewport), not % of the full track */
 .artform-greviews__card {
-  flex: 0 0 calc((100% - 24px) / 3);
-  width: calc((100% - 24px) / 3);
-  min-width: 0;
-  max-width: none;
+  flex: 0 0 var(--afg-card-width, 260px);
+  width: var(--afg-card-width, 260px);
+  min-width: var(--afg-card-width, 260px);
+  max-width: var(--afg-card-width, 260px);
   background: var(--afg-card);
   border-radius: 14px;
   padding: 1.05rem 0.95rem 0.95rem;
@@ -325,25 +340,36 @@
 }
 
 .artform-greviews__nav {
-  width: 52px;
-  height: 52px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: var(--afg-nav-size);
+  height: var(--afg-nav-size);
   border: 1.5px solid var(--afg-accent);
   border-radius: 50%;
-  background: rgba(212, 183, 106, 0.12);
+  background: rgba(12, 11, 10, 0.72);
   color: var(--afg-accent);
   padding: 0;
   cursor: pointer;
-  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.artform-greviews__nav[data-afg-prev] {
+  left: var(--afg-nav-edge);
+}
+
+.artform-greviews__nav[data-afg-next] {
+  right: var(--afg-nav-edge);
+}
+
 .artform-greviews__nav-icon {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
@@ -383,10 +409,37 @@
   margin: 0 0.35rem;
 }
 
-@media (max-width: 960px) {
+/* Mid widths: shrink photo column so the carousel has room */
+@media (max-width: 1100px) {
+  .elementor-element-63d63482 .elementor-element-57aabc70 {
+    min-width: 0 !important;
+    width: min(280px, 36vw) !important;
+    flex: 0 0 min(280px, 36vw) !important;
+    max-width: 36vw !important;
+  }
+
+  .elementor-element-63d63482 .elementor-element-9feff1f {
+    margin-left: 0 !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+
+  .artform-greviews {
+    padding-left: clamp(12px, 2vw, 20px);
+    padding-right: clamp(16px, 2.5vw, 28px);
+  }
+
+  .artform-greviews {
+    --afg-nav-size: 34px;
+  }
+}
+
+@container afg-reviews (max-width: 479px) {
   .artform-greviews__card {
-    flex: 0 0 calc((100% - 12px) / 2);
-    width: calc((100% - 12px) / 2);
+    flex-basis: 100cqi;
+    width: 100cqi;
+    min-width: 100cqi;
+    max-width: 100cqi;
   }
 }
 
@@ -407,22 +460,12 @@
     padding-right: clamp(16px, 4vw, 28px);
   }
 
-  .artform-greviews__card {
-    width: 100%;
-    min-width: 0;
-  }
-
-  .artform-greviews__carousel {
-    gap: 0.5rem;
-  }
-
-  .artform-greviews__nav {
-    width: 48px;
-    height: 48px;
+  .artform-greviews {
+    --afg-nav-size: 32px;
   }
 
   .artform-greviews__nav-icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
   }
 }
