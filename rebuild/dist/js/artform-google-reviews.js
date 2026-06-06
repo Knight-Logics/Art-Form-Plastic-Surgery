@@ -240,7 +240,10 @@
   }
 
   function loadFeed() {
-    return fetch('/data/google-reviews.json?v=20260606', { cache: 'no-store' })
+    var feedUrl =
+      (typeof window.artformAsset === 'function' && window.artformAsset('data/google-reviews.json?v=20260606')) ||
+      '/data/google-reviews.json?v=20260606';
+    return fetch(feedUrl, { cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) {
           return null;

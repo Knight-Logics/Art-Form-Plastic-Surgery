@@ -1414,6 +1414,7 @@ function leanScriptsForPage(pagePath) {
     scripts.push('<script src="/js/home-consult-form.js" defer></script>');
   }
   if (pagePath === '/') {
+    scripts.push('<script src="/js/artform-base.js"></script>');
     scripts.push('<script src="/js/artform-portfolio-gallery.js" defer></script>');
     scripts.push('<script src="/js/artform-google-reviews.js" defer></script>');
     scripts.push('<script src="/js/artform-tiktok-feed.js" defer></script>');

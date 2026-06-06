@@ -42,6 +42,10 @@ function prefixRootPaths(text) {
   out = out.replace(/url\(\s*'\/(?!\/)/g, `url('${BASE}`);
   out = out.replace(/url\(\s*"\/(?!\/)/g, `url("${BASE}`);
 
+  /* JS/HTML string literals: '/data/...', "/images/..." */
+  const strRe = new RegExp(`(['"])\\/(?!\\/|${esc.slice(1)})`, 'g');
+  out = out.replace(strRe, `$1${BASE}`);
+
   if (out !== text && !out.includes('data-github-pages-prefixed')) {
     out = out.replace(/<html\b/i, '<html data-github-pages-prefixed');
   }
@@ -60,12 +64,19 @@ async function processCss(file) {
   await fs.writeFile(file, css, 'utf8');
 }
 
+async function processJs(file) {
+  let js = await fs.readFile(file, 'utf8');
+  js = prefixRootPaths(js);
+  await fs.writeFile(file, js, 'utf8');
+}
+
 async function walk(dir) {
   for (const e of await fs.readdir(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) await walk(p);
     else if (e.name.endsWith('.html')) await processHtml(p);
     else if (e.name.endsWith('.css')) await processCss(p);
+    else if (e.name.endsWith('.js')) await processJs(p);
   }
 }
 

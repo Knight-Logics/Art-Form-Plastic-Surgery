@@ -16,7 +16,11 @@
   function render(data) {
     if (!data || !Array.isArray(data.videos)) return;
 
-    var avatar = data.avatar || '/images/social/tiktok.svg';
+    var defaultAvatar =
+      typeof window.artformAsset === 'function'
+        ? window.artformAsset('images/social/tiktok.svg')
+        : '/images/social/tiktok.svg';
+    var avatar = data.avatar || defaultAvatar;
     var handle = escapeHtml(data.username ? '@' + data.username : '@faceplasticsurgeon');
     var followUrl = data.followUrl || 'https://www.tiktok.com/@faceplasticsurgeon';
 
@@ -32,7 +36,9 @@
       '<a class="artform-tiktok__follow" href="' +
       escapeHtml(followUrl) +
       '" target="_blank" rel="noopener noreferrer">' +
-      '<img src="/images/social/tiktok.svg" width="18" height="18" alt="" aria-hidden="true">' +
+      '<img src="' +
+      escapeHtml(defaultAvatar) +
+      '" width="18" height="18" alt="" aria-hidden="true">' +
       'Follow on TikTok</a>';
 
     gridEl.innerHTML = data.videos
@@ -58,7 +64,10 @@
       .join('');
   }
 
-  fetch('/data/tiktok-feed.json?v=20260606', { cache: 'no-store' })
+  var feedUrl =
+    (typeof window.artformAsset === 'function' && window.artformAsset('data/tiktok-feed.json?v=20260606')) ||
+    '/data/tiktok-feed.json?v=20260606';
+  fetch(feedUrl, { cache: 'no-store' })
     .then(function (response) {
       if (!response.ok) return null;
       return response.json();
