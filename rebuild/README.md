@@ -37,7 +37,21 @@ npm run build
 
 ## Chat widget
 
-Original site used `chat.mydashmetrics.com` (often fails to load). Set `data-chat-src` on `<body>` in `scripts/build.mjs` or wire your Knight Logics / Tawk / preferred provider in `public/js/site.js`.
+Replaces the live site's `chat.mydashmetrics.com` widget with **Tidio** (same lazy-load pattern as Knight Logics MainSite).
+
+Edit `data/site.json` → `chat`:
+
+```json
+"chat": {
+  "enabled": true,
+  "provider": "tidio",
+  "tidioPublicKey": "YOUR_TIDIO_PUBLIC_KEY",
+  "placeholder": false,
+  "welcomeMessage": "Hi! How can we help you today?"
+}
+```
+
+**Placeholder mode:** Currently uses the Knight Logics Tidio key until Art Form creates their own free Tidio account (business or receptionist email). When approved, sign up at [tidio.com](https://www.tidio.com), paste the new public key into `tidioPublicKey`, set `placeholder` to `false`, and configure the welcome message in the Tidio dashboard to match their old chat copy.
 
 ## Deploy
 

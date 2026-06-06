@@ -39,5 +39,13 @@
   "geo": [
     { "lat": 27.9909, "lng": -82.6937 },
     { "lat": 27.9456, "lng": -82.4589 }
-  ]
+  ],
+  "chat": {
+    "enabled": true,
+    "provider": "tidio",
+    "tidioPublicKey": "rmlhzyory69fi9cbvxvlfy9hwlt4v6kf",
+    "placeholder": true,
+    "placeholderNote": "Knight Logics Tidio key until Art Form creates their own account (business or receptionist email). Then replace tidioPublicKey and set placeholder to false.",
+    "welcomeMessage": "Hi! How can we help you today?"
+  }
 }

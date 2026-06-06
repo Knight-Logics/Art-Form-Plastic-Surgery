@@ -1387,6 +1387,15 @@ function buildPageBody($, pagePath) {
   return `${announcementBar()}${h}${c}${shellFooter}`;
 }
 
+function chatBodyAttrs() {
+  const chat = site.chat || {};
+  if (!chat.enabled || chat.provider !== 'tidio' || !chat.tidioPublicKey) {
+    return 'data-chat-enabled="false"';
+  }
+  const placeholder = chat.placeholder ? ' data-chat-placeholder="true"' : '';
+  return `data-chat-enabled="true" data-chat-provider="tidio" data-chat-tidio-key="${chat.tidioPublicKey}"${placeholder}`;
+}
+
 function augmentBodyClass(bodyClass, pagePath) {
   let cls = bodyClass;
   if (
@@ -1410,6 +1419,9 @@ function leanScriptsForPage(pagePath) {
   }
   scripts.push('<script src="/js/elementor-animations.js" defer></script>');
   scripts.push('<script src="/js/site.js" defer></script>');
+  if (site.chat?.enabled && site.chat?.provider === 'tidio' && site.chat?.tidioPublicKey) {
+    scripts.push('<script src="/js/artform-chat.js" defer></script>');
+  }
   if (pagePath === '/' || pagePath === '/meet-dr-kieliszak/') {
     scripts.push('<script src="/js/home-consult-form.js" defer></script>');
   }
@@ -1475,7 +1487,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <link rel="canonical" href="${BASE}${pagePath === '/' ? '/' : pagePath}">
   <script type="application/ld+json">${schemaJson(pagePath)}</script>
 </head>
-<body class="${pageBodyClass}" data-chat-src="">
+<body class="${pageBodyClass}" ${chatBodyAttrs()}>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
   <div class="hfeed site" id="page">
     ${body}
