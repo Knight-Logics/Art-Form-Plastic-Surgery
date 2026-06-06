@@ -20,7 +20,6 @@
   justify-content: flex-start !important;
   max-width: 100% !important;
   width: 100% !important;
-  min-height: clamp(560px, 58vw, 720px);
   overflow: hidden;
 }
 
@@ -37,7 +36,10 @@
 
 .elementor-element-63d63482 .elementor-element-78e5dbb2:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
 .elementor-element-63d63482 .elementor-element-78e5dbb2 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-  background-image: none !important;
+  background-image: url('/wp-content/uploads/2024/11/071224-DRCK-0015-Edit-2-scaled-e1731100443763.jpg') !important;
+  background-size: contain !important;
+  background-position: top left !important;
+  background-repeat: no-repeat !important;
   background-color: transparent !important;
 }
 
@@ -50,21 +52,12 @@
   --spacer-size: 0px !important;
 }
 
-/* Left image column — portrait photo fills the reserved column */
+/* Left image column — fixed width reserves space for the photo */
 .elementor-element-63d63482 .elementor-element-57aabc70 {
   min-width: 380px !important;
   width: 380px !important;
   flex: 0 0 380px !important;
   max-width: none !important;
-  align-self: stretch !important;
-}
-
-.elementor-element-63d63482 .elementor-element-57aabc70 > .elementor-widget-wrap {
-  background-image: url('/wp-content/uploads/2024/11/071224-DRCK-0015-Edit-2-scaled-e1731100443763.jpg') !important;
-  background-size: cover !important;
-  background-position: center top !important;
-  background-repeat: no-repeat !important;
-  min-height: 100% !important;
 }
 
 .elementor-element-63d63482 .elementor-element-9feff1f {

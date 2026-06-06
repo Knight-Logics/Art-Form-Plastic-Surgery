@@ -13,14 +13,18 @@
       .replace(/"/g, '&quot;');
   }
 
+  function asset(path) {
+    if (typeof window.artformAsset === 'function') {
+      return window.artformAsset(path);
+    }
+    return path;
+  }
+
   function render(data) {
     if (!data || !Array.isArray(data.videos)) return;
 
-    var defaultAvatar =
-      typeof window.artformAsset === 'function'
-        ? window.artformAsset('images/social/tiktok.svg')
-        : '/images/social/tiktok.svg';
-    var avatar = data.avatar || defaultAvatar;
+    var defaultAvatar = asset('images/social/tiktok.svg');
+    var avatar = data.avatar ? asset(data.avatar) : defaultAvatar;
     var handle = escapeHtml(data.username ? '@' + data.username : '@faceplasticsurgeon');
     var followUrl = data.followUrl || 'https://www.tiktok.com/@faceplasticsurgeon';
 
@@ -44,7 +48,7 @@
     gridEl.innerHTML = data.videos
       .map(function (video) {
         var url = escapeHtml(video.shareUrl || followUrl);
-        var thumb = escapeHtml(video.thumb || '');
+        var thumb = escapeHtml(video.thumb ? asset(video.thumb) : '');
         var label = escapeHtml(video.caption || 'Watch on TikTok');
         return (
           '<a class="artform-tiktok__card" href="' +
