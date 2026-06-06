@@ -42,8 +42,8 @@ function prefixRootPaths(text) {
   out = out.replace(/url\(\s*'\/(?!\/)/g, `url('${BASE}`);
   out = out.replace(/url\(\s*"\/(?!\/)/g, `url("${BASE}`);
 
-  /* JS/HTML string literals: '/data/...', "/images/..." */
-  const strRe = new RegExp(`(['"])\\/(?!\\/|${esc.slice(1)})`, 'g');
+  /* JS/HTML string literals — only known asset dirs, so regex literals like /'/g are untouched */
+  const strRe = /(['"])\/(?=(?:data|images|wp-content|js|css|fonts|assets|wp-includes)\/)/g;
   out = out.replace(strRe, `$1${BASE}`);
 
   if (out !== text && !out.includes('data-github-pages-prefixed')) {
