@@ -30,10 +30,15 @@
 
 .artform-footer__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.2fr) minmax(0, 1.35fr);
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr) minmax(260px, 1.35fr);
   gap: clamp(24px, 4vw, 40px);
   align-items: start;
   margin-bottom: clamp(20px, 3vw, 28px);
+}
+
+.artform-footer__brand {
+  max-width: 220px;
+  width: 100%;
 }
 
 .artform-footer__logo {
@@ -88,7 +93,14 @@
 
 .artform-footer__col--links {
   min-width: 0;
-  margin-left: -10px;
+  justify-self: center;
+  width: max-content;
+  max-width: 100%;
+}
+
+.artform-footer__col--contact {
+  justify-self: end;
+  min-width: 0;
 }
 
 .artform-footer__links {
@@ -97,21 +109,11 @@
   gap: 2px 0;
 }
 
-/* 7 links → 4 + 3 in two rows when the column is wide enough */
+/* Two neat columns — avoids overlap when the middle track is narrower than before */
 @media (min-width: 641px) {
-  .artform-footer__col--links {
-    container-type: inline-size;
-  }
-
   .artform-footer__links {
-    gap: 4px 14px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@container (min-width: 400px) {
-  .artform-footer__links {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px 22px;
+    grid-template-columns: repeat(2, auto);
   }
 }
 
@@ -286,7 +288,12 @@
 
 @media (max-width: 640px) {
   .artform-footer__col--links {
-    margin-left: 0;
+    justify-self: center;
+    width: 100%;
+  }
+
+  .artform-footer__col--contact {
+    justify-self: center;
   }
 
   .artform-footer__grid {

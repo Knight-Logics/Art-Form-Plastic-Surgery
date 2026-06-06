@@ -384,3 +384,13 @@
   --e-column-margin-left: 0px !important;
   --e-column-margin-right: 0px !important;
 }
+
+.artform-stat-counter .artform-stat-count {
+  display: inline-block;
+  min-width: 2.5ch;
+  font-variant-numeric: tabular-nums;
+}
+
+.artform-stat-counter.is-complete .artform-stat-count {
+  min-width: 0;
+}

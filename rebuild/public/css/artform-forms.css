@@ -268,6 +268,15 @@
   gap: 0.85rem;
 }
 
+/* PHI / HIPAA-friendly form notice */
+.artform-form__phi-notice {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #6b6b6b !important;
+}
+
 /* ── Shared field styles ── */
 .artform-contact-form__field label {
   display: block;

@@ -200,9 +200,6 @@ function renderCustomFooter() {
   </nav>
   <div class="artform-footer__bottom">
     <p class="artform-footer__copyright">&copy; 2024&ndash;${year} ${site.name}. All rights reserved.</p>
-    <p class="artform-footer__credit-line">
-      <a class="artform-footer__credit" href="https://knightlogics.com" target="_blank" rel="noopener noreferrer">Site by Knight Logics</a>
-    </p>
   </div>
 </footer>`;
 }
@@ -630,6 +627,11 @@ function renderPaymentPlansSection() {
 
 const BLOG_FALLBACK_THUMB = '/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg';
 
+const CONSULT_SUBTITLE = 'Request a consultation with Art Form Plastic Surgery';
+
+const FORM_PHI_NOTICE =
+  '<p class="artform-form__phi-notice">Please do not include sensitive medical information in this form. Our team will contact you to discuss next steps securely.</p>';
+
 /** Services page — replaces empty MetForm shell in white appointment card. */
 function renderServicesAppointmentForm() {
   return `<div class="artform-contact-form artform-contact-form--services">
@@ -652,6 +654,7 @@ function renderServicesAppointmentForm() {
       <label for="artform-svc-message">How can we help?</label>
       <textarea id="artform-svc-message" name="message" rows="3" placeholder="Optional message"></textarea>
     </div>
+    ${FORM_PHI_NOTICE}
     <div class="artform-contact-form__submit-row">
       <button type="submit" class="artform-contact-form__submit">Request Appointment</button>
     </div>
@@ -693,6 +696,7 @@ function renderContactPageForm() {
           <label for="artform-ct-message">Comment or message</label>
           <textarea id="artform-ct-message" name="message" rows="5" placeholder="Your message"></textarea>
         </div>
+        ${FORM_PHI_NOTICE}
         <div class="artform-contact-form__submit-row">
           <button type="submit" class="artform-contact-form__submit">Submit</button>
         </div>
@@ -706,9 +710,9 @@ function renderContactPageForm() {
 
 function renderHeroConsultForm() {
   return `<div class="artform-consult-form artform-consult-form--hero">
-  <p class="artform-consult-form__kicker">Free consultation</p>
+  <p class="artform-consult-form__kicker">Schedule a Consultation</p>
   <h3 class="artform-consult-form__title">Consultation With Our Doctor</h3>
-  <p class="artform-consult-form__subtitle">Get on a call with Dr. Kieliszak</p>
+  <p class="artform-consult-form__subtitle">${CONSULT_SUBTITLE}</p>
   <form class="artform-consult-form__form" action="/book-consultation/" method="get" novalidate>
     <div class="artform-consult-form__field">
       <label for="artform-hero-name">Full name</label>
@@ -726,6 +730,7 @@ function renderHeroConsultForm() {
       <label for="artform-hero-message">How can we help?</label>
       <textarea id="artform-hero-message" name="message" rows="3" placeholder="Optional message"></textarea>
     </div>
+    ${FORM_PHI_NOTICE}
     <button type="submit" class="artform-consult-form__submit">Request Consultation</button>
   </form>
   <p class="artform-consult-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
@@ -828,7 +833,7 @@ function enhanceHomepage(html) {
     }
   }
 
-  // Google Reviews (photo + carousel) directly above Our Services; stats bar tucked under reviews only.
+  // Google Reviews directly above Our Services; stats band tucked under reviews.
   const section3965 = $('.elementor-element-3965ab9f').first();
   const section63d6 = $('.elementor-element-63d63482').first();
   const ourServices = $('.elementor-element-5b9d1682').first();
@@ -839,6 +844,7 @@ function enhanceHomepage(html) {
   if (section3965.length && section63d6.length) {
     section63d6.after(section3965);
     section3965.addClass('artform-stats-band');
+    enhanceStatsCounters($, section3965);
   }
 
   const reviewsWidget = $('.elementor-element-7691a215 .jkit-testimonials').first();
@@ -922,13 +928,30 @@ function enhancePhotoCollage(html) {
   return $('#wrap').html() || html;
 }
 
-/** About Us — hero tag + photo collage. */
+/** About Us — photo collage (compact hero applied separately). */
 function enhanceAboutPage(html) {
+  return enhancePhotoCollage(html);
+}
+
+const COMPACT_HERO_PATHS = ['/about-us/', '/contact/', '/gallery/', '/blog/'];
+
+/** Compact hero band on about, contact, gallery, blog (matches service pages). */
+function enhanceCompactPageHero(html, pagePath) {
+  const selectorByPath = {
+    '/about-us/': '.elementor-element-21cec6',
+    '/contact/': '.elementor-element-1e944148',
+    '/gallery/': '.elementor-element-79fd65b0',
+    '/blog/': '.entry-content .elementor > section.elementor-top-section',
+  };
+  const selector = selectorByPath[pagePath];
+  if (!selector) return html;
+
   const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
-
-  $('.elementor-element-21cec6').first().addClass('artform-about-hero');
-
-  return enhancePhotoCollage($('#wrap').html() || html);
+  const hero = $(selector).first();
+  if (hero.length) {
+    hero.addClass('artform-compact-hero').removeClass('artform-about-hero');
+  }
+  return $('#wrap').html() || html;
 }
 
 function enhanceMeetDrPage(html) {
@@ -1380,6 +1403,36 @@ function enhanceHeadingHierarchy(html) {
   return $content.html() || html;
 }
 
+/** Wire homepage stat counters for count-up animation (values from site.json). */
+function enhanceStatsCounters($, section) {
+  const patients = String(site.stats?.patients || '452');
+  const years = String(site.stats?.years || '10');
+
+  section.find('.jkit-fun-fact').each((index, el) => {
+    const $fact = $(el);
+    const label = $fact.find('.title').first().text().replace(/\s+/g, ' ').trim().toLowerCase();
+    const target = /year/.test(label) ? years : /patient/.test(label) ? patients : index === 0 ? patients : years;
+    const $num = $fact.find('.number').first();
+    const duration = $num.attr('data-animation-duration') || '2200';
+
+    $num
+      .attr('data-value', target)
+      .attr('data-artform-count', target)
+      .attr('data-animation-duration', duration)
+      .text('0')
+      .addClass('artform-stat-count');
+    $fact.addClass('artform-stat-counter');
+  });
+}
+
+/** Demo-safe copy: no "free consult", no direct-to-doctor call promise. */
+function sanitizeMeetingCopy(html) {
+  return html
+    .replace(/Get on a call with Dr\. Kieliszak/gi, CONSULT_SUBTITLE)
+    .replace(/Get on a call with Dr\. K\b/gi, CONSULT_SUBTITLE)
+    .replace(/>\s*Free consultation\s*</gi, '>Schedule a Consultation<');
+}
+
 /** Gold outline pricing/phone CTAs + homepage-style Book Consultation bubbles. */
 function enhanceSharedButtons(html) {
   const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
@@ -1431,12 +1484,14 @@ function buildPageBody($, pagePath) {
   if (pagePath === '/payment-plans/') c = enhancePaymentPlans(c);
   if (pagePath === '/blog/') c = enhanceBlog(c);
   if (pagePath === '/gallery/') c = enhanceGallery(c, pagePath);
+  if (COMPACT_HERO_PATHS.includes(pagePath)) c = enhanceCompactPageHero(c, pagePath);
   c = enhanceHeadingHierarchy(c);
   c = stripDuplicateEntryTitle(c);
   c = enhanceHeroDescriptions(c, pagePath);
   c = enhanceHeroH1Markup(c, pagePath);
   if (SERVICE_HERO_PATHS.includes(pagePath)) c = enhanceServiceHero(c, pagePath);
   c = enhanceImageAlts(c);
+  c = sanitizeMeetingCopy(c);
   return `${announcementBar()}${h}${c}${shellFooter}`;
 }
 
@@ -1461,6 +1516,8 @@ function augmentBodyClass(bodyClass, pagePath) {
   if (pagePath === '/about-us/') cls += ' artform-about-page';
   if (pagePath === '/meet-dr-kieliszak/') cls += ' artform-meet-dr-page';
   if (pagePath === '/contact/') cls += ' artform-contact-page';
+  if (pagePath === '/gallery/') cls += ' artform-gallery-page';
+  if (pagePath === '/blog/') cls += ' artform-blog-page';
   return cls;
 }
 
@@ -1483,6 +1540,7 @@ function leanScriptsForPage(pagePath) {
     scripts.push('<script src="/js/artform-base.js"></script>');
     scripts.push('<script src="/js/artform-portfolio-gallery.js" defer></script>');
     scripts.push('<script src="/js/artform-google-reviews.js" defer></script>');
+    scripts.push('<script src="/js/artform-stats-counter.js" defer></script>');
     scripts.push('<script src="/js/artform-tiktok-feed.js" defer></script>');
   }
   if (FORM_PAGE_PATHS.includes(pagePath)) {
@@ -1514,6 +1572,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
   <title>${title}</title>
   <meta name="description" content="${description.replace(/"/g, '&quot;')}">
   <link rel="icon" href="${favicon}" sizes="32x32">
@@ -1535,7 +1594,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   ${pagePath === '/about-us/' ? '<link rel="stylesheet" href="/css/artform-about.css">' : ''}
   ${pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-meet-dr.css">' : ''}
   ${FORM_PAGE_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
-  ${SERVICE_HERO_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-hero.css">' : ''}
+  ${SERVICE_HERO_PATHS.includes(pagePath) || COMPACT_HERO_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-hero.css">' : ''}
   ${pagePath === '/services/' || APPOINTMENT_FORM_PATHS.includes(pagePath) || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-intro.css">' : ''}
   ${pagePath === '/book-consultation/' ? '<link rel="stylesheet" href="/css/artform-book-consultation.css">' : ''}
   <link rel="canonical" href="${BASE}${pagePath === '/' ? '/' : pagePath}">

@@ -1,7 +1,8 @@
 /**
- * Service category heroes — uniform compact band (skincare-scale).
+ * Compact page heroes — service categories, about, contact, gallery, blog.
  */
 
+.artform-compact-hero,
 body.artform-service-page .artform-service-hero,
 body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) {
   position: relative;
@@ -12,22 +13,26 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
   background-position: center 42% !important;
 }
 
+.artform-compact-hero > .elementor-background-overlay,
 body.artform-service-page .artform-service-hero > .elementor-background-overlay,
 body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) > .elementor-background-overlay {
   opacity: 0.52 !important;
 }
 
+.artform-compact-hero > .elementor-container,
 body.artform-service-page .artform-service-hero > .elementor-container,
 body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) > .elementor-container {
   min-height: 0 !important;
 }
 
+.artform-compact-hero .elementor-widget-wrap,
 body.artform-service-page .artform-service-hero .elementor-widget-wrap,
 body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) .elementor-widget-wrap {
   position: relative;
   z-index: 1;
 }
 
+.artform-compact-hero h1.elementor-heading-title,
 body.artform-service-page .artform-service-hero h1.elementor-heading-title,
 body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) h1.elementor-heading-title {
   font-size: clamp(1.85rem, 3.8vw, 3rem) !important;
@@ -35,6 +40,7 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
   max-width: 18ch;
 }
 
+.artform-compact-hero .artform-hero-desc,
 body.artform-service-page .artform-service-hero .artform-hero-desc,
 body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) .artform-hero-desc {
   margin-top: 0.55rem !important;
@@ -42,6 +48,7 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
 }
 
 @media (max-width: 767px) {
+  .artform-compact-hero,
   body.artform-service-page .artform-service-hero,
   body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) {
     padding: clamp(2.25rem, 10vw, 3rem) 1rem !important;
@@ -49,6 +56,7 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
     background-position: center 38% !important;
   }
 
+  .artform-compact-hero h1.elementor-heading-title,
   body.artform-service-page .artform-service-hero h1.elementor-heading-title,
   body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) h1.elementor-heading-title {
     font-size: clamp(1.65rem, 7vw, 2.15rem) !important;
