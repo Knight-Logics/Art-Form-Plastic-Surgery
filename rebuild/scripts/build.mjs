@@ -11,6 +11,9 @@ const PUBLIC = path.join(ROOT, 'public');
 const site = JSON.parse(await fs.readFile(path.join(ROOT, 'data/site.json'), 'utf8'));
 const pages = JSON.parse(await fs.readFile(path.join(ROOT, 'data/pages.json'), 'utf8'));
 const navConfig = JSON.parse(await fs.readFile(path.join(ROOT, 'data/nav.json'), 'utf8'));
+const googleReviews = JSON.parse(
+  await fs.readFile(path.join(PUBLIC, 'data/google-reviews.json'), 'utf8')
+);
 
 const BASE = site.domain;
 
@@ -509,6 +512,56 @@ function renderGoogleMapEmbed(label, addressQuery) {
   <h3 class="artform-map__title">${label}</h3>
   <div class="artform-map__frame">
     <iframe title="Map: ${label}" src="https://maps.google.com/maps?q=${q}&amp;hl=en&amp;z=14&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  </div>
+</div>`;
+}
+
+function escapeMapHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/** Contact page map + Google reviews panel (fills the white card). */
+function renderContactMapWithReviews(label, addressQuery) {
+  const q = encodeURIComponent(`Art Form Plastic Surgery, ${addressQuery}`);
+  const rating = Number(googleReviews.ratingValue || 5).toFixed(1);
+  const count = Number(googleReviews.reviewCount || 0);
+  const mapsUrl = googleReviews.mapsUrl || '#';
+  const featured = (googleReviews.reviews || []).slice(0, 2);
+  const reviewCards = featured
+    .map(
+      (review) => `<article class="artform-map__review">
+      <div class="artform-map__review-head">
+        <span class="artform-map__review-avatar" aria-hidden="true">${escapeMapHtml((review.name || '?').charAt(0))}</span>
+        <div>
+          <p class="artform-map__review-name">${escapeMapHtml(review.name)}</p>
+          <p class="artform-map__review-stars" aria-label="${Number(review.stars) || 5} stars">${'★'.repeat(Number(review.stars) || 5)}</p>
+        </div>
+      </div>
+      <p class="artform-map__review-text">${escapeMapHtml(review.text)}</p>
+    </article>`
+    )
+    .join('\n');
+
+  return `<div class="artform-map artform-map--contact">
+  <h3 class="artform-map__title">${escapeMapHtml(label)}</h3>
+  <div class="artform-map__card">
+    <div class="artform-map__frame">
+      <iframe title="Map: ${escapeMapHtml(label)}" src="https://maps.google.com/maps?q=${q}&amp;hl=en&amp;z=15&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+    <div class="artform-map__reviews">
+      <div class="artform-map__reviews-header">
+        <span class="artform-map__reviews-brand" aria-hidden="true">G</span>
+        <div>
+          <p class="artform-map__reviews-rating"><span class="artform-map__reviews-stars" aria-hidden="true">★★★★★</span> ${rating} · ${count} reviews</p>
+          <a class="artform-map__reviews-link" href="${escapeMapHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer">See all reviews on Google</a>
+        </div>
+      </div>
+      <div class="artform-map__reviews-list">${reviewCards}</div>
+    </div>
   </div>
 </div>`;
 }
@@ -1097,7 +1150,7 @@ function enhanceContact(html) {
   if (mapWidget.length) {
     const safety = site.addresses[0];
     const safetyQ = `${safety.street}, ${safety.city}, ${safety.state} ${safety.zip}`;
-    mapWidget.html(renderGoogleMapEmbed(`${safety.label} office`, safetyQ));
+    mapWidget.html(renderContactMapWithReviews(`${safety.label} Office`, safetyQ));
   }
 
   return $('#wrap').html() || html;
@@ -1407,6 +1460,7 @@ function augmentBodyClass(bodyClass, pagePath) {
   }
   if (pagePath === '/about-us/') cls += ' artform-about-page';
   if (pagePath === '/meet-dr-kieliszak/') cls += ' artform-meet-dr-page';
+  if (pagePath === '/contact/') cls += ' artform-contact-page';
   return cls;
 }
 
@@ -1480,7 +1534,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   ${pagePath === '/' || pagePath === '/about-us/' || pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/artform-photo-collage.css">' : ''}
   ${pagePath === '/about-us/' ? '<link rel="stylesheet" href="/css/artform-about.css">' : ''}
   ${pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-meet-dr.css">' : ''}
-  ${pagePath === '/services/' || APPOINTMENT_FORM_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
+  ${FORM_PAGE_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
   ${SERVICE_HERO_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-hero.css">' : ''}
   ${pagePath === '/services/' || APPOINTMENT_FORM_PATHS.includes(pagePath) || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-intro.css">' : ''}
   ${pagePath === '/book-consultation/' ? '<link rel="stylesheet" href="/css/artform-book-consultation.css">' : ''}

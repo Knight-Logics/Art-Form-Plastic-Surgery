@@ -80,6 +80,15 @@ body.artform-service-page #content .artform-contact-form * {
   color: revert;
 }
 
+/* Contact page form band — keep readable dark-on-light form fields */
+body.artform-contact-page #content .artform-contact-form--page .artform-contact-form__title,
+body.artform-contact-page #content .artform-contact-form--page .artform-contact-form__subtitle,
+body.artform-contact-page #content .artform-contact-form--page .artform-contact-form__field label,
+body.artform-contact-page #content .artform-contact-form--page .artform-contact-form__field input,
+body.artform-contact-page #content .artform-contact-form--page .artform-contact-form__field textarea {
+  color: revert;
+}
+
 /* Partner logo strip beside appointment form — always visible (not hover-only) */
 .elementor-element-169898a1 .jkit-client-logo .client-slider .image-list,
 .elementor-element-169898a1 .jkit-client-logo .client-slider:hover .image-list,
