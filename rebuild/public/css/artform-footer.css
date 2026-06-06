@@ -249,12 +249,24 @@
 }
 
 .artform-footer__copyright,
-.artform-footer__credit-line {
+.artform-footer__credit-line,
+.artform-footer__preview-notice {
   margin: 0;
   font-family: Poppins, sans-serif;
   font-size: 0.84rem;
   line-height: 1.6;
   color: rgba(242, 241, 229, 0.72);
+}
+
+.artform-footer__preview-notice {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 5px 12px;
+  border: 1px solid rgba(212, 183, 106, 0.28);
+  border-radius: 999px;
+  background: rgba(212, 183, 106, 0.08);
+  color: rgba(242, 241, 229, 0.82);
+  font-size: 0.78rem;
 }
 
 .artform-footer__credit-line {

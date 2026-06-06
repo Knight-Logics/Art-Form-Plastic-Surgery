@@ -1,0 +1,82 @@
+/**
+ * Blog + procedure sidebars — Recent Posts list and Have Any Question card.
+ */
+
+.elementor-element-653af322.artform-have-question-card:not(.elementor-motion-effects-element-type-background),
+.elementor-element-653af322.artform-have-question-card > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-element-598bbed3.artform-have-question-card:not(.elementor-motion-effects-element-type-background),
+.elementor-element-598bbed3.artform-have-question-card > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/cosmetician-holds-syringe-with-injection-of-botox-1.jpg') !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.elementor-element-653af322.artform-have-question-card > .elementor-background-overlay,
+.elementor-element-598bbed3.artform-have-question-card > .elementor-background-overlay {
+  background-color: #000 !important;
+  opacity: 0.85 !important;
+}
+
+.elementor-element-653af322.artform-have-question-card,
+.elementor-element-598bbed3.artform-have-question-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article {
+  text-align: left;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article a {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin: 0 0 20px;
+  text-decoration: none;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article a img {
+  width: 30%;
+  max-width: 96px;
+  margin: 0 15px 0 0;
+  border-radius: 5px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article a .jkit-postlist-title {
+  display: block;
+  text-align: left;
+  color: #fff;
+  padding: 0 0 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article:hover a .jkit-postlist-title {
+  color: #b89856;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article a .meta-lists {
+  text-align: left;
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article a .meta-lists span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.artform-recent-posts .jeg-elementor-kit.jkit-postlist article a .meta-lists span i {
+  font-size: 12px;
+  margin-right: 5px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 767px) {
+  .artform-recent-posts .jeg-elementor-kit.jkit-postlist article a img {
+    width: 75px;
+  }
+}

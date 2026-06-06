@@ -97,129 +97,6 @@
   border: 0;
 }
 
-.artform-map--contact .artform-map__reviews {
-  flex: 1 1 auto;
-  padding: 1.1rem 1.15rem 1.25rem;
-  background: #f7f5f0;
-  border-top: 1px solid rgba(184, 152, 86, 0.22);
-}
-
-.artform-map__reviews-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.artform-map__reviews-brand {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  font-family: Poppins, sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #fff;
-  background: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #fbbc05 75%, #ea4335 100%);
-  flex-shrink: 0;
-}
-
-.artform-map__reviews-rating {
-  margin: 0 0 0.2rem;
-  font-family: Poppins, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1a1a1a !important;
-}
-
-.artform-map__reviews-stars {
-  color: #f4b400;
-  letter-spacing: 0.04em;
-}
-
-.artform-map__reviews-link {
-  font-family: Poppins, sans-serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #a88648 !important;
-  text-decoration: none;
-}
-
-.artform-map__reviews-link:hover,
-.artform-map__reviews-link:focus-visible {
-  text-decoration: underline;
-}
-
-.artform-map__reviews-list {
-  display: grid;
-  gap: 0.85rem;
-}
-
-@media (min-width: 768px) {
-  .artform-map__reviews-list {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-}
-
-.artform-map__review {
-  padding: 0.85rem 0.9rem;
-  background: #ffffff;
-  border: 1px solid rgba(184, 152, 86, 0.2);
-  border-radius: 10px;
-}
-
-.artform-map__review-head {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 0.5rem;
-}
-
-.artform-map__review-avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  font-family: Poppins, sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #fff;
-  background: #1e6b2e;
-  flex-shrink: 0;
-}
-
-.artform-map__review-name {
-  margin: 0;
-  font-family: Poppins, sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #1a1a1a !important;
-}
-
-.artform-map__review-stars {
-  margin: 0;
-  font-size: 0.78rem;
-  color: #f4b400;
-  letter-spacing: 0.04em;
-}
-
-.artform-map__review-text {
-  margin: 0;
-  font-family: Poppins, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: #444 !important;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 .artform-contact-section .artform-contact-form--page {
   max-width: 1040px;
   margin: 0 auto;
@@ -247,12 +124,12 @@
   color: #555 !important;
 }
 
-/* Two-column body: fields | interest checklist */
+/* Two-column body: fields | guarantees panel (matched height) */
 .artform-contact-form__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
   gap: clamp(1.25rem, 3vw, 2.5rem);
-  align-items: start;
+  align-items: stretch;
 }
 
 .artform-contact-form__fields {
@@ -269,6 +146,10 @@
 }
 
 /* PHI / HIPAA-friendly form notice */
+.artform-contact-form--page .artform-form__phi-notice {
+  margin: 0.9rem 0 0;
+}
+
 .artform-form__phi-notice {
   margin: 0;
   font-family: Poppins, sans-serif;
@@ -331,6 +212,9 @@
 
 /* Guarantees panel (green checkmarks) */
 .artform-contact-form__aside {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 1.15rem 1.1rem;
   background: linear-gradient(165deg, #0d0d0d 0%, #1a1814 100%);
   border: 1px solid rgba(184, 152, 86, 0.35);
@@ -350,7 +234,9 @@
 
 .artform-contact-form__guarantees {
   display: flex;
+  flex: 1;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.7rem;
   margin: 0;
   padding: 0;
@@ -384,6 +270,10 @@
 }
 
 /* Submit */
+.artform-contact-form--page .artform-contact-form__submit-row {
+  margin-top: 0.75rem;
+}
+
 .artform-contact-form__submit-row {
   margin-top: 0.35rem;
 }
@@ -459,6 +349,11 @@
 
   .artform-contact-form__aside {
     order: -1;
+    height: auto;
+  }
+
+  .artform-contact-form__guarantees {
+    justify-content: flex-start;
   }
 }
 

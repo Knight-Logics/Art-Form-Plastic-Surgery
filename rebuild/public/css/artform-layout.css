@@ -11,11 +11,13 @@
 .ast-page-builder-template #primary,
 .ast-page-builder-template #primary .site-main,
 .ast-page-builder-template #primary .entry-content,
-.ast-page-builder-template #primary .entry-content > .elementor {
+.ast-page-builder-template #primary .entry-content > .elementor,
+.ast-page-builder-template .site-content > .ast-container > .artform-seo {
   width: 100%;
   max-width: 100%;
   flex: 1 1 100%;
   min-width: 0;
+  box-sizing: border-box;
 }
 
 .elementor-section.elementor-section-boxed > .elementor-container {
