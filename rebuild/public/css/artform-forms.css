@@ -7,6 +7,19 @@
   width: 100%;
 }
 
+/* After demo logo column removed — center form in appointment band */
+.elementor-element-169898a1 .artform-appointment-form-col--full {
+  width: 100% !important;
+  max-width: 520px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  flex: 0 0 100% !important;
+}
+
+.elementor-element-169898a1 > .elementor-container {
+  justify-content: center;
+}
+
 .artform-contact-form--services .artform-contact-form__title {
   margin: 0 0 0.35rem;
   font-family: 'Antic Didone', Georgia, serif;
@@ -27,6 +40,16 @@
 /* ── Contact page section ── */
 .artform-contact-section > .elementor-element-populated {
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem) !important;
+}
+
+.artform-contact-section .elementor-widget-google_maps .elementor-widget-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.artform-contact-section .artform-map__frame {
+  min-height: 320px;
 }
 
 .artform-contact-section .artform-contact-form--page {
@@ -193,9 +216,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
+  min-height: 0;
   min-width: 180px;
-  padding: 12px 28px;
+  padding: 0.55rem 1.5rem;
   font-family: Poppins, sans-serif;
   font-size: 0.95rem;
   font-weight: 700;

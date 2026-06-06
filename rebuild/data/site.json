@@ -31,5 +31,13 @@
   "stats": {
     "patients": "452",
     "years": "10"
-  }
+  },
+  "hours": {
+    "weekdays": "Monday–Friday 8:00 AM – 5:00 PM",
+    "weekend": "Saturday & Sunday by appointment"
+  },
+  "geo": [
+    { "lat": 27.9909, "lng": -82.6937 },
+    { "lat": 27.9456, "lng": -82.4589 }
+  ]
 }

@@ -8,6 +8,30 @@ body {
   background-color: #000000 !important;
 }
 
+/* ── Skip link (accessibility) ── */
+.skip-link.screen-reader-text {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 100000;
+  padding: 0.75rem 1rem;
+  background: #b89956;
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link.screen-reader-text:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
 /* ── Announcement bar ── */
 .simple-banner {
   display: block !important;

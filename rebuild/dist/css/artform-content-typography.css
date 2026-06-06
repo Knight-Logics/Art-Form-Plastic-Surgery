@@ -9,8 +9,40 @@
   --artform-gold-muted: rgba(233, 209, 159, 0.9);
 }
 
-/* ── Service hub + category pages ── */
-body.artform-service-page #content .elementor-heading-title.elementor-size-default {
+/* Semantic kickers (ex-h5/h6) — sizing still from Elementor widget IDs */
+p.elementor-heading-title.artform-heading-kicker {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+/* Hero / page title description under H1 */
+.artform-hero-desc {
+  margin: 0.65rem 0 0;
+  max-width: 42rem;
+  font-family: Poppins, sans-serif;
+  font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: rgba(233, 209, 159, 0.88) !important;
+}
+
+#content .elementor-widget-heading:has(+ .elementor-widget-heading) .artform-hero-desc,
+#content .elementor-widget-container > .artform-hero-desc {
+  margin-bottom: 1rem;
+}
+
+body.artform-service-page .artform-hero-desc {
+  color: var(--artform-gold-muted) !important;
+}
+
+/* ── Service hub + category pages (H1 uses white glimmer via artform-hero-h1.css) ── */
+body.artform-service-page #content h2.elementor-heading-title,
+body.artform-service-page #content h3.elementor-heading-title,
+body.artform-service-page #content h4.elementor-heading-title,
+body.artform-service-page #content p.elementor-heading-title:not(.artform-heading-kicker) {
   color: var(--artform-gold) !important;
 }
 

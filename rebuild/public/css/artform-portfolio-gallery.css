@@ -1,0 +1,178 @@
+﻿/**
+ * Homepage portfolio gallery — exact JKit replica (jeg-elementor-kit main.css).
+ * Four equal panels with labels at the TOP, sitting over ONE shared full-bleed
+ * image that crossfades on hover. Panels never expand or turn black.
+ */
+
+.elementor-element-35409421 {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
+
+.elementor-element-35409421,
+.elementor-element-35409421 > .elementor-container,
+.elementor-element-35409421 .elementor-element-68b04d5,
+.elementor-element-35409421 .elementor-element-68b04d5 > .elementor-element-populated {
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.elementor-975 .elementor-element.elementor-element-35409421:not(.elementor-motion-effects-element-type-background),
+.elementor-975 .elementor-element.elementor-element-35409421 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #1c1b1f !important;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .portfolio-gallery-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Full-bleed image layer (behind the panels) */
+.jeg-elementor-kit.jkit-portfolio-gallery .gallery-items {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .image-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(1.1, 1.1);
+  transition: all 0.7s ease;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .image-item.current-item {
+  transform: scale(1, 1);
+  opacity: 1;
+}
+
+/* Panels row (on top of the image) */
+.jeg-elementor-kit.jkit-portfolio-gallery .row-items {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item {
+  height: 90vh;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+  flex: 0 0 calc(100% / 4);
+  max-width: calc(100% / 4);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item:nth-child(4n) {
+  border-right-width: 0;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item.current-item::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item:hover .row-item-info::after {
+  height: 100%;
+}
+
+/* Label tab — anchored at the TOP of each panel */
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item-info {
+  padding: 40px 10px 40px 20px;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s;
+  overflow: hidden;
+  text-align: center;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item-info .info-subtitle {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item-info .info-title {
+  font-family: 'Antic Didone', Poppins, serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0;
+  transition: color 0.4s ease;
+}
+
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item:hover .row-item-info .info-title {
+  color: #b89856;
+}
+
+/* White sweep behind the label on hover */
+.jeg-elementor-kit.jkit-portfolio-gallery .row-item-info::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: #ffffff;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item {
+    flex: 0 0 calc(100% / 2);
+    max-width: calc(100% / 2);
+    height: 40vh;
+  }
+
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item:nth-child(2n) {
+    border-right-width: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item {
+    flex: 0 0 calc(100% / 2);
+    max-width: calc(100% / 2);
+    height: 40vh;
+  }
+
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item:nth-child(2n) {
+    border-right-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item,
+  .jeg-elementor-kit.jkit-portfolio-gallery .image-item,
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item-info,
+  .jeg-elementor-kit.jkit-portfolio-gallery .row-item-info::after {
+    transition: none !important;
+  }
+}

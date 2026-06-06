@@ -1,0 +1,24 @@
+/**
+ * Inner pages: Astra's flex .ast-container shrinks #primary to the widest
+ * Elementor boxed column (~1140px), leaving empty space on the right.
+ */
+
+.ast-page-builder-template .site-content > .ast-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.ast-page-builder-template #primary,
+.ast-page-builder-template #primary .site-main,
+.ast-page-builder-template #primary .entry-content,
+.ast-page-builder-template #primary .entry-content > .elementor {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.elementor-section.elementor-section-boxed > .elementor-container {
+  margin-left: auto;
+  margin-right: auto;
+}

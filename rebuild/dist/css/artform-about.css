@@ -1,0 +1,28 @@
+/**
+ * About Us — hero background only (photo collage → artform-photo-collage.css).
+ */
+
+body.artform-about-page .elementor-element-21cec6.artform-about-hero {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0672-Edit-scaled.jpg') !important;
+  background-position: 0 60% !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  padding: clamp(3.5rem, 8vw, 7.5rem) clamp(1rem, 3vw, 1.5rem) !important;
+}
+
+body.artform-about-page .elementor-element-21cec6.artform-about-hero > .elementor-background-overlay {
+  background-color: #000000 !important;
+  opacity: 0.73 !important;
+}
+
+body.artform-about-page .elementor-element-21cec6.artform-about-hero > .elementor-container {
+  max-width: 1290px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  body.artform-about-page .elementor-element-21cec6.artform-about-hero {
+    background-position: 0 0 !important;
+    padding: clamp(2.5rem, 12vw, 3.75rem) 1rem !important;
+  }
+}

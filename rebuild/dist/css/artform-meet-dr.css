@@ -1,0 +1,29 @@
+/**
+ * Meet Dr. Kieliszak — hero form layout + checkmark bullets.
+ * Photo collage → artform-photo-collage.css
+ */
+
+body.artform-meet-dr-page .elementor-widget-jkit_icon_box .icon.style-color.artform-icon-check {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  background: rgba(52, 168, 83, 0.14) !important;
+  border: 2px solid #34a853 !important;
+  color: #34a853 !important;
+  flex-shrink: 0;
+  pointer-events: none;
+  transition: none !important;
+}
+
+body.artform-meet-dr-page .elementor-widget-jkit_icon_box .jkit-icon-box-wrapper,
+body.artform-meet-dr-page .elementor-widget-jkit_icon_box .icon-box-header {
+  cursor: default;
+  pointer-events: none;
+}
+
+body.artform-meet-dr-page .elementor-widget-jkit_icon_box .icon-box-description {
+  margin: 0;
+}

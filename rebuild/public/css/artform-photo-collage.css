@@ -1,0 +1,176 @@
+/**
+ * Shared photo-collage band — homepage, About, Meet Dr.
+ * Top-left bg | top-right portrait | bottom-wide bg + slide-in animations.
+ */
+
+/* ── Homepage (elementor-975) ── */
+body.page-id-975 .elementor-element-64b09308:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.page-id-975 .elementor-element-64b09308 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0484-Edit-scaled.jpg') !important;
+  background-position: 38% 0% !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: clamp(220px, 32vw, 330px);
+  border-radius: 10px;
+}
+
+body.page-id-975 .elementor-element-25737ad2:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.page-id-975 .elementor-element-25737ad2 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0729-Edit-scaled.jpg') !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: clamp(160px, 22vw, 217px);
+  border-radius: 10px;
+}
+
+body.page-id-975 .elementor-element-244af08b img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+body.page-id-975 .elementor-element-3f504be1 .elementor-spacer-inner {
+  height: clamp(220px, 32vw, 295px) !important;
+}
+
+body.page-id-975 .elementor-element-51f2d2c3 .elementor-spacer-inner {
+  height: clamp(160px, 22vw, 217px) !important;
+}
+
+body.page-id-975 .elementor-element-7e9b034a {
+  margin-top: clamp(1rem, 2vw, 1.875rem) !important;
+}
+
+/* ── About page (elementor-139) ── */
+body.artform-about-page .elementor-element-7c9abc07:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.artform-about-page .elementor-element-7c9abc07 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0484-Edit-scaled.jpg') !important;
+  background-position: 38% 0% !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: clamp(220px, 32vw, 330px);
+  border-radius: 10px;
+}
+
+body.artform-about-page .elementor-element-5ab22b43:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.artform-about-page .elementor-element-5ab22b43 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0729-Edit-1-scaled.jpg') !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: clamp(160px, 22vw, 217px);
+  border-radius: 10px;
+}
+
+body.artform-about-page .elementor-element-2f92b15c img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+body.artform-about-page .elementor-element-6f0213bb .elementor-spacer-inner {
+  height: clamp(220px, 32vw, 295px) !important;
+}
+
+body.artform-about-page .elementor-element-3e144973 .elementor-spacer-inner {
+  height: clamp(160px, 22vw, 217px) !important;
+}
+
+body.artform-about-page .elementor-element-3baa2c4a {
+  margin-top: clamp(1rem, 2vw, 1.875rem) !important;
+}
+
+/* ── Meet Dr. page (elementor-1316) ── */
+body.artform-meet-dr-page .elementor-element-64b09308:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.artform-meet-dr-page .elementor-element-64b09308 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/hostel1.jpg') !important;
+  background-position: 38% 0% !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: clamp(220px, 32vw, 330px);
+  border-radius: 10px;
+}
+
+body.artform-meet-dr-page .elementor-element-244af08b img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+body.artform-meet-dr-page .elementor-element-25737ad2:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.artform-meet-dr-page .elementor-element-25737ad2 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0744-Edit-scaled.jpg') !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: clamp(160px, 22vw, 217px);
+  border-radius: 10px;
+}
+
+body.artform-meet-dr-page .elementor-element-3f504be1 .elementor-spacer-inner {
+  height: clamp(220px, 32vw, 295px) !important;
+}
+
+body.artform-meet-dr-page .elementor-element-51f2d2c3 .elementor-spacer-inner {
+  height: clamp(160px, 22vw, 217px) !important;
+}
+
+body.artform-meet-dr-page .elementor-element-7e9b034a {
+  margin-top: clamp(1rem, 2vw, 1.875rem) !important;
+}
+
+/* ── Slide-in animations (all pages) ── */
+@keyframes artform-photo-slide-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-72px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes artform-photo-slide-right {
+  from {
+    opacity: 0;
+    transform: translate3d(72px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.artform-photo-slide-left.elementor-invisible,
+.artform-photo-slide-right.elementor-invisible {
+  will-change: transform, opacity;
+}
+
+.artform-photo-slide-left.animated.fadeInLeft,
+.artform-photo-slide-left.animated.fadeInUp {
+  animation-name: artform-photo-slide-left !important;
+  animation-duration: 1.25s !important;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.artform-photo-slide-right.animated.fadeInRight,
+.artform-photo-slide-right.animated.fadeInDown {
+  animation-name: artform-photo-slide-right !important;
+  animation-duration: 1.25s !important;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artform-photo-slide-left.animated,
+  .artform-photo-slide-right.animated {
+    animation: none !important;
+  }
+}

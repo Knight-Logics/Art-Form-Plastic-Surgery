@@ -1,0 +1,68 @@
+/**
+ * Service category intro — headings + CTA row above service cards.
+ * Keeps Elementor boxed width; only adjusts intro band spacing/layout.
+ */
+
+body.artform-service-page .artform-service-intro {
+  margin-bottom: 0 !important;
+  padding-bottom: 0.25rem !important;
+}
+
+body.artform-service-page .artform-service-intro > .elementor-container {
+  align-items: flex-end !important;
+}
+
+body.artform-service-page .artform-service-intro > .elementor-container > .elementor-inner-column {
+  width: 100% !important;
+}
+
+body.artform-service-page .artform-service-intro .elementor-inner-column > .elementor-element-populated {
+  padding-bottom: 0.35rem !important;
+}
+
+body.artform-service-page .artform-service-intro .artform-heading-kicker,
+body.artform-service-page .artform-service-intro h2.elementor-heading-title {
+  margin-bottom: 0.15rem !important;
+}
+
+body.artform-service-page .artform-service-intro__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+  width: 100%;
+  margin: 0.45rem 0 0;
+  padding: 0;
+}
+
+body.artform-service-page .artform-service-intro__ctas > .elementor-element {
+  width: auto !important;
+  flex: 0 0 auto;
+  margin: 0 !important;
+}
+
+body.artform-service-page .artform-service-intro__ctas .elementor-widget-container,
+body.artform-service-page .artform-service-intro__ctas .elementor-button-wrapper {
+  margin: 0 !important;
+}
+
+body.artform-service-page .artform-service-intro__ctas a.elementor-button {
+  padding: 0.45rem 1.25rem !important;
+  min-height: 0 !important;
+  line-height: 1.25 !important;
+}
+
+/* Cards directly below intro (services hub) */
+body.artform-service-page .artform-service-intro + .elementor-element-601a3c68 {
+  margin-top: 0.25rem !important;
+  padding-top: 0 !important;
+}
+
+body.artform-service-page .artform-service-intro + .elementor-element-601a3c68 > .elementor-container {
+  padding-top: 0 !important;
+}
+
+/* Category pages: tighten gap before first card section */
+body.artform-service-page section.elementor-top-section:has(.artform-service-intro) {
+  padding-bottom: 0.5rem !important;
+}
