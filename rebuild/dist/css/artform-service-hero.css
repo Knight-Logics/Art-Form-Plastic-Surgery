@@ -4,7 +4,9 @@
 
 .artform-compact-hero,
 body.artform-service-page .artform-service-hero,
-body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) {
+body.artform-procedure-page .artform-service-hero,
+body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1),
+body.artform-procedure-page #content .elementor > .artform-service-hero {
   position: relative;
   overflow: hidden;
   padding: clamp(2.75rem, 5.5vw, 4.5rem) clamp(1rem, 2.5vw, 1.5rem) !important;
@@ -70,7 +72,9 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
 
 .artform-compact-hero > .elementor-background-overlay,
 body.artform-service-page .artform-service-hero > .elementor-background-overlay,
-body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) > .elementor-background-overlay {
+body.artform-procedure-page .artform-service-hero > .elementor-background-overlay,
+body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) > .elementor-background-overlay,
+body.artform-procedure-page #content .elementor > .artform-service-hero > .elementor-background-overlay {
   z-index: 1;
   opacity: 0.82 !important;
   background:
@@ -80,7 +84,9 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
 
 .artform-compact-hero > .elementor-container,
 body.artform-service-page .artform-service-hero > .elementor-container,
-body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) > .elementor-container {
+body.artform-procedure-page .artform-service-hero > .elementor-container,
+body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) > .elementor-container,
+body.artform-procedure-page #content .elementor > .artform-service-hero > .elementor-container {
   min-height: 0 !important;
   position: relative;
   z-index: 2;
@@ -95,17 +101,21 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
 
 .artform-compact-hero h1.elementor-heading-title,
 body.artform-service-page .artform-service-hero h1.elementor-heading-title,
-body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) h1.elementor-heading-title {
+body.artform-procedure-page .artform-service-hero h1.elementor-heading-title,
+body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) h1.elementor-heading-title,
+body.artform-procedure-page #content .elementor > .artform-service-hero h1.elementor-heading-title {
   font-size: clamp(1.85rem, 3.8vw, 3rem) !important;
   line-height: 1.12 !important;
-  max-width: 18ch;
+  max-width: 22ch;
 }
 
 .artform-compact-hero .artform-hero-desc,
 body.artform-service-page .artform-service-hero .artform-hero-desc,
-body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) .artform-hero-desc {
+body.artform-procedure-page .artform-service-hero .artform-hero-desc,
+body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) .artform-hero-desc,
+body.artform-procedure-page #content .elementor > .artform-service-hero .artform-hero-desc {
   margin-top: 0.55rem !important;
-  max-width: 36rem;
+  max-width: 42rem;
 }
 
 @keyframes artformHeroPanelFromLeft {
@@ -145,7 +155,9 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
 @media (max-width: 767px) {
   .artform-compact-hero,
   body.artform-service-page .artform-service-hero,
-  body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) {
+  body.artform-procedure-page .artform-service-hero,
+  body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1),
+  body.artform-procedure-page #content .elementor > .artform-service-hero {
     padding: clamp(2.25rem, 10vw, 3rem) 1rem !important;
     min-height: clamp(180px, 34vh, 260px) !important;
     background-position: center 38% !important;
@@ -168,7 +180,9 @@ body.artform-service-page .entry-content .elementor > section.elementor-top-sect
 
   .artform-compact-hero h1.elementor-heading-title,
   body.artform-service-page .artform-service-hero h1.elementor-heading-title,
-  body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) h1.elementor-heading-title {
+  body.artform-procedure-page .artform-service-hero h1.elementor-heading-title,
+  body.artform-service-page .entry-content .elementor > section.elementor-top-section:has(h1.artform-hero-h1) h1.elementor-heading-title,
+  body.artform-procedure-page #content .elementor > .artform-service-hero h1.elementor-heading-title {
     font-size: clamp(1.65rem, 7vw, 2.15rem) !important;
     max-width: none;
   }

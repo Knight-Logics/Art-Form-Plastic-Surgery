@@ -1,0 +1,42 @@
+[
+  {
+    "from": "/dr-kieliszak/consultation/",
+    "to": "/book-consultation/"
+  },
+  {
+    "from": "/dr-kieliszak/",
+    "to": "/meet-dr-kieliszak/"
+  },
+  {
+    "from": "/registration/",
+    "to": "/book-consultation/"
+  },
+  {
+    "from": "/non-surgical-procedures-2/",
+    "to": "/non-surgical-procedures/"
+  },
+  {
+    "from": "/testimonials/",
+    "to": "/#reviews"
+  },
+  {
+    "from": "/category/uncategorized/",
+    "to": "/blog/"
+  },
+  {
+    "from": "/category/uncategorized/page/2/",
+    "to": "/blog/"
+  },
+  {
+    "from": "/author/davidico247/",
+    "to": "/blog/"
+  },
+  {
+    "from": "/author/artformpsyahoo-com/",
+    "to": "/blog/"
+  },
+  {
+    "from": "/author/artformpsyahoo-com/page/2/",
+    "to": "/blog/"
+  }
+]

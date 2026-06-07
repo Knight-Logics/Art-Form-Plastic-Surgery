@@ -1,0 +1,118 @@
+/**
+ * Homepage video reel — local TikTok-style clips.
+ */
+
+.elementor-element-6f14da7a.artform-video-reel-section {
+  background-color: #0a0a0a !important;
+  background-image: none !important;
+}
+
+.elementor-element-6f14da7a.artform-video-reel-section > .elementor-background-overlay {
+  display: none !important;
+}
+
+.elementor-element-6f14da7a.artform-video-reel-section .elementor-element-ca3262d > .elementor-element-populated {
+  padding: clamp(36px, 4vw, 56px) clamp(16px, 3vw, 32px) !important;
+}
+
+.artform-video-reel {
+  max-width: 88rem;
+  margin: 0 auto;
+}
+
+.artform-video-reel__rail {
+  display: grid;
+  gap: clamp(0.8rem, 1.6vw, 1.3rem);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.artform-video-reel__card {
+  position: relative;
+  aspect-ratio: 9 / 15.8;
+  background: #120d0a;
+  box-shadow: 0 1.8rem 4rem rgba(55, 36, 20, 0.16);
+  overflow: hidden;
+}
+
+.artform-video-reel__card:nth-child(even) {
+  transform: translateY(2.5rem);
+}
+
+.artform-video-reel__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artform-video-reel__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(18, 13, 10, 0.74), transparent 52%);
+  pointer-events: none;
+}
+
+.artform-video-reel__label {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  margin: 0;
+  color: #fff8ec;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.artform-video-reel__follow {
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
+  text-align: center;
+}
+
+.artform-video-reel__follow a {
+  border-bottom: 1px solid rgba(214, 178, 99, 0.55);
+  color: #d6b263;
+  font-family: Montserrat, Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding-bottom: 0.35rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.artform-video-reel__follow a:hover,
+.artform-video-reel__follow a:focus-visible {
+  color: #ffffff;
+  border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 1180px) {
+  .artform-video-reel__rail {
+    overflow-x: auto;
+    padding-bottom: 3rem;
+    scroll-snap-type: x mandatory;
+  }
+
+  .artform-video-reel__card {
+    min-width: 13rem;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .artform-video-reel__card:nth-child(even) {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artform-video-reel__card:nth-child(even) {
+    transform: none;
+  }
+}

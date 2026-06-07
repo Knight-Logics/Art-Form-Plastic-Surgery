@@ -20,7 +20,39 @@
   box-sizing: border-box;
 }
 
+.ast-page-builder-template #content > .artform-seo,
+
 .elementor-section.elementor-section-boxed > .elementor-container {
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Procedure posts — Elementor header/footer template sits in Astra separate container */
+body.artform-procedure-page #content.site-content,
+body.artform-procedure-page #content > .ast-container,
+body.artform-procedure-page #content .elementor,
+body.artform-procedure-page #content .artform-seo {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+body.artform-procedure-page.ast-separate-container #content > .ast-container,
+body.artform-procedure-page.ast-two-container #content > .ast-container {
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+body.artform-procedure-page #content .elementor > section.elementor-top-section {
+  width: 100%;
+  max-width: none;
+}
+
+#content > .artform-seo {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }

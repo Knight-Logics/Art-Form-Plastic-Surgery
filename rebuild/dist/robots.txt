@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://artformplasticsurgery.com/sitemap.xml

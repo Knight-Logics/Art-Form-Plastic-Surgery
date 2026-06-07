@@ -11,8 +11,8 @@
   overflow-x: clip;
   padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 3vw, 1.5rem);
   background:
-    radial-gradient(circle at top left, rgba(184, 152, 86, 0.12), transparent 32rem),
-    #f7f5ee;
+    radial-gradient(circle at top left, rgba(184, 152, 86, 0.1), transparent 32rem),
+    #000000;
 }
 
 .artform-seo__inner {
@@ -23,10 +23,10 @@
   box-sizing: border-box;
   min-width: 0;
   overflow-x: clip;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(184, 152, 86, 0.25);
-  border-radius: 18px;
-  box-shadow: 0 18px 45px rgba(18, 16, 12, 0.08);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .artform-seo__kicker {
@@ -46,7 +46,7 @@
   font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 400;
   line-height: 1.12;
-  color: #12110f !important;
+  color: #d4b76a !important;
 }
 
 .artform-seo__copy {
@@ -61,7 +61,7 @@
   font-family: Poppins, sans-serif;
   font-size: 1rem;
   line-height: 1.75;
-  color: #3f3b34 !important;
+  color: rgba(233, 209, 159, 0.9) !important;
 }
 
 .artform-seo__copy p,
@@ -71,7 +71,7 @@
 
 .artform-seo__keywords {
   font-size: 0.9rem !important;
-  color: #6f6759 !important;
+  color: rgba(233, 209, 159, 0.62) !important;
 }
 
 .artform-seo__bullets,
@@ -95,8 +95,8 @@
   min-width: 0;
   padding: 1rem 1rem 1rem 2.35rem;
   overflow-wrap: anywhere;
-  background: #fbfaf6;
-  border: 1px solid rgba(184, 152, 86, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(184, 152, 86, 0.28);
   border-radius: 12px;
 }
 
@@ -109,10 +109,10 @@
   place-items: center;
   width: 1rem;
   height: 1rem;
-  color: #0f5132;
+  color: #e9d19f;
   font-size: 0.7rem;
   font-weight: 800;
-  background: rgba(15, 81, 50, 0.12);
+  background: rgba(184, 152, 86, 0.18);
   border-radius: 999px;
 }
 
@@ -159,8 +159,8 @@
 .artform-seo__faq-item {
   max-width: 100%;
   min-width: 0;
-  background: #fff;
-  border: 1px solid rgba(184, 152, 86, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(184, 152, 86, 0.28);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -171,7 +171,7 @@
   font-family: Poppins, sans-serif;
   font-weight: 700;
   line-height: 1.45;
-  color: #16130f;
+  color: #e9d19f;
   overflow-wrap: anywhere;
 }
 

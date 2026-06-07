@@ -2,8 +2,8 @@
   "announcement": "Dr. Christopher Kieliszak | Facial Plastic Surgeon | Board-Certified | Safety Harbor FL | Accepting New Patients | Financing Available.",
   "name": "Art Form Plastic Surgery",
   "domain": "https://artformplasticsurgery.com",
-  "robots": "noindex, nofollow",
-  "indexSite": false,
+  "robots": "index, follow",
+  "indexSite": true,
   "previewNotice": "Preview rebuild for demonstration only. Not associated with the live Art Form Plastic Surgery website.",
   "phone": "(813) 563-3735",
   "phoneTel": "8135633735",
@@ -15,6 +15,8 @@
   "heroImageFull": "/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1.jpg",
   "instagram": "https://www.instagram.com/faceplasticsurgeon/",
   "tiktok": "https://www.tiktok.com/@faceplasticsurgeon",
+  "chamberProfile": "https://business.safetyharborchamber.com/list/member/art-form-plastic-surgery-4421",
+  "mapsUrl": "https://www.google.com/maps/search/Art+Form+Plastic+Surgery+801+2nd+St+N+Safety+Harbor+FL+34695",
   "addresses": [
     {
       "label": "Safety Harbor",
@@ -30,6 +32,23 @@
       "state": "FL",
       "zip": "33606"
     }
+  ],
+  "serviceAreas": [
+    "Safety Harbor",
+    "Tampa",
+    "Clearwater",
+    "St. Petersburg",
+    "Palm Harbor",
+    "Dunedin",
+    "Largo",
+    "Westchase",
+    "Carrollwood",
+    "Brandon",
+    "Riverview",
+    "Wesley Chapel",
+    "Pinellas County",
+    "Hillsborough County",
+    "Tampa Bay"
   ],
   "stats": {
     "patients": "452",

@@ -1,0 +1,38 @@
+{
+  "note": "Local area hero assets from Unsplash and Pexels (no attribution required on-site). Unsplash License / Pexels License.",
+  "sources": [
+    { "file": "gulf-coast-beach.jpg", "license": "Unsplash License", "source": "https://unsplash.com/photos/0KYw9Q2mX0Y", "location": "St. Petersburg, FL" },
+    { "file": "tampa-bay-skyway.jpg", "license": "Unsplash License", "source": "https://unsplash.com/photos/bm2ZYGS7x1c", "location": "Tampa Bay, FL" },
+    { "file": "clearwater-beach.jpg", "license": "Pexels License", "source": "https://www.pexels.com/photo/1450360/", "location": "Florida Gulf Coast beach" },
+    { "file": "st-pete-pier.jpg", "license": "Unsplash License", "source": "https://unsplash.com/photos/WTEE-56TPQo", "location": "St. Petersburg, FL" },
+    { "file": "downtown-tampa.jpg", "license": "Unsplash License", "source": "https://unsplash.com/photos/VyyNcb4plSM", "location": "Tampa, FL" },
+    { "file": "tampa-waterfront.jpg", "license": "Unsplash License", "source": "https://unsplash.com/photos/0c1tiPP9aRs", "location": "Tampa, FL" }
+  ],
+  "heroGrid": [
+    {
+      "src": "/wp-content/uploads/areas/gulf-coast-beach.jpg",
+      "alt": "Gulf Coast waterfront near Safety Harbor and North Pinellas",
+      "caption": "Safety Harbor & North Pinellas"
+    },
+    {
+      "src": "/wp-content/uploads/areas/tampa-bay-skyway.jpg",
+      "alt": "Sunset on Tampa Bay near the Sunshine Skyway",
+      "caption": "Tampa Bay"
+    },
+    {
+      "src": "/wp-content/uploads/areas/clearwater-beach.jpg",
+      "alt": "Gulf Coast beach communities near Clearwater",
+      "caption": "Clearwater & Gulf Coast"
+    },
+    {
+      "src": "/wp-content/uploads/areas/st-pete-pier.jpg",
+      "alt": "St. Petersburg waterfront and Tampa Bay",
+      "caption": "St. Petersburg"
+    }
+  ],
+  "collage": {
+    "topLeft": "/wp-content/uploads/areas/downtown-tampa.jpg",
+    "portrait": "/wp-content/uploads/areas/tampa-waterfront.jpg",
+    "bottomWide": "/wp-content/uploads/areas/tampa-bay-skyway.jpg"
+  }
+}

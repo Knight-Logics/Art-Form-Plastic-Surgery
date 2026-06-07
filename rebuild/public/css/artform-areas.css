@@ -1,0 +1,341 @@
+/**
+ * Areas We Serve — hub page layout, office cards, regional coverage, photo collage.
+ */
+
+.artform-areas-hero {
+  margin-bottom: 0 !important;
+}
+
+/* Brighter photos need a heavier scrim than default compact heroes */
+.artform-areas-hero > .elementor-background-overlay {
+  opacity: 1 !important;
+  background:
+    linear-gradient(
+      102deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.78) 34%,
+      rgba(0, 0, 0, 0.52) 58%,
+      rgba(0, 0, 0, 0.68) 100%
+    ),
+    rgba(0, 0, 0, 0.28) !important;
+}
+
+.artform-areas-hero .artform-service-hero-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+}
+
+.artform-areas-hero .elementor-widget-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 40rem;
+  padding: clamp(0.85rem, 2vw, 1.35rem) clamp(1rem, 2.2vw, 1.5rem);
+  border-radius: 14px;
+}
+
+/* Soft headline aura (matches artform-hero-h1 glow on other pages) */
+.artform-areas-hero .elementor-widget-wrap::before {
+  content: '';
+  position: absolute;
+  left: -4%;
+  top: 18%;
+  width: min(108%, 36rem);
+  height: 72%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 24% 50%,
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0.14) 36%,
+    rgba(255, 255, 255, 0.05) 56%,
+    transparent 78%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.artform-areas-hero .elementor-widget-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.48) 52%,
+    rgba(0, 0, 0, 0.34) 100%
+  );
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.artform-areas-hero .artform-heading-kicker,
+.artform-areas-hero .artform-seo__kicker {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 0.55rem;
+  color: #f3dc9a !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 10px rgba(0, 0, 0, 0.75),
+    0 0 16px rgba(0, 0, 0, 0.45);
+}
+
+.artform-areas-hero h1.artform-hero-h1 {
+  position: relative;
+  z-index: 1;
+}
+
+.artform-areas-hero .artform-hero-desc {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.7rem !important;
+  max-width: 36rem;
+  color: rgba(255, 255, 255, 0.96) !important;
+  font-size: clamp(1rem, 1.15vw, 1.08rem);
+  line-height: 1.68;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 12px rgba(0, 0, 0, 0.72),
+    0 0 22px rgba(0, 0, 0, 0.42);
+}
+
+.artform-areas-intro {
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.artform-areas-intro__inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: center;
+}
+
+.artform-areas-intro__copy p {
+  margin: 0 0 1rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+  font-size: clamp(1rem, 1.8vw, 1.08rem);
+}
+
+.artform-areas-intro__copy h2 {
+  margin: 0 0 1rem;
+  color: #fff;
+}
+
+.artform-areas-intro__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.artform-areas-collage {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.artform-areas-collage__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.artform-areas-collage__panel,
+.artform-areas-collage__wide {
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: clamp(120px, 18vw, 180px);
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.artform-areas-collage__portrait img {
+  width: 100%;
+  height: 100%;
+  min-height: clamp(180px, 24vw, 260px);
+  display: block;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.artform-areas-collage__wide {
+  min-height: clamp(130px, 18vw, 190px);
+}
+
+.artform-areas-travel__cta {
+  margin: 1.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.85rem;
+  align-items: center;
+  font-size: 0.98rem;
+}
+
+.artform-areas-travel__cta a {
+  color: #f1d48a;
+  text-decoration: none;
+}
+
+.artform-areas-travel__cta a:hover {
+  text-decoration: underline;
+}
+
+.artform-areas-travel__cta span {
+  opacity: 0.55;
+}
+
+body.artform-areas-page .artform-seo--areas {
+  background:
+    radial-gradient(circle at top left, rgba(184, 152, 86, 0.1), transparent 32rem),
+    #000000;
+}
+
+.artform-areas-locations,
+.artform-areas-regions,
+.artform-areas-travel {
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 3vw, 1.5rem);
+}
+
+.artform-areas-locations {
+  background: #111;
+  color: #fff;
+}
+
+.artform-areas-regions {
+  background: #f7f3ea;
+  color: #17130d;
+}
+
+.artform-areas-travel {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.artform-areas-section__inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.artform-areas-section__kicker {
+  margin: 0 0 0.65rem;
+  color: #d6b263;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.artform-areas-regions .artform-areas-section__kicker {
+  color: #8a6b1f;
+}
+
+.artform-areas-section__title {
+  margin: 0;
+  font-family: var(--artform-heading-font, inherit);
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.08;
+}
+
+.artform-areas-section__intro {
+  max-width: 820px;
+  margin: 1rem 0 0;
+  line-height: 1.75;
+  opacity: 0.86;
+}
+
+.artform-areas-office-grid,
+.artform-areas-region-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.artform-areas-office-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.artform-areas-region-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.artform-areas-card {
+  padding: 1.35rem 1.4rem;
+  border-radius: 16px;
+  border: 1px solid rgba(214, 178, 99, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.artform-areas-regions .artform-areas-card {
+  background: #fff;
+  border-color: rgba(138, 107, 31, 0.18);
+  box-shadow: 0 18px 40px rgba(23, 19, 13, 0.06);
+}
+
+.artform-areas-card h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1.15rem;
+}
+
+.artform-areas-card p,
+.artform-areas-card li {
+  margin: 0;
+  line-height: 1.65;
+  font-size: 0.96rem;
+}
+
+.artform-areas-card ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.artform-areas-card li + li {
+  margin-top: 0.35rem;
+}
+
+.artform-areas-travel__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.artform-areas-travel__item {
+  padding: 1.2rem 1.25rem;
+  border-radius: 14px;
+  border: 1px solid rgba(214, 178, 99, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.artform-areas-travel__item strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: #f1d48a;
+}
+
+@media (max-width: 960px) {
+  .artform-areas-intro__inner,
+  .artform-areas-office-grid,
+  .artform-areas-region-grid,
+  .artform-areas-travel__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .artform-areas-collage__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

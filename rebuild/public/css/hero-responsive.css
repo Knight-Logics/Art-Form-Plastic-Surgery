@@ -18,29 +18,57 @@
   display: none !important;
 }
 
-/* Desktop: cover + top — fills hero cell (no black band above cards) */
-@media (min-width: 1024px) {
-  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
-  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-    background-size: cover !important;
-    background-position: center top !important;
+/* Tablet + desktop: dedicated parallax image layer (see home-hero-parallax.js) */
+@media (min-width: 768px) {
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 {
+    position: relative;
+    overflow: hidden;
+    background-color: #000 !important;
+    background-image: none !important;
   }
 
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container,
   .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-    background-attachment: scroll !important;
+    background-image: none !important;
+  }
+
+  .artform-hero-parallax-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .artform-hero-parallax-layer__img {
+    position: absolute;
+    top: -22%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    min-height: 150%;
+    min-width: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    will-change: transform;
+    transform: translate3d(0, 0, 0) scale(1.24);
+  }
+
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay {
+    z-index: 1;
+    opacity: 0.29 !important;
+  }
+
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    position: relative;
+    z-index: 2;
   }
 }
 
 /* Tablet: shorter hero band than desktop */
 @media (max-width: 1023px) and (min-width: 768px) {
-  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
-  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
-  .elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
-  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-    background-size: cover !important;
-    background-position: center 28% !important;
-  }
 
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {

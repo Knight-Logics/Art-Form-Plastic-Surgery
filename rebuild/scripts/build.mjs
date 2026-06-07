@@ -2,11 +2,17 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as cheerio from 'cheerio';
+import sharp from 'sharp';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const PUBLIC = path.join(ROOT, 'public');
+const RASTER_IMAGE_RE = /\.(?:jpe?g|png)$/i;
+const WEBP_IMAGE_RE = /\.webp$/i;
+const TEXT_ASSET_RE = /\.(?:html|css|js|json|xml|txt|map)$/i;
+const IMAGE_REFERENCE_RE =
+  /(?:https?:\/\/(?:www\.)?artformplasticsurgery\.com)?\/[^"')\s<>\\]+?\.(?:jpe?g|png)|\.\.?\/[^"')\s<>\\]+?\.(?:jpe?g|png)|(?<![A-Za-z0-9_./:-])[A-Za-z0-9_.-]+?\.(?:jpe?g|png)/gi;
 
 const site = JSON.parse(await fs.readFile(path.join(ROOT, 'data/site.json'), 'utf8'));
 const pages = JSON.parse(await fs.readFile(path.join(ROOT, 'data/pages.json'), 'utf8'));
@@ -14,8 +20,25 @@ const navConfig = JSON.parse(await fs.readFile(path.join(ROOT, 'data/nav.json'),
 const googleReviews = JSON.parse(
   await fs.readFile(path.join(PUBLIC, 'data/google-reviews.json'), 'utf8')
 );
+const tiktokFeed = JSON.parse(await fs.readFile(path.join(PUBLIC, 'data/tiktok-feed.json'), 'utf8'));
+const areasHeroImages = JSON.parse(
+  await fs.readFile(path.join(ROOT, 'data/areas-hero-images.json'), 'utf8')
+);
 
 const BASE = site.domain;
+
+const REDIRECTS = [
+  { from: '/dr-kieliszak/consultation/', to: '/book-consultation/' },
+  { from: '/dr-kieliszak/', to: '/meet-dr-kieliszak/' },
+  { from: '/registration/', to: '/book-consultation/' },
+  { from: '/non-surgical-procedures-2/', to: '/non-surgical-procedures/' },
+  { from: '/testimonials/', to: '/#reviews' },
+  { from: '/category/uncategorized/', to: '/blog/' },
+  { from: '/category/uncategorized/page/2/', to: '/blog/' },
+  { from: '/author/davidico247/', to: '/blog/' },
+  { from: '/author/artformpsyahoo-com/', to: '/blog/' },
+  { from: '/author/artformpsyahoo-com/page/2/', to: '/blog/' },
+];
 
 const CONTENT_FIXES = [
   [/813[-\s]?434[-\s]?3238/g, '813-563-3735'],
@@ -43,8 +66,8 @@ const FOOTER_QUICK_LINKS = [
   { label: 'About', href: '/about-us/' },
   { label: 'Meet Dr. Kieliszak', href: '/meet-dr-kieliszak/' },
   { label: 'Services', href: '/services/' },
+  { label: 'Areas We Serve', href: '/areas-we-serve/' },
   { label: 'Gallery', href: '/gallery/' },
-  { label: 'Reviews', href: '/testimonials/' },
   { label: 'Book Consultation', href: '/book-consultation/' },
   { label: 'Blog', href: '/blog/' },
   { label: 'Payment Plans', href: '/payment-plans/' },
@@ -57,7 +80,7 @@ const SERVICE_PREFIXES = [
   '/services/',
   '/cosmetic-procedures/',
   '/functional/',
-  '/non-surgical-procedures-2/',
+  '/non-surgical-procedures/',
   '/hair-restoration/',
   '/skincare/',
 ];
@@ -66,10 +89,12 @@ const APPOINTMENT_FORM_PATHS = [
   '/services/',
   '/cosmetic-procedures/',
   '/functional/',
-  '/non-surgical-procedures-2/',
+  '/non-surgical-procedures/',
   '/hair-restoration/',
   '/skincare/',
 ];
+
+const SYNTHETIC_PAGE_PATHS = ['/areas-we-serve/'];
 
 const FORM_PAGE_PATHS = [...APPOINTMENT_FORM_PATHS, '/contact/', '/book-consultation/'];
 
@@ -269,13 +294,19 @@ function rewriteUrls(html) {
 const SERVICE_AREAS = [
   'Safety Harbor',
   'Tampa',
-  'Tampa Bay',
   'Clearwater',
   'St. Petersburg',
   'Palm Harbor',
   'Dunedin',
+  'Largo',
   'Westchase',
+  'Carrollwood',
   'Brandon',
+  'Riverview',
+  'Wesley Chapel',
+  'Pinellas County',
+  'Hillsborough County',
+  'Tampa Bay',
 ];
 
 const DEFAULT_LOCAL_LINKS = [
@@ -380,7 +411,7 @@ const SEO_PROFILES = {
       links: [
         { label: 'View financing options', href: '/payment-plans/' },
         { label: 'Contact both office locations', href: '/contact/' },
-        { label: 'Read patient reviews', href: '/testimonials/' },
+        { label: 'Read Google reviews', href: '/#reviews' },
       ],
       faqs: [
         {
@@ -466,7 +497,7 @@ const SEO_PROFILES = {
       links: [
         { label: 'Cosmetic procedures', href: '/cosmetic-procedures/' },
         { label: 'Functional and reconstructive procedures', href: '/functional/' },
-        { label: 'Non-surgical procedures', href: '/non-surgical-procedures-2/' },
+        { label: 'Non-surgical procedures', href: '/non-surgical-procedures/' },
         { label: 'Hair restoration', href: '/hair-restoration/' },
         { label: 'Skincare', href: '/skincare/' },
       ],
@@ -474,6 +505,71 @@ const SEO_PROFILES = {
         {
           q: 'Which service page should I start with?',
           a: 'Start with cosmetic procedures for appearance-focused surgery, functional for breathing or reconstruction, non-surgical for Botox and fillers, hair restoration for thinning hair, and skincare for texture, pigmentation and maintenance.',
+        },
+      ],
+    },
+  },
+  '/areas-we-serve/': {
+    title: `Areas We Serve | Facial Plastic Surgery Safety Harbor & Tampa`,
+    h1: 'Areas We Serve in Tampa Bay',
+    breadcrumb: 'Areas We Serve',
+    description:
+      'Art Form Plastic Surgery serves Safety Harbor, Tampa, Clearwater, St. Petersburg, Palm Harbor, Dunedin, Largo, Westchase, Brandon, Riverview, Wesley Chapel, and patients across Tampa Bay and beyond.',
+    heroDescription:
+      'Two Tampa Bay offices in Safety Harbor and Tampa for facial plastic surgery consultations, with patients traveling from across Pinellas, Hillsborough, and nearby Florida communities.',
+    serviceName: 'Facial plastic surgery service area',
+    keywords: [
+      'facial plastic surgeon Safety Harbor',
+      'facial plastic surgeon Tampa',
+      'facial plastic surgery Clearwater',
+      'facial plastic surgery St. Petersburg',
+      'plastic surgeon Palm Harbor',
+      'facial plastic surgery Tampa Bay',
+      'rhinoplasty Tampa Bay travel',
+      'facelift surgeon near me Florida',
+    ],
+    content: {
+      kicker: 'Local service area',
+      title: 'Facial plastic surgery for Safety Harbor, Tampa, and patients across Tampa Bay',
+      body: [
+        'Art Form Plastic Surgery welcomes patients from Safety Harbor, Tampa, Clearwater, St. Petersburg, Palm Harbor, Dunedin, Largo, Westchase, Carrollwood, Brandon, Riverview, Wesley Chapel and the broader Tampa Bay region. Because facial plastic surgery is a specialized, high-trust decision, many patients are willing to travel farther for a board-certified surgeon, thoughtful consultation planning and natural-looking results.',
+        'The practice operates from two offices: Safety Harbor for North Pinellas and nearby Gulf Coast communities, and Tampa near Kennedy Boulevard for South Tampa, Westshore, Hyde Park and Hillsborough County access. Patients can discuss which location is best for consultation, follow-up visits, injectables, skincare and procedure planning.',
+        'This page is a service-area hub rather than a collection of thin city doorway pages. It explains where the offices are, which communities are commonly served, and how out-of-area patients can plan consultation, recovery and follow-up care.',
+      ],
+      bullets: [
+        'Safety Harbor office: 801 2nd St N — convenient for Palm Harbor, Dunedin, Clearwater and North Pinellas',
+        'Tampa office: 1000 W Kennedy Blvd #202 — convenient for South Tampa, Westchase, Brandon and Hillsborough County',
+        'Consultation planning for rhinoplasty, facelift, blepharoplasty, Mohs reconstruction, injectables, hair restoration and skincare',
+        'Patients often travel from across Tampa Bay and elsewhere in Florida for specialized facial plastic surgery care',
+      ],
+      links: [
+        { label: 'Book a consultation', href: '/book-consultation/' },
+        { label: 'Meet Dr. Kieliszak', href: '/meet-dr-kieliszak/' },
+        { label: 'Explore services', href: '/services/' },
+        { label: 'Contact both office locations', href: '/contact/' },
+        { label: 'View before and after gallery', href: '/gallery/' },
+        { label: 'Review payment plans', href: '/payment-plans/' },
+      ],
+      faqs: [
+        {
+          q: 'Which areas does Art Form Plastic Surgery serve?',
+          a: 'The practice regularly serves Safety Harbor, Tampa, Clearwater, St. Petersburg, Palm Harbor, Dunedin, Largo, Westchase, Carrollwood, Brandon, Riverview, Wesley Chapel and surrounding Tampa Bay communities. Patients also travel from elsewhere in Florida when consultation planning and surgeon selection are the priority.',
+        },
+        {
+          q: 'Which office should I choose?',
+          a: 'The Safety Harbor office is often most convenient for North Pinellas, Palm Harbor, Dunedin and Clearwater patients. The Tampa office near Kennedy Boulevard is often easiest for South Tampa, Westshore, Hyde Park, Brandon and Hillsborough County patients. The team can help route consultation requests to the best location.',
+        },
+        {
+          q: 'How far do patients typically travel for facial plastic surgery?',
+          a: 'Many patients stay within Tampa Bay, but facial plastic surgery is often a destination decision. It is common for patients to drive an hour or more within Florida, and some travel from outside the state for consultation, surgery and follow-up planning when the procedure and surgeon fit their goals.',
+        },
+        {
+          q: 'Can out-of-area patients schedule consultation and follow-up care?',
+          a: 'Yes. Out-of-area patients should discuss consultation format, pre-operative planning, recovery timing, local support needs and follow-up visit expectations with the office before scheduling surgical care.',
+        },
+        {
+          q: 'Should every city have its own facial plastic surgery page?',
+          a: 'Not unless there is enough unique, useful content for that city. A strong service-area hub is safer than dozens of thin duplicate pages. Individual city pages should be added only when they answer real local patient questions with distinct, helpful information.',
         },
       ],
     },
@@ -539,7 +635,7 @@ const SEO_PROFILES = {
       ],
     },
   },
-  '/non-surgical-procedures-2/': {
+  '/non-surgical-procedures/': {
     title: `Non-Surgical Facial Aesthetics Tampa | Botox, Fillers & Injectables`,
     h1: 'Non-Surgical Facial Aesthetics in Safety Harbor & Tampa',
     breadcrumb: 'Non-Surgical Procedures',
@@ -618,7 +714,7 @@ const SEO_PROFILES = {
       ],
       bullets: ['Support for sun damage, fine lines, uneven tone and texture', 'Chemical peels and medical-grade products for ongoing maintenance', 'Skincare planning before and after facial plastic surgery or injectables'],
       links: [
-        { label: 'Explore non-surgical facial aesthetics', href: '/non-surgical-procedures-2/' },
+        { label: 'Explore non-surgical facial aesthetics', href: '/non-surgical-procedures/' },
         { label: 'Book skincare consultation', href: '/book-consultation/' },
         { label: 'View gallery', href: '/gallery/' },
       ],
@@ -653,7 +749,19 @@ const SEO_PROFILES = {
       faqs: [
         {
           q: 'Can financing be discussed before treatment?',
-          a: 'Yes. Financing options can be reviewed during consultation planning so patients understand potential payment pathways before committing to care.',
+          a: 'Yes. Financing can be discussed before a procedure is scheduled. The team can explain which providers are available, how approval is handled, what information a patient may need to provide, and how monthly payment options may fit into the overall treatment plan.',
+        },
+        {
+          q: 'Which procedures may qualify for payment plans?',
+          a: 'Financing may be considered for surgical and non-surgical care such as rhinoplasty, facelift, blepharoplasty, hair restoration, injectables, skincare packages and related facial plastic surgery treatment plans. Availability, approval and terms depend on the third-party financing provider.',
+        },
+        {
+          q: 'Will checking financing affect my treatment recommendation?',
+          a: 'No. Financing is separate from medical decision-making. Consultation planning should begin with candidacy, safety, expected recovery, realistic outcomes and the right timing for care; payment options simply help patients understand how they may manage approved costs.',
+        },
+        {
+          q: 'Are payment plan terms guaranteed?',
+          a: 'No. Payment plan terms vary by provider, credit approval, selected procedure and current program rules. Patients should review the provider disclosures carefully and contact the office with questions before moving forward.',
         },
       ],
     },
@@ -704,37 +812,13 @@ const SEO_PROFILES = {
       bullets: ['Facial plastic surgery specialty focus', 'Safety Harbor and Tampa patient access', 'Planning around natural-looking results and recovery'],
       links: [
         { label: 'Explore services', href: '/services/' },
-        { label: 'Read patient reviews', href: '/testimonials/' },
+        { label: 'Read Google reviews', href: '/#reviews' },
         { label: 'Book consultation', href: '/book-consultation/' },
       ],
       faqs: [
         {
           q: 'Why does surgeon selection matter for facial procedures?',
           a: 'Facial procedures require detailed knowledge of anatomy, symmetry, scars, expression and aging patterns. Surgeon selection influences planning, safety and how natural the result appears.',
-        },
-      ],
-    },
-  },
-  '/testimonials/': {
-    title: `Patient Reviews | Art Form Plastic Surgery Safety Harbor & Tampa`,
-    h1: 'Patient Reviews for Art Form Plastic Surgery',
-    breadcrumb: 'Patient Reviews',
-    description:
-      'Read patient reviews for Art Form Plastic Surgery in Safety Harbor and Tampa. Learn why Tampa Bay patients choose Dr. Kieliszak for facial plastic surgery and aesthetics.',
-    serviceName: 'Patient reviews',
-    keywords: ['Art Form Plastic Surgery reviews', 'plastic surgeon reviews Safety Harbor', 'facial plastic surgeon reviews Tampa'],
-    content: {
-      kicker: 'Patient experience',
-      title: 'Reviews help Tampa Bay patients choose a facial plastic surgery practice',
-      body: [
-        'Patient testimonials offer insight into consultation experience, communication, recovery support and trust. Reviews are especially helpful for people comparing facial plastic surgery near Safety Harbor, Tampa, Clearwater and St. Petersburg.',
-      ],
-      bullets: ['Read about consultation and care experience', 'Compare local patient feedback', 'Use reviews with gallery photos and surgeon credentials'],
-      links: DEFAULT_LOCAL_LINKS,
-      faqs: [
-        {
-          q: 'How should I use patient reviews?',
-          a: 'Use reviews as one part of research along with surgeon credentials, procedure education, before-and-after photos and an in-person or virtual consultation.',
         },
       ],
     },
@@ -850,7 +934,7 @@ const SEO_PROFILES = {
       bullets: ['Discuss brow position, eyelid heaviness and facial expression', 'Compare surgical brow lift with Botox or blepharoplasty', 'Plan recovery and scar placement during consultation'],
       links: [
         { label: 'Blepharoplasty eyelid lift', href: '/blepharoplasty-eyelid-lift-refresh-and-brighten-your-eyes-with-a-youthful-look/' },
-        { label: 'Non-surgical wrinkle relaxers', href: '/non-surgical-procedures-2/' },
+        { label: 'Non-surgical wrinkle relaxers', href: '/non-surgical-procedures/' },
         { label: 'Book consultation', href: '/book-consultation/' },
       ],
       faqs: [
@@ -878,7 +962,7 @@ const SEO_PROFILES = {
       bullets: ['Discuss cheek fullness and facial structure', 'Review recovery, swelling and long-term volume considerations', 'Compare with chin implant, jawline filler or skincare options'],
       links: [
         { label: 'Chin implant', href: '/chin-implant-enhance-your-profile-with-a-balanced-defined-chin/' },
-        { label: 'Dermal fillers', href: '/non-surgical-procedures-2/' },
+        { label: 'Dermal fillers', href: '/non-surgical-procedures/' },
         { label: 'Book consultation', href: '/book-consultation/' },
       ],
       faqs: [
@@ -933,7 +1017,7 @@ const SEO_PROFILES = {
       ],
       bullets: ['Bullhorn and upper lip lift questions', 'Lip lift vs dermal filler comparison', 'Scar placement, recovery and long-term maintenance discussion'],
       links: [
-        { label: 'Dermal fillers', href: '/non-surgical-procedures-2/' },
+        { label: 'Dermal fillers', href: '/non-surgical-procedures/' },
         { label: 'Facial contouring procedures', href: '/cosmetic-procedures/' },
         { label: 'Book consultation', href: '/book-consultation/' },
       ],
@@ -1105,11 +1189,88 @@ function breadcrumbName(pagePath) {
   return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function sameAsLinks() {
+  return [site.instagram, site.tiktok, site.mapsUrl, site.chamberProfile].filter(Boolean);
+}
+
+function pageImageUrl(pagePath) {
+  const profile = seoProfile(pagePath);
+  return `${BASE}${profile.image || site.heroImageFull || site.heroImage}`;
+}
+
+function tiktokUploadDate(videoId) {
+  try {
+    const timestamp = Number.parseInt(BigInt(videoId).toString(2).padStart(64, '0').slice(0, 32), 2);
+    return new Date(timestamp * 1000).toISOString();
+  } catch {
+    return undefined;
+  }
+}
+
+function pageFaqs(pagePath) {
+  const profile = seoProfile(pagePath);
+  const content = profile.content;
+  const faqs = [...(content?.faqs || [])];
+  if (!content || !profile.serviceName) return faqs;
+
+  const service = profile.serviceName.toLowerCase();
+  const title = profile.h1 || profile.breadcrumb || profile.serviceName;
+  const isProcedure =
+    pagePath !== '/' &&
+    !['/blog/', '/gallery/', '/contact/', '/about-us/', '/services/', '/book-consultation/', '/payment-plans/'].includes(pagePath);
+
+  const defaults = [
+    {
+      q: `Who is a good candidate for ${service}?`,
+      a: `Good candidates for ${service} are patients with clear goals, realistic expectations, and anatomy or concerns that match the treatment. A consultation reviews health history, timing, facial balance, and whether a surgical or non-surgical option is the better fit.`,
+    },
+    {
+      q: `What is recovery like after ${service}?`,
+      a: `Recovery depends on the procedure, treatment extent, and whether other services are combined. Most patients should plan around swelling, bruising, activity limits, and follow-up care; the office reviews expected downtime and return-to-work timing during consultation.`,
+    },
+    {
+      q: `How much does ${service} cost in Tampa Bay?`,
+      a: `Cost varies based on the treatment plan, anesthesia or facility needs, complexity, and whether procedures are combined. Art Form Plastic Surgery reviews personalized pricing during consultation, and financing options may be available through third-party providers.`,
+    },
+    {
+      q: `Can ${service} look natural?`,
+      a: `Yes. Natural-looking results depend on conservative planning, precise technique, and respect for the patient's existing facial features. Dr. Kieliszak focuses on balance and refinement rather than an overdone or one-size-fits-all change.`,
+    },
+    {
+      q: `Can ${service} be combined with other treatments?`,
+      a: `${title} may be discussed alongside related treatments when it supports the patient's goals and recovery plan. Combination planning is individualized around safety, sequencing, downtime, and the overall facial result.`,
+    },
+  ];
+
+  const majorPageFaqs = [
+    {
+      q: `How do I choose the right ${service} option?`,
+      a: `Start with the concern you want to solve, then compare candidacy, recovery, cost, maintenance, and expected change. A consultation helps narrow the best path instead of choosing a procedure by name alone.`,
+    },
+    {
+      q: `Can ${service} be planned around financing?`,
+      a: `Yes. Financing can be discussed once the recommended plan is clear. Approval, monthly payment options, and terms are handled by third-party financing providers and may vary by patient and procedure.`,
+    },
+    {
+      q: `What makes results look natural?`,
+      a: `Natural-looking outcomes come from matching treatment intensity to anatomy, avoiding overcorrection, and considering how the face moves, heals, and ages over time.`,
+    },
+  ];
+
+  const additions = isProcedure ? defaults : majorPageFaqs;
+  for (const item of additions) {
+    if (faqs.length >= (isProcedure ? 5 : 4)) break;
+    if (!faqs.some((faq) => faq.q === item.q)) faqs.push(item);
+  }
+
+  return faqs;
+}
+
 function schemaJson(p) {
   const profile = seoProfile(p);
   const description = metaDescription(p);
   const title = profile.h1 || breadcrumbName(p);
-  const faqItems = profile.content?.faqs || [];
+  const faqItems = pageFaqs(p);
   const areaServed = SERVICE_AREAS.map((name) => ({ '@type': 'City', name }));
   const clinics = site.addresses.map((a, i) => ({
     '@type': 'MedicalClinic',
@@ -1155,9 +1316,31 @@ function schemaJson(p) {
         addressCountry: 'US',
       })),
       openingHours: site.hours?.weekdays,
-      sameAs: [site.instagram, site.tiktok],
+      sameAs: sameAsLinks(),
       areaServed,
       department: clinics,
+      ...(p === '/' && googleReviews.ratingValue && googleReviews.reviewCount
+        ? {
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: googleReviews.ratingValue,
+              reviewCount: googleReviews.reviewCount,
+              bestRating: 5,
+              worstRating: 1,
+            },
+            review: googleReviews.reviews.slice(0, 5).map((review) => ({
+              '@type': 'Review',
+              author: { '@type': 'Person', name: review.name },
+              reviewRating: {
+                '@type': 'Rating',
+                ratingValue: review.stars || googleReviews.ratingValue,
+                bestRating: 5,
+                worstRating: 1,
+              },
+              reviewBody: review.text,
+            })),
+          }
+        : {}),
     },
     {
       '@type': 'Physician',
@@ -1166,6 +1349,7 @@ function schemaJson(p) {
       worksFor: { '@id': `${BASE}/#organization` },
       telephone: site.phone,
       url: `${BASE}/meet-dr-kieliszak/`,
+      sameAs: sameAsLinks(),
       areaServed,
     },
     {
@@ -1176,8 +1360,16 @@ function schemaJson(p) {
       description,
       about: profile.keywords?.join(', ') || 'Facial plastic surgery',
       isPartOf: { '@id': `${BASE}/#organization` },
-      primaryImageOfPage: `${BASE}${site.heroImageFull || site.heroImage}`,
+      primaryImageOfPage: { '@id': `${BASE}${p === '/' ? '/' : p}#primaryimage` },
       areaServed,
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': `${BASE}${p === '/' ? '/' : p}#primaryimage`,
+      url: pageImageUrl(p),
+      contentUrl: pageImageUrl(p),
+      caption: `${title} at ${site.name}`,
+      representativeOfPage: true,
     },
     {
       '@type': 'BreadcrumbList',
@@ -1193,13 +1385,30 @@ function schemaJson(p) {
   if (profile.serviceName) {
     graph.push({
       '@type': 'Service',
+      '@id': `${BASE}${p === '/' ? '/' : p}#service`,
       name: profile.serviceName,
       description,
       provider: { '@id': `${BASE}/#organization` },
       areaServed,
       serviceType: profile.serviceName,
       url: `${BASE}${p === '/' ? '/' : p}`,
+      image: { '@id': `${BASE}${p === '/' ? '/' : p}#primaryimage` },
     });
+  }
+
+  if (p === '/' && tiktokFeed.videos?.length) {
+    graph.push(
+      ...tiktokFeed.videos.slice(0, 6).map((video) => ({
+        '@type': 'VideoObject',
+        name: video.caption || `${site.name} video`,
+        description: video.caption || `${site.name} facial plastic surgery video`,
+        thumbnailUrl: `${BASE}${video.thumb}`,
+        uploadDate: tiktokUploadDate(video.id),
+        embedUrl: video.shareUrl,
+        contentUrl: video.shareUrl,
+        publisher: { '@id': `${BASE}/#organization` },
+      }))
+    );
   }
 
   if (faqItems.length) {
@@ -1539,7 +1748,7 @@ function renderTikTokFeedWidget() {
 /** Knight Logics–style Google Reviews widget (static shell; JS hydrates from JSON). */
 function renderGoogleReviewsWidget() {
   const googleG = `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.56 2.98-2.26 5.5-4.82 7.18l7.73 6c4.51-4.16 7.12-10.27 7.12-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24 24 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>`;
-  return `<div class="artform-greviews" data-afg-widget>
+  return `<div class="artform-greviews" id="reviews" data-afg-widget>
   <header class="artform-greviews__header">
     <div class="artform-greviews__brand">
       ${googleG}
@@ -1571,6 +1780,34 @@ function renderGoogleReviewsWidget() {
     <span aria-hidden="true">•</span>
     <a href="https://www.google.com/maps/search/Art+Form+Plastic+Surgery+801+2nd+St+N+Safety+Harbor+FL+34695" target="_blank" rel="noopener noreferrer" data-afg-write>Leave a review</a>
   </footer>
+</div>`;
+}
+
+const HOME_VIDEO_REEL = [
+  { src: '/videos/artform/dr-k1.mp4', label: 'Facial balance planning' },
+  { src: '/videos/artform/dr-k2.mp4', label: 'Procedure education' },
+  { src: '/videos/artform/dr-k3.mp4', label: 'Doctor insight' },
+  { src: '/videos/artform/dr-k4.mp4', label: 'Patient-first guidance' },
+  { src: '/videos/artform/laser-surgery-1.mp4', label: 'Laser and skin technology' },
+];
+
+/** Local TikTok-style video rail (replaces Smash Balloon feed on homepage). */
+function renderHomeVideoReel() {
+  const cards = HOME_VIDEO_REEL.map(
+    (video, index) => `<article class="artform-video-reel__card artform-video-reel__card--${index + 1}">
+      <video class="artform-video-reel__media" src="${escapeAttr(video.src)}" muted loop playsinline preload="metadata"${index < 2 ? ' autoplay' : ''}></video>
+      <div class="artform-video-reel__shade" aria-hidden="true"></div>
+      <p class="artform-video-reel__label">${video.label}</p>
+    </article>`
+  ).join('\n');
+
+  return `<div class="artform-video-reel" data-artform-video-reel>
+  <div class="artform-video-reel__rail" aria-label="Practice video highlights">
+    ${cards}
+  </div>
+  <p class="artform-video-reel__follow">
+    <a href="${escapeAttr(site.tiktok)}" target="_blank" rel="noopener noreferrer">Follow @faceplasticsurgeon on TikTok</a>
+  </p>
 </div>`;
 }
 
@@ -1611,6 +1848,14 @@ function enhanceHomepage(html) {
       heroInner.append(formCol);
     }
 
+    if (!hero.find('.artform-hero-parallax-layer').length) {
+      hero.prepend(
+        `<div class="artform-hero-parallax-layer" aria-hidden="true">
+  <img class="artform-hero-parallax-layer__img" src="${escapeAttr(site.heroImage)}" alt="" decoding="async" fetchpriority="high">
+</div>`
+      );
+    }
+
     // "How Can We Help You" → its own full-width row BELOW the hero (same on every screen size).
     if (cards.length) {
       cards.addClass('artform-help-band');
@@ -1649,15 +1894,35 @@ function enhanceHomepage(html) {
 
   const tiktokFeed = $('.sbtt-tiktok-feed').first();
   if (tiktokFeed.length) {
-    tiktokFeed.replaceWith(renderTikTokFeedWidget());
+    tiktokFeed.replaceWith(renderHomeVideoReel());
   } else {
     const tiktokShortcode = $('[data-id="e4515a6"] .elementor-shortcode').first();
     if (tiktokShortcode.length) {
-      tiktokShortcode.html(renderTikTokFeedWidget());
+      tiktokShortcode.html(renderHomeVideoReel());
     }
   }
 
+  $('.elementor-element-6f14da7a').addClass('artform-video-reel-section');
+
+  enhanceHomepageHelpBandLinks($);
+
   return enhancePhotoCollage(enhancePortfolioGallery($('#wrap').html() || html));
+}
+
+/** Homepage help band — link each listed service to its procedure page. */
+function enhanceHomepageHelpBandLinks($) {
+  $('.artform-help-band .elementor-icon-list-item').each((_, li) => {
+    const $li = $(li);
+    if ($li.find('a[href]').length) return;
+
+    const text = $li.find('.elementor-icon-list-text').first().text().replace(/\s+/g, ' ').trim();
+    const href = matchingProcedureHref(text);
+    if (!href) return;
+
+    const $link = $('<a class="artform-help-band__service-link"></a>').attr('href', href);
+    $li.contents().appendTo($link);
+    $li.append($link);
+  });
 }
 
 /** Homepage portfolio gallery — normalize panels + local image URLs. */
@@ -2239,6 +2504,152 @@ function renderServiceHeroGrid(images) {
   </div>`;
 }
 
+function findPageElementor($, root = '#wrap') {
+  const $root = $(root);
+  const candidates = [
+    $root.find('.entry-content .elementor').first(),
+    $root.find('#content .ast-container > .elementor').first(),
+    $root.find('#content .elementor').first(),
+    $root.find('.ast-container > .elementor').first(),
+    $root.find('.elementor').first(),
+  ];
+  return candidates.find(($el) => $el.length) || candidates[0];
+}
+
+function cleanProcedureArticle($, $articleWidget) {
+  const $container = $articleWidget.find('.elementor-widget-container').first();
+  if (!$container.length) return;
+
+  const removeTocBlock = (_, heading) => {
+    const text = $(heading).text().replace(/\s+/g, ' ').trim();
+    if (!/^table of contents$/i.test(text)) return;
+    $(heading).next('ol, ul').remove();
+    $(heading).remove();
+  };
+
+  $container.find('p, h2, h3, h4').each(removeTocBlock);
+
+  const $firstP = $container.find('p').first();
+  if ($firstP.length) {
+    const firstText = $firstP.text().replace(/\s+/g, ' ').trim();
+    if ($firstP.find('b, strong').length && firstText.length < 140) {
+      $firstP.remove();
+    }
+  }
+
+  $articleWidget.addClass('artform-procedure-article');
+}
+
+function renderProcedureIntro(pagePath) {
+  const profile = seoProfile(pagePath);
+  const content = profile.content || {};
+  const kicker = content.kicker || profile.breadcrumb || 'Procedure overview';
+  const title = profile.serviceName ? `Plan your ${profile.serviceName.toLowerCase()} consultation` : 'Plan your consultation';
+
+  return `<section class="elementor-section elementor-top-section elementor-section-full_width elementor-element artform-procedure-intro artform-service-intro" data-element_type="section">
+    <div class="elementor-container elementor-column-gap-no">
+      <div class="elementor-column elementor-col-100 elementor-top-column">
+        <div class="elementor-widget-wrap elementor-element-populated">
+          <div class="elementor-widget elementor-widget-heading">
+            <div class="elementor-widget-container">
+              <p class="elementor-heading-title elementor-size-default artform-heading-kicker" role="doc-subtitle">${escapeMapHtml(kicker)}</p>
+            </div>
+          </div>
+          <div class="elementor-widget elementor-widget-heading">
+            <div class="elementor-widget-container">
+              <h2 class="elementor-heading-title elementor-size-default">${escapeMapHtml(title)}</h2>
+            </div>
+          </div>
+          <div class="artform-service-intro__ctas">
+            ${renderServiceIntroButton('pricing')}
+            ${renderServiceIntroButton('phone')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderProcedureContentSection($, $articleWidget) {
+  const articleHtml = $.html($articleWidget);
+  return `<section class="elementor-section elementor-top-section elementor-section-full_width elementor-element artform-procedure-content" data-element_type="section">
+    <div class="elementor-container elementor-column-gap-default">
+      <div class="elementor-column elementor-col-100 elementor-top-column">
+        <div class="elementor-widget-wrap elementor-element-populated">
+          ${articleHtml}
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/** Procedure blog posts — compact service hero, full-width article, no sidebar. */
+function enhanceProcedurePage(html, pagePath) {
+  if (!PROCEDURE_PAGE_PATTERN.test(pagePath)) return html;
+
+  const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
+  const $elementor = findPageElementor($);
+  if (!$elementor.length) return html;
+
+  let $h1Section = null;
+  let $h1Widget = null;
+  $elementor.children('section.elementor-top-section').each((_, sec) => {
+    const $sec = $(sec);
+    const $h1 = $sec.find('h1.elementor-heading-title').first();
+    if ($h1.length) {
+      $h1Section = $sec;
+      $h1Widget = $h1.closest('.elementor-widget-heading, .elementor-widget-theme-post-title');
+      return false;
+    }
+  });
+
+  const $articleWidget = $elementor
+    .find('.elementor-widget-text-editor')
+    .filter((_, el) => (($(el).text() || '').replace(/\s+/g, ' ').trim().length > 400))
+    .first();
+
+  if (!$h1Section?.length || !$h1Widget?.length || !$articleWidget.length) return html;
+
+  cleanProcedureArticle($, $articleWidget);
+
+  const articleHtml = $.html($articleWidget);
+  const $articleSection = $articleWidget.closest('section.elementor-top-section');
+
+  $elementor
+    .find('.elementor-column[data-id="4572ad52"], .artform-recent-posts, .artform-have-question-card')
+    .closest('.elementor-column')
+    .remove();
+
+  $h1Section.find('.elementor-icon-list').closest('.elementor-column').remove();
+
+  const $h1Col = $h1Widget.closest('.elementor-column');
+  $h1Col.siblings('.elementor-column').remove();
+  $h1Col.removeClass('elementor-col-50 elementor-col-33 elementor-col-66').addClass('elementor-col-100');
+  $h1Col.find('.elementor-widget').not($h1Widget).remove();
+
+  if ($articleSection.length && $articleSection[0] === $h1Section[0]) {
+    $articleWidget.remove();
+    $h1Section.find('h2.elementor-heading-title').closest('.elementor-widget-heading').remove();
+  } else if ($articleSection.length) {
+    $articleSection.remove();
+  }
+
+  $h1Section
+    .addClass('artform-service-hero')
+    .removeClass('elementor-section-boxed')
+    .addClass('elementor-section-full_width');
+  if (!$h1Section.children('.elementor-background-overlay').length) {
+    $h1Section.prepend('<div class="elementor-background-overlay" aria-hidden="true"></div>');
+  }
+  injectHeroGrid($h1Section, $, pagePath);
+
+  const $articleClone = $(articleHtml);
+  cleanProcedureArticle($, $articleClone);
+  $h1Section.after(`${renderProcedureIntro(pagePath)}${renderProcedureContentSection($, $articleClone)}`);
+
+  return $('#wrap').html() || html;
+}
+
 /** Tag category hero bands + drop empty spacer sections above them. */
 function enhanceServiceHero(html, pagePath) {
   if (!SERVICE_HERO_PATHS.includes(pagePath)) return html;
@@ -2324,11 +2735,14 @@ function renderSeoContent(pagePath) {
   const profile = seoProfile(pagePath);
   const content = profile.content;
   if (!content) return '';
+  const isAreasHub = pagePath === '/areas-we-serve/';
 
   const id = `artform-seo-${pagePath === '/' ? 'home' : pagePath.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}`;
-  const body = (content.body || [])
-    .map((paragraph) => `<p>${escapeMapHtml(paragraph)}</p>`)
-    .join('\n      ');
+  const body = isAreasHub
+    ? (content.body?.[2] ? `<p>${escapeMapHtml(content.body[2])}</p>` : '')
+    : (content.body || [])
+        .map((paragraph) => `<p>${escapeMapHtml(paragraph)}</p>`)
+        .join('\n      ');
   const bullets = (content.bullets || []).length
     ? `<ul class="artform-seo__bullets">${content.bullets
         .map((item) => `<li>${escapeMapHtml(item)}</li>`)
@@ -2342,8 +2756,9 @@ function renderSeoContent(pagePath) {
         )
         .join('\n        ')}</div>`
     : '';
-  const faqs = (content.faqs || []).length
-    ? `<div class="artform-seo__faq" aria-label="Frequently asked questions">${content.faqs
+  const faqItems = pageFaqs(pagePath);
+  const faqs = faqItems.length
+    ? `<div class="artform-seo__faq" aria-label="Frequently asked questions">${faqItems
         .map(
           (item) => `<details class="artform-seo__faq-item">
           <summary>${escapeMapHtml(item.q)}</summary>
@@ -2358,10 +2773,11 @@ function renderSeoContent(pagePath) {
         .join(', ')}.</p>`
     : '';
 
-  return `<section class="artform-seo" aria-labelledby="${id}">
+  return `<section class="artform-seo${isAreasHub ? ' artform-seo--areas' : ''}" aria-labelledby="${id}">
     <div class="artform-seo__inner">
-      <p class="artform-seo__kicker">${escapeMapHtml(content.kicker || 'Tampa Bay SEO context')}</p>
-      <h2 class="artform-seo__title" id="${id}">${escapeMapHtml(content.title || profile.h1 || breadcrumbName(pagePath))}</h2>
+      ${isAreasHub ? '' : `<p class="artform-seo__kicker">${escapeMapHtml(content.kicker || 'Tampa Bay SEO context')}</p>
+      <h2 class="artform-seo__title" id="${id}">${escapeMapHtml(content.title || profile.h1 || breadcrumbName(pagePath))}</h2>`}
+      ${isAreasHub ? `<h2 class="artform-seo__title" id="${id}">Consultation planning, services, and local FAQs</h2>` : ''}
       <div class="artform-seo__copy">
         ${body}
         ${keywordLine}
@@ -2381,6 +2797,8 @@ const PROCEDURE_CARD_LINKS = [
   [/buccal/i, '/buccal-fat-removal-sculpt-your-cheeks-for-a-slimmer-contoured-look/'],
   [/chin implant|chin augmentation|mentoplasty/i, '/chin-implant-enhance-your-profile-with-a-balanced-defined-chin/'],
   [/lip lift/i, '/lip-lift-enhance-your-smile-and-achieve-fuller-youthful-lips/'],
+  [/otoplasty|ear pinning/i, '/cosmetic-procedures/'],
+  [/neck\s*lift|necklift/i, '/facelift-rhytidectomy-rejuvenate-your-appearance-and-renew-confidence/'],
   [/split ear|earlobe|torn ear/i, '/split-earlobe-repair-restore-the-natural-look-of-your-earlobes/'],
   [/mohs|skin cancer reconstruction/i, '/mohs-reconstruction-restoring-natural-beauty-after-skin-cancer-removal/'],
   [/nasal breathing|functional rhinoplasty|septoplasty|deviated septum/i, '/nasal-breathing-procedures-achieve-lasting-relief-from-nasal-obstruction/'],
@@ -2449,8 +2867,16 @@ function enhanceSeoContent(html, pagePath) {
       .remove();
   }
 
-  if (profile.content && $content.length && !$content.find('.artform-seo').length) {
-    $content.append(renderSeoContent(pagePath));
+  if (profile.content && !$('#wrap .artform-seo').length) {
+    const seoHtml = renderSeoContent(pagePath);
+    if (PROCEDURE_PAGE_PATTERN.test(pagePath)) {
+      const $astContainer = $('#wrap #content > .ast-container').first();
+      if ($astContainer.length) $astContainer.after(seoHtml);
+      else if ($content.length) $content.append(seoHtml);
+      else $('#wrap #content').append(seoHtml);
+    } else if ($content.length) {
+      $content.append(seoHtml);
+    }
   }
 
   return $('#wrap').html() || html;
@@ -2613,7 +3039,7 @@ function buildPageBody($, pagePath) {
   if (pagePath === '/book-consultation/') c = enhanceBookConsultation(c);
   if (pagePath === '/payment-plans/') c = enhancePaymentPlans(c);
   if (pagePath === '/blog/') c = enhanceBlog(c);
-  if (pagePath === '/blog/' || PROCEDURE_PAGE_PATTERN.test(pagePath)) c = enhanceSidebarContent(c, pagePath);
+  if (pagePath === '/blog/') c = enhanceSidebarContent(c, pagePath);
   if (pagePath === '/gallery/') c = enhanceGallery(c, pagePath);
   if (COMPACT_HERO_PATHS.includes(pagePath)) c = enhanceCompactPageHero(c, pagePath);
   c = enhanceHeadingHierarchy(c);
@@ -2622,6 +3048,7 @@ function buildPageBody($, pagePath) {
   c = enhanceHeroDescriptions(c, pagePath);
   c = enhanceHeroH1Markup(c, pagePath);
   if (SERVICE_HERO_PATHS.includes(pagePath)) c = enhanceServiceHero(c, pagePath);
+  if (PROCEDURE_PAGE_PATTERN.test(pagePath)) c = enhanceProcedurePage(c, pagePath);
   c = enhanceImageAlts(c);
   c = sanitizeMeetingCopy(c);
   return `${announcementBar()}${h}${c}${shellFooter}`;
@@ -2650,6 +3077,10 @@ function augmentBodyClass(bodyClass, pagePath) {
   if (pagePath === '/contact/') cls += ' artform-contact-page';
   if (pagePath === '/gallery/') cls += ' artform-gallery-page';
   if (pagePath === '/blog/') cls += ' artform-blog-page';
+  if (pagePath === '/areas-we-serve/') cls += ' artform-areas-page';
+  if (PROCEDURE_PAGE_PATTERN.test(pagePath)) {
+    cls += ' artform-procedure-page ast-page-builder-template';
+  }
   return cls;
 }
 
@@ -2661,6 +3092,7 @@ function leanScriptsForPage(pagePath) {
     scripts.push('<script src="/js/swiper-init.js" defer></script>');
   }
   scripts.push('<script src="/js/elementor-animations.js" defer></script>');
+  if (pagePath === '/') scripts.push('<script src="/js/home-hero-parallax.js" defer></script>');
   scripts.push('<script src="/js/site.js" defer></script>');
   if (site.chat?.enabled && site.chat?.provider === 'tidio' && site.chat?.tidioPublicKey) {
     scripts.push('<script src="/js/artform-chat.js" defer></script>');
@@ -2673,7 +3105,7 @@ function leanScriptsForPage(pagePath) {
     scripts.push('<script src="/js/artform-portfolio-gallery.js" defer></script>');
     scripts.push('<script src="/js/artform-google-reviews.js" defer></script>');
     scripts.push('<script src="/js/artform-stats-counter.js" defer></script>');
-    scripts.push('<script src="/js/artform-tiktok-feed.js" defer></script>');
+    scripts.push('<script src="/js/artform-video-reel.js" defer></script>');
   }
   if (FORM_PAGE_PATHS.includes(pagePath)) {
     scripts.push('<script src="/js/artform-contact-form.js" defer></script>');
@@ -2741,16 +3173,18 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <link rel="stylesheet" href="/css/artform-page-fixes.css">
   <link rel="stylesheet" href="/css/artform-content-typography.css">
   ${pagePath !== '/' ? '<link rel="stylesheet" href="/css/artform-hero-h1.css">' : ''}
-  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-portfolio-gallery.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-tiktok-feed.css">' : ''}
+  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-portfolio-gallery.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-video-reel.css">' : ''}
   ${pagePath === '/' || pagePath === '/about-us/' || pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/artform-photo-collage.css">' : ''}
   ${pagePath === '/about-us/' ? '<link rel="stylesheet" href="/css/artform-about.css">' : ''}
   ${pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-meet-dr.css">' : ''}
   ${FORM_PAGE_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-forms.css">' : ''}
-  ${SERVICE_HERO_PATHS.includes(pagePath) || COMPACT_HERO_PATHS.includes(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-hero.css">' : ''}
+  ${SERVICE_HERO_PATHS.includes(pagePath) || COMPACT_HERO_PATHS.includes(pagePath) || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-hero.css">' : ''}
   ${pagePath === '/services/' || APPOINTMENT_FORM_PATHS.includes(pagePath) || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-intro.css">' : ''}
-  ${pagePath === '/blog/' || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-sidebar.css">' : ''}
+  ${pagePath === '/blog/' ? '<link rel="stylesheet" href="/css/artform-sidebar.css">' : ''}
+  ${PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-procedure.css">' : ''}
   ${seoProfile(pagePath).content ? '<link rel="stylesheet" href="/css/artform-seo.css">' : ''}
   ${pagePath === '/book-consultation/' ? '<link rel="stylesheet" href="/css/artform-book-consultation.css">' : ''}
+  ${pagePath === '/areas-we-serve/' ? '<link rel="stylesheet" href="/css/artform-photo-collage.css">\n  <link rel="stylesheet" href="/css/artform-service-hero.css">\n  <link rel="stylesheet" href="/css/artform-areas.css">' : ''}
   <link rel="canonical" href="${BASE}${pagePath === '/' ? '/' : pagePath}">
   <script type="application/ld+json">${schemaJson(pagePath)}</script>
 </head>
@@ -2780,11 +3214,409 @@ async function fetchAndParse(pagePath) {
   return { scrapedTitle, stylesheets, inlineStyles, bodyClass, body };
 }
 
+function areasHeroGridSrcs() {
+  return (areasHeroImages.heroGrid || []).map((item) => item.src).filter(Boolean).slice(0, 4);
+}
+
+function renderAreasCompactHero(profile) {
+  const images = areasHeroGridSrcs();
+  const grid = images.length === 4 ? renderServiceHeroGrid(images) : '';
+  return `<section class="artform-compact-hero artform-areas-hero" aria-labelledby="areas-hero-title">
+    ${grid}
+    <div class="elementor-background-overlay" aria-hidden="true"></div>
+    <div class="elementor-container">
+      <div class="elementor-widget-wrap">
+        <p class="artform-seo__kicker artform-heading-kicker">${escapeMapHtml(profile.content?.kicker || 'Local service area')}</p>
+        <h1 class="elementor-heading-title artform-hero-h1" id="areas-hero-title">${escapeMapHtml(profile.h1 || 'Areas We Serve')}</h1>
+        <p class="artform-hero-desc">${escapeMapHtml(profile.heroDescription || profile.description || '')}</p>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderAreasPhotoCollage() {
+  const collage = areasHeroImages.collage || {};
+  const grid = areasHeroGridSrcs();
+  const topLeft = collage.topLeft || grid[0] || '';
+  const portrait = collage.portrait || grid[1] || '';
+  const bottomWide = collage.bottomWide || grid[2] || '';
+
+  return `<div class="artform-areas-collage" aria-hidden="true">
+    <div class="artform-areas-collage__row">
+      <div class="artform-areas-collage__panel artform-areas-collage__panel--left artform-photo-slide-left elementor-invisible elementor-column" data-settings="{&quot;animation&quot;:&quot;fadeInLeft&quot;}" style="background-image:url(${escapeAttr(topLeft)});"></div>
+      <div class="artform-areas-collage__portrait artform-photo-slide-right elementor-invisible elementor-column" data-settings="{&quot;animation&quot;:&quot;fadeInRight&quot;}">
+        <img src="${escapeAttr(portrait)}" alt="" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div class="artform-areas-collage__wide artform-photo-slide-left elementor-invisible elementor-column" data-settings="{&quot;animation&quot;:&quot;fadeInLeft&quot;}" style="background-image:url(${escapeAttr(bottomWide)});"></div>
+  </div>`;
+}
+
+function renderAreasIntro(profile) {
+  const paragraphs = profile.content?.body || [];
+  const copy = paragraphs
+    .slice(0, 2)
+    .map((paragraph) => `<p>${escapeMapHtml(paragraph)}</p>`)
+    .join('\n        ');
+
+  return `<section class="artform-areas-intro" aria-labelledby="areas-intro-title">
+    <div class="artform-areas-intro__inner">
+      <div class="artform-areas-intro__copy">
+        <h2 id="areas-intro-title" class="artform-areas-section__title">${escapeMapHtml(profile.content?.title || profile.h1 || '')}</h2>
+        ${copy}
+      </div>
+      ${renderAreasPhotoCollage()}
+    </div>
+  </section>`;
+}
+
+function renderAreasLocationsSection() {
+  const [safety, tampa] = site.addresses;
+  return `<section class="artform-areas-locations" aria-labelledby="areas-locations-title">
+    <div class="artform-areas-section__inner">
+      <p class="artform-areas-section__kicker">Two Tampa Bay offices</p>
+      <h2 id="areas-locations-title" class="artform-areas-section__title">Safety Harbor and Tampa locations</h2>
+      <p class="artform-areas-section__intro">Choose the office that fits your commute, or ask the team which location works best for your consultation type, follow-up visits, injectables, or surgical planning.</p>
+      <div class="artform-areas-office-grid">
+        <article class="artform-areas-card">
+          <h3>${escapeMapHtml(safety.label)} office</h3>
+          <p><strong>${escapeMapHtml(safety.street)}</strong><br>${escapeMapHtml(safety.city)}, ${escapeMapHtml(safety.state)} ${escapeMapHtml(safety.zip)}</p>
+          <ul>
+            <li>Convenient for Palm Harbor, Dunedin, Clearwater, and North Pinellas</li>
+            <li>Often easiest for Gulf Coast and Safety Harbor area patients</li>
+            <li>Consultations for facial plastic surgery, injectables, skincare, and hair restoration</li>
+          </ul>
+        </article>
+        <article class="artform-areas-card">
+          <h3>${escapeMapHtml(tampa.label)} office</h3>
+          <p><strong>${escapeMapHtml(tampa.street)}</strong><br>${escapeMapHtml(tampa.city)}, ${escapeMapHtml(tampa.state)} ${escapeMapHtml(tampa.zip)}</p>
+          <ul>
+            <li>Convenient for South Tampa, Westshore, Hyde Park, Carrollwood, and Brandon</li>
+            <li>Accessible for Hillsborough County patients near Kennedy Boulevard</li>
+            <li>Same practice phone, consultation process, and treatment planning</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderAreasRegionsSection() {
+  const regions = [
+    {
+      title: 'North Pinellas & Gulf Coast',
+      intro: 'Common consultation areas north of Clearwater through Safety Harbor and the Gulf Coast.',
+      cities: ['Safety Harbor', 'Palm Harbor', 'Dunedin', 'Clearwater', 'Largo', 'Tarpon Springs'],
+    },
+    {
+      title: 'Tampa & Hillsborough County',
+      intro: 'South Tampa, Westshore, and Hillsborough communities frequently schedule at the Tampa office.',
+      cities: ['Tampa', 'South Tampa', 'Westchase', 'Carrollwood', 'Westshore', 'Brandon', 'Riverview', 'Wesley Chapel'],
+    },
+    {
+      title: 'St. Petersburg & South Pinellas',
+      intro: 'Patients across the bridge and southern Pinellas often choose based on traffic and follow-up convenience.',
+      cities: ['St. Petersburg', 'Seminole', 'Pinellas Park', 'Gulfport', 'Treasure Island'],
+    },
+    {
+      title: 'Broader Florida travel',
+      intro: 'Facial plastic surgery patients often travel farther when surgeon fit and results matter most.',
+      cities: ['Sarasota', 'Orlando', 'Lakeland', 'Naples', 'Out-of-state consultation travel'],
+    },
+  ];
+
+  return `<section class="artform-areas-regions" aria-labelledby="areas-regions-title">
+    <div class="artform-areas-section__inner">
+      <p class="artform-areas-section__kicker">Regional coverage</p>
+      <h2 id="areas-regions-title" class="artform-areas-section__title">Communities commonly served across Tampa Bay</h2>
+      <p class="artform-areas-section__intro">Patients choose Art Form Plastic Surgery from across Pinellas County, Hillsborough County, and nearby Florida communities. For specialized procedures such as rhinoplasty, facelift, blepharoplasty, Mohs reconstruction, and facial rejuvenation planning, travel distance is often less important than surgeon expertise and natural-looking results.</p>
+      <div class="artform-areas-region-grid">
+        ${regions
+          .map(
+            (region) => `<article class="artform-areas-card">
+          <h3>${escapeMapHtml(region.title)}</h3>
+          <p>${escapeMapHtml(region.intro)}</p>
+          <ul>${region.cities.map((city) => `<li>${escapeMapHtml(city)}</li>`).join('')}</ul>
+        </article>`
+          )
+          .join('\n        ')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderAreasTravelSection() {
+  return `<section class="artform-areas-travel" aria-labelledby="areas-travel-title">
+    <div class="artform-areas-section__inner">
+      <p class="artform-areas-section__kicker">Planning beyond your zip code</p>
+      <h2 id="areas-travel-title" class="artform-areas-section__title">Facial plastic surgery patients often travel farther for the right surgeon</h2>
+      <p class="artform-areas-section__intro">Unlike routine local services, facial plastic surgery is a specialized decision. Many patients are willing to drive across Tampa Bay—or travel within Florida—when consultation quality, surgical experience, and aesthetic philosophy align with their goals.</p>
+      <div class="artform-areas-travel__grid">
+        <div class="artform-areas-travel__item">
+          <strong>Consultation first</strong>
+          <p>Start with a consultation to discuss candidacy, recovery, pricing ranges, and whether Safety Harbor or Tampa is the better fit for follow-up care.</p>
+        </div>
+        <div class="artform-areas-travel__item">
+          <strong>Recovery planning</strong>
+          <p>Out-of-area patients should plan local support, hotel stays if needed, and realistic downtime before returning to work or travel.</p>
+        </div>
+        <div class="artform-areas-travel__item">
+          <strong>Follow-up coordination</strong>
+          <p>Post-operative visits can often be scheduled at either office when appropriate. The team can outline which follow-ups may be virtual versus in-person.</p>
+        </div>
+      </div>
+      <p class="artform-areas-travel__cta">
+        <a href="/book-consultation/">Book a consultation</a>
+        <span aria-hidden="true">·</span>
+        <a href="/contact/">Contact both offices</a>
+        <span aria-hidden="true">·</span>
+        <a href="/meet-dr-kieliszak/">Meet Dr. Kieliszak</a>
+      </p>
+    </div>
+  </section>`;
+}
+
+function renderAreasSyntheticBody(pagePath) {
+  const profile = seoProfile(pagePath);
+  return `${renderAreasCompactHero(profile)}
+        ${renderAreasIntro(profile)}
+        ${renderAreasLocationsSection()}
+        ${renderAreasRegionsSection()}
+        ${renderAreasTravelSection()}
+        ${renderSeoContent(pagePath)}`;
+}
+
+function buildSyntheticPage(pagePath) {
+  const profile = seoProfile(pagePath);
+  if (!shellFooter) {
+    shellFooter = renderCustomFooter();
+    cacheShellTemplates(renderCustomHeader(pagePath), shellFooter).catch(() => {});
+  }
+  const body = `${announcementBar()}${renderCustomHeader(pagePath)}<main id="content" class="site-content">
+  <div class="ast-container">
+    <article class="post type-page status-publish ast-article-single">
+      <div class="entry-content clear">
+        ${renderAreasSyntheticBody(pagePath)}
+      </div>
+    </article>
+  </div>
+</main>${shellFooter}`;
+
+  return {
+    scrapedTitle: profile.title,
+    stylesheets: '',
+    inlineStyles: '',
+    bodyClass: 'page artform-areas-page ast-page-builder-template',
+    body,
+  };
+}
+
 async function writePage(pagePath, html) {
   const outDir = pagePath === '/' ? DIST : path.join(DIST, pagePath.replace(/^\/|\/$/g, ''));
   await fs.mkdir(outDir, { recursive: true });
   await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
   console.log('  ✓', pagePath);
+}
+
+async function writeRedirectPage({ from, to }) {
+  const outDir = path.join(DIST, from.replace(/^\/|\/$/g, ''));
+  const target = to.startsWith('http') ? to : `${BASE}${to}`;
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, follow">
+  <meta http-equiv="refresh" content="0; url=${escapeAttr(to)}">
+  <link rel="canonical" href="${escapeAttr(target)}">
+  <title>Redirecting | ${escapeMapHtml(site.name)}</title>
+</head>
+<body>
+  <p>Redirecting to <a href="${escapeAttr(to)}">${escapeMapHtml(target)}</a>.</p>
+  <script>window.location.replace(${JSON.stringify(to)});</script>
+</body>
+</html>`;
+  await fs.mkdir(outDir, { recursive: true });
+  await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
+  console.log('  ↳', from, '→', to);
+}
+
+function canonicalUrl(pagePath) {
+  return `${BASE}${pagePath === '/' ? '/' : pagePath}`;
+}
+
+function xmlEscape(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function pageSummaryLine(pagePath) {
+  const profile = seoProfile(pagePath);
+  const name = profile.h1 || breadcrumbName(pagePath);
+  const description = profile.description || metaDescription(pagePath);
+  return `- ${name}: ${canonicalUrl(pagePath)} — ${description}`;
+}
+
+function servicePagePaths() {
+  return pages.filter((pagePath) => seoProfile(pagePath).serviceName);
+}
+
+function renderLlmsTxt() {
+  return `# ${site.name}
+> Board-certified facial plastic surgery practice led by ${site.doctor}, serving Safety Harbor, Tampa, and the Tampa Bay area.
+
+## Identity
+- Business: ${site.name}
+- Physician: ${site.doctor}
+- Website: ${BASE}/
+- Phone: ${site.phone}
+- Email: ${site.email}
+- Locations: ${site.addresses.map((a) => `${a.street}, ${a.city}, ${a.state} ${a.zip}`).join('; ')}
+- Google Maps / GBP: ${site.mapsUrl}
+- Instagram: ${site.instagram}
+- TikTok: ${site.tiktok}
+
+## Verification & Discovery
+- Sitemap: ${BASE}/sitemap.xml
+- Robots: ${BASE}/robots.txt
+- Full AI summary: ${BASE}/llms-full.txt
+- Humans: ${BASE}/humans.txt
+
+## Best Starting Pages
+- Homepage: ${BASE}/
+- Book Consultation: ${BASE}/book-consultation/
+- Services: ${BASE}/services/
+- Meet ${site.doctor}: ${BASE}/meet-dr-kieliszak/
+- Gallery: ${BASE}/gallery/
+- Payment Plans: ${BASE}/payment-plans/
+- Contact: ${BASE}/contact/
+- Areas We Serve: ${BASE}/areas-we-serve/
+
+## Core Services
+${servicePagePaths()
+  .slice(0, 14)
+  .map(pageSummaryLine)
+  .join('\n')}
+
+## Geographic Focus
+- Primary locations: Safety Harbor and Tampa, Florida.
+- Service area: ${(site.serviceAreas || []).join(', ')}.
+
+## Preferred Summary
+${site.name} is a Tampa Bay facial plastic surgery practice led by ${site.doctor}, focused on natural-looking facial surgery, reconstructive and functional procedures, non-surgical aesthetics, hair restoration, medical skincare, and consultation-centered care.
+`;
+}
+
+function renderLlmsFullTxt() {
+  return `# ${site.name}
+
+> ${site.name} is a board-certified facial plastic surgery practice serving Safety Harbor, Tampa, and nearby Tampa Bay communities. The practice is led by ${site.doctor} and focuses on facial balance, natural-looking results, patient education, and consultation-based treatment planning.
+
+## Identity
+- Business name: ${site.name}
+- Physician: ${site.doctor}
+- Website: ${BASE}/
+- Phone: ${site.phone}
+- Email: ${site.email}
+- Instagram: ${site.instagram}
+- TikTok: ${site.tiktok}
+- Google Maps / GBP: ${site.mapsUrl}
+- Chamber profile: ${site.chamberProfile}
+
+## Locations
+${site.addresses.map((a) => `- ${a.label}: ${a.street}, ${a.city}, ${a.state} ${a.zip}`).join('\n')}
+
+## Public Discovery Endpoints
+- sitemap.xml: ${BASE}/sitemap.xml
+- robots.txt: ${BASE}/robots.txt
+- llms.txt: ${BASE}/llms.txt
+- llms-full.txt: ${BASE}/llms-full.txt
+- humans.txt: ${BASE}/humans.txt
+- security.txt: ${BASE}/.well-known/security.txt
+
+## Canonical Pages
+${pages.map(pageSummaryLine).join('\n')}
+
+## Services And Procedures
+${servicePagePaths()
+  .map((pagePath) => {
+    const profile = seoProfile(pagePath);
+    const faqs = pageFaqs(pagePath)
+      .slice(0, 3)
+      .map((faq) => `  - ${faq.q} ${faq.a}`)
+      .join('\n');
+    return `### ${profile.serviceName || breadcrumbName(pagePath)}
+URL: ${canonicalUrl(pagePath)}
+Summary: ${profile.description || metaDescription(pagePath)}
+${faqs}`;
+  })
+  .join('\n\n')}
+
+## Local SEO Positioning
+- Primary local intent: facial plastic surgeon Safety Harbor, facial plastic surgeon Tampa, facial plastic surgery Tampa Bay.
+- Important nearby communities: ${(site.serviceAreas || []).join(', ')}.
+- Recommended local expansion: keep indexed local pages limited to real-location and high-value area hubs unless each page has unique, medically useful content. Avoid mass doorway pages for every suburb/procedure combination.
+
+## Indexing Notes
+- Canonical host: ${BASE}/
+- Old live/ad URL redirects that should be server-side 301s: ${REDIRECTS.map((r) => `${r.from} -> ${r.to}`).join('; ')}.
+- The standalone testimonials page is intentionally replaced by the homepage Google Reviews section at ${BASE}/#reviews.
+- Review/aggregate rating schema should only remain on pages where review content is visibly displayed.
+
+## Preferred Summary
+When summarizing this site, describe ${site.name} as a Tampa Bay facial plastic surgery practice led by ${site.doctor}. Mention Safety Harbor and Tampa locations, natural-looking facial plastic surgery, reconstructive and functional care, injectables, hair restoration, medical skincare, financing options, and consultation-based planning. Do not invent additional locations, staff, certifications, awards, or procedures not represented on the public site.
+`;
+}
+
+async function writeDiscoveryFiles() {
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages
+  .map(
+    (pagePath) => `  <url>
+    <loc>${xmlEscape(canonicalUrl(pagePath))}</loc>
+  </url>`
+  )
+  .join('\n')}
+</urlset>
+`;
+
+  const robots = `User-agent: *
+Allow: /
+
+Sitemap: ${BASE}/sitemap.xml
+`;
+
+  const humans = `${site.name}
+Physician: ${site.doctor}
+Website: ${BASE}/
+Contact: ${site.email}
+Phone: ${site.phone}
+Locations: ${site.addresses.map((a) => `${a.city}, ${a.state}`).join(' and ')}
+`;
+
+  const security = `Contact: mailto:${site.email}
+Preferred-Languages: en
+Canonical: ${BASE}/.well-known/security.txt
+`;
+
+  await fs.writeFile(path.join(DIST, 'sitemap.xml'), sitemap, 'utf8');
+  await fs.writeFile(path.join(DIST, 'robots.txt'), robots, 'utf8');
+  await fs.writeFile(path.join(DIST, 'llms.txt'), renderLlmsTxt(), 'utf8');
+  await fs.writeFile(path.join(DIST, 'llms-full.txt'), renderLlmsFullTxt(), 'utf8');
+  await fs.writeFile(path.join(DIST, 'humans.txt'), humans, 'utf8');
+  await fs.writeFile(
+    path.join(DIST, '_redirects'),
+    REDIRECTS.map((redirect) => `${redirect.from} ${redirect.to} 301`).join('\n') + '\n',
+    'utf8'
+  );
+  await fs.writeFile(path.join(DIST, 'redirects.json'), JSON.stringify(REDIRECTS, null, 2) + '\n', 'utf8');
+  await fs.mkdir(path.join(DIST, '.well-known'), { recursive: true });
+  await fs.writeFile(path.join(DIST, '.well-known/security.txt'), security, 'utf8');
+  console.log('  ✓ sitemap.xml, robots.txt, llms.txt, llms-full.txt, humans.txt, security.txt, redirect maps');
 }
 
 async function copyDir(src, dest) {
@@ -2796,6 +3628,220 @@ async function copyDir(src, dest) {
     if (e.isDirectory()) await copyDir(s, d);
     else await fs.copyFile(s, d);
   }
+}
+
+async function listFiles(dir) {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) files.push(...(await listFiles(fullPath)));
+    else files.push(fullPath);
+  }
+  return files;
+}
+
+function fileKey(filePath) {
+  return path.resolve(filePath).toLowerCase();
+}
+
+function toWebpPath(filePath) {
+  return filePath.replace(RASTER_IMAGE_RE, '.webp');
+}
+
+function resolveReferencedAsset(reference, textFile) {
+  let clean = reference.split(/[?#]/)[0];
+  if (/^https?:\/\//i.test(clean)) {
+    try {
+      const parsed = new URL(clean);
+      if (!/(^|\.)artformplasticsurgery\.com$/i.test(parsed.hostname)) return null;
+      clean = parsed.pathname;
+    } catch {
+      return null;
+    }
+  }
+
+  if (clean.startsWith('/')) return path.join(DIST, clean.slice(1));
+  return path.resolve(path.dirname(textFile), clean);
+}
+
+function rewriteImageReference(reference, textFile, webpFiles) {
+  const originalFile = resolveReferencedAsset(reference, textFile);
+  if (!originalFile) return reference;
+
+  const webpFile = toWebpPath(originalFile);
+  if (!webpFiles.has(fileKey(webpFile))) return reference;
+
+  if (/^https?:\/\/(?:www\.)?artformplasticsurgery\.com/i.test(reference)) {
+    const parsed = new URL(reference);
+    return `${parsed.pathname.replace(RASTER_IMAGE_RE, '.webp')}${parsed.search}${parsed.hash}`;
+  }
+
+  return reference.replace(RASTER_IMAGE_RE, '.webp');
+}
+
+function referenceDownloadUrl(reference, textFile) {
+  const originalFile = resolveReferencedAsset(reference, textFile);
+  if (!originalFile) return null;
+
+  if (/^https?:\/\//i.test(reference)) return reference.split(/[?#]/)[0];
+  const relativeToDist = path.relative(DIST, originalFile).replace(/\\/g, '/');
+  if (relativeToDist.startsWith('..')) return null;
+  return `${BASE}/${relativeToDist}`;
+}
+
+function fallbackDownloadUrl(file) {
+  if (path.basename(file).toLowerCase() === 'flags.png') {
+    return 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/img/flags.png';
+  }
+  return null;
+}
+
+async function writeFallbackWebpAsset(file) {
+  if (!path.basename(file).toLowerCase().startsWith('owl.video.play.')) return false;
+
+  const webpFile = toWebpPath(file);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <circle cx="48" cy="48" r="46" fill="rgba(0,0,0,0.55)"/>
+  <path d="M39 29v38l30-19z" fill="#fff"/>
+</svg>`;
+  await fs.mkdir(path.dirname(webpFile), { recursive: true });
+  await sharp(Buffer.from(svg)).webp({ quality: 90 }).toFile(webpFile);
+  return true;
+}
+
+async function fetchRasterAsset(url, file) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.startsWith('image/')) throw new Error(`Unexpected content-type ${contentType}`);
+  await fs.mkdir(path.dirname(file), { recursive: true });
+  await fs.writeFile(file, Buffer.from(await response.arrayBuffer()));
+}
+
+async function downloadMissingReferencedRasters() {
+  const files = await listFiles(DIST);
+  const textFiles = files.filter((file) => TEXT_ASSET_RE.test(file));
+  const downloads = new Map();
+
+  for (const file of textFiles) {
+    const text = await fs.readFile(file, 'utf8');
+    for (const match of text.matchAll(IMAGE_REFERENCE_RE)) {
+      const reference = match[0];
+      if (/hqdefault\.jpg/i.test(reference)) continue;
+      const assetFile = resolveReferencedAsset(reference, file);
+      if (!assetFile || !RASTER_IMAGE_RE.test(assetFile)) continue;
+
+      try {
+        await fs.access(assetFile);
+      } catch {
+        const url = referenceDownloadUrl(reference, file);
+        if (url) downloads.set(fileKey(assetFile), { file: assetFile, url });
+      }
+    }
+  }
+
+  let downloadedCount = 0;
+  let fallbackWebpCount = 0;
+  for (const { file, url } of downloads.values()) {
+    try {
+      await fetchRasterAsset(url, file);
+      downloadedCount += 1;
+    } catch (err) {
+      const fallbackUrl = fallbackDownloadUrl(file);
+      if (fallbackUrl) {
+        try {
+          await fetchRasterAsset(fallbackUrl, file);
+          downloadedCount += 1;
+          continue;
+        } catch (fallbackErr) {
+          console.warn(`  ! Could not fetch fallback ${fallbackUrl}: ${fallbackErr.message}`);
+        }
+      }
+
+      try {
+        if (await writeFallbackWebpAsset(file)) {
+          fallbackWebpCount += 1;
+          continue;
+        }
+      } catch (fallbackErr) {
+        console.warn(`  ! Could not create fallback WebP for ${path.relative(DIST, file)}: ${fallbackErr.message}`);
+      }
+
+      console.warn(`  ! Could not fetch ${url}: ${err.message}`);
+    }
+  }
+
+  if (downloadedCount || fallbackWebpCount || downloads.size) {
+    console.log(
+      `Resolved ${downloadedCount + fallbackWebpCount} of ${downloads.size} missing referenced raster assets.`
+    );
+  }
+}
+
+function rewriteExternalDynamicImageReferences(text) {
+  return text.replace(
+    /\/\/img\.youtube\.com\/vi\/"\+([^+]+?)\+"\/hqdefault\.jpg/g,
+    '//i.ytimg.com/vi_webp/"+$1+"/hqdefault.webp'
+  );
+}
+
+async function convertRasterImagesToWebp() {
+  await downloadMissingReferencedRasters();
+
+  const initialFiles = await listFiles(DIST);
+  const rasterFiles = initialFiles.filter((file) => RASTER_IMAGE_RE.test(file));
+  const convertedFiles = new Set();
+  let convertedCount = 0;
+
+  for (const file of rasterFiles) {
+    const webpFile = toWebpPath(file);
+    try {
+      await fs.rm(webpFile, { force: true });
+      const ext = path.extname(file).toLowerCase();
+      const webp = ext === '.png' ? { lossless: true, effort: 4 } : { quality: 82, effort: 4 };
+      await sharp(file, { animated: true }).rotate().webp(webp).toFile(webpFile);
+      convertedFiles.add(fileKey(file));
+      convertedCount += 1;
+    } catch (err) {
+      console.warn(`  ! Could not convert ${path.relative(DIST, file)}: ${err.message}`);
+    }
+  }
+
+  const filesAfterConversion = await listFiles(DIST);
+  const webpFiles = new Set(filesAfterConversion.filter((file) => WEBP_IMAGE_RE.test(file)).map(fileKey));
+  const textFiles = filesAfterConversion.filter((file) => TEXT_ASSET_RE.test(file));
+  let rewrittenFileCount = 0;
+  let rewrittenReferenceCount = 0;
+
+  for (const file of textFiles) {
+    const before = await fs.readFile(file, 'utf8');
+    let fileReferenceCount = 0;
+    const after = rewriteExternalDynamicImageReferences(
+      before.replace(IMAGE_REFERENCE_RE, (reference) => {
+        const rewritten = rewriteImageReference(reference, file, webpFiles);
+        if (rewritten !== reference) fileReferenceCount += 1;
+        return rewritten;
+      })
+    );
+
+    if (after !== before) {
+      await fs.writeFile(file, after, 'utf8');
+      rewrittenFileCount += 1;
+      rewrittenReferenceCount += fileReferenceCount;
+    }
+  }
+
+  let removedCount = 0;
+  for (const file of rasterFiles) {
+    if (!convertedFiles.has(fileKey(file))) continue;
+    await fs.rm(file, { force: true });
+    removedCount += 1;
+  }
+
+  console.log(
+    `Converted ${convertedCount} raster images to WebP, rewrote ${rewrittenReferenceCount} references in ${rewrittenFileCount} files, removed ${removedCount} replaced originals.`
+  );
 }
 
 async function main() {
@@ -2810,18 +3856,31 @@ async function main() {
 
   for (const pagePath of pages) {
     try {
-      const { scrapedTitle, stylesheets, inlineStyles, bodyClass, body } = await fetchAndParse(pagePath);
+      const { scrapedTitle, stylesheets, inlineStyles, bodyClass, body } = SYNTHETIC_PAGE_PATHS.includes(pagePath)
+        ? buildSyntheticPage(pagePath)
+        : await fetchAndParse(pagePath);
       const title = titleFromPath(pagePath, scrapedTitle);
       const description = metaDescription(pagePath);
       await writePage(
         pagePath,
         layout({ pagePath, title, description, stylesheets, inlineStyles, bodyClass, body })
       );
-      await new Promise((r) => setTimeout(r, 350));
+      if (!SYNTHETIC_PAGE_PATHS.includes(pagePath)) await new Promise((r) => setTimeout(r, 350));
     } catch (err) {
       console.error('  ✗', pagePath, err.message);
     }
   }
+
+  console.log('\nWriting redirect aliases…');
+  for (const redirect of REDIRECTS) {
+    await writeRedirectPage(redirect);
+  }
+
+  console.log('\nWriting discovery files…');
+  await writeDiscoveryFiles();
+
+  console.log('\nOptimizing local raster images to WebP…');
+  await convertRasterImagesToWebp();
 
   console.log('\nDone → dist/');
   console.log('Run: npm run serve');
