@@ -36,10 +36,7 @@
 
 .elementor-element-63d63482 .elementor-element-78e5dbb2:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
 .elementor-element-63d63482 .elementor-element-78e5dbb2 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-  background-image: url('/wp-content/uploads/2024/11/071224-DRCK-0015-Edit-2-scaled-e1731100443763.webp') !important;
-  background-size: contain !important;
-  background-position: top left !important;
-  background-repeat: no-repeat !important;
+  background-image: none !important;
   background-color: transparent !important;
 }
 

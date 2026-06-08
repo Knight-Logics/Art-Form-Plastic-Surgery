@@ -99,14 +99,14 @@ const SYNTHETIC_PAGE_PATHS = ['/areas-we-serve/'];
 const FORM_PAGE_PATHS = [...APPOINTMENT_FORM_PATHS, '/contact/', '/book-consultation/'];
 
 const PROCEDURE_PAGE_PATTERN =
-  /\/(rhinoplasty|facelift|blepharoplasty|browlift|buccal|chin-implant|lip-lift|split-ear|mohs|nasal-breathing|scar-revision)/;
+  /\/(rhinoplasty|facelift|blepharoplasty|browlift|buccal|chin-implant|lip-lift|otoplasty|split-ear|mohs|nasal-breathing|scar-revision)/;
 
 const ANNOUNCEMENT_LINKS = [
   { label: 'Dr. Christopher Kieliszak', href: '/meet-dr-kieliszak/' },
   { label: 'Facial Plastic Surgeon', href: '/services/' },
   {
     label: 'Board-Certified',
-    href: 'https://doctors.mylrh.org/LRHPhysicianGroup/details/254158/christopher-kieliszak-otolaryngology-lakeland?Languages=1%2C26&Practices=102484%2C388&SortBy=GivenName&SortDirection=Asc&Specialties=20%2C43%2C73%2C10%2C15%2C51%2C8%2C56%2C53',
+    href: 'https://www.rochesterregional.org/providers/christopher-r-kieliszak',
     external: true,
   },
   {
@@ -885,6 +885,49 @@ const SEO_PROFILES = {
         {
           q: 'How long should I plan for facelift recovery?',
           a: 'Recovery varies, but many patients plan for two or more weeks before social activities, with swelling and refinement improving over time.',
+        },
+      ],
+    },
+  },
+  '/otoplasty-ear-pinning-enhance-facial-harmony-with-natural-looking-results/': {
+    title: `Otoplasty Tampa | Ear Pinning & Ear Surgery Safety Harbor`,
+    h1: 'Otoplasty (Ear Pinning) in Tampa & Safety Harbor',
+    breadcrumb: 'Otoplasty',
+    description:
+      'Otoplasty and ear pinning consultations in Tampa Bay for prominent ears, ear asymmetry, recovery, cost, and natural-looking facial harmony.',
+    serviceName: 'Otoplasty',
+    keywords: [
+      'otoplasty Tampa',
+      'ear pinning Tampa',
+      'prominent ear surgery Tampa',
+      'ear surgery Safety Harbor',
+      'otoplasty cost Tampa',
+    ],
+    content: {
+      kicker: 'Ear reshaping',
+      title: 'Ear pinning and otoplasty planning for balance, symmetry and natural contour',
+      body: [
+        'Otoplasty patients often search for ear pinning, prominent ear correction, ear asymmetry, recovery time and cost. The goal is a more balanced ear position that looks natural from the front and side without an overcorrected appearance.',
+        'Dr. Kieliszak reviews ear cartilage shape, symmetry, scar placement and whether otoplasty alone or combination facial procedures best support your goals.',
+      ],
+      bullets: [
+        'Prominent ear and ear pinning consultations',
+        'Asymmetry, setback and contour refinement planning',
+        'Recovery, headband wear and return-to-activity guidance',
+      ],
+      links: [
+        { label: 'Split earlobe repair', href: '/split-earlobe-repair-restore-the-natural-look-of-your-earlobes/' },
+        { label: 'Rhinoplasty', href: '/rhinoplasty-nose-job-sculpting-confidence-and-facial-harmony/' },
+        { label: 'Book consultation', href: '/book-consultation/' },
+      ],
+      faqs: [
+        {
+          q: 'What age is appropriate for otoplasty?',
+          a: 'Many patients are evaluated in childhood or adulthood depending on ear development, goals and timing. Consultation helps determine whether now is the right time.',
+        },
+        {
+          q: 'How long is otoplasty recovery?',
+          a: 'Most patients plan for swelling, a protective headband period and activity limits during early healing. Return-to-work timing is reviewed during consultation.',
         },
       ],
     },
@@ -1749,7 +1792,7 @@ function renderTikTokFeedWidget() {
 function renderGoogleReviewsWidget() {
   const googleG = `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.56 2.98-2.26 5.5-4.82 7.18l7.73 6c4.51-4.16 7.12-10.27 7.12-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24 24 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>`;
   return `<div class="artform-greviews" id="reviews" data-afg-widget>
-  <header class="artform-greviews__header">
+  <header class="artform-greviews__header artform-entrance artform-entrance--from-right" data-artform-entrance>
     <div class="artform-greviews__brand">
       ${googleG}
       <h2 class="artform-greviews__title">Google Reviews</h2>
@@ -1759,12 +1802,12 @@ function renderGoogleReviewsWidget() {
       <span data-afg-summary>5.0 • 102 reviews</span>
     </div>
   </header>
-  <div class="artform-greviews__tabs" role="tablist" aria-label="Filter reviews">
+  <div class="artform-greviews__tabs artform-entrance artform-entrance--from-right" role="tablist" aria-label="Filter reviews" data-artform-entrance data-artform-entrance-delay="140">
     <button type="button" class="artform-greviews__tab is-active" role="tab" aria-selected="true" data-afg-tab="all">All</button>
     <button type="button" class="artform-greviews__tab" role="tab" aria-selected="false" data-afg-tab="replied">Replied</button>
     <button type="button" class="artform-greviews__tab" role="tab" aria-selected="false" data-afg-tab="unreplied">Unreplied</button>
   </div>
-  <div class="artform-greviews__carousel">
+  <div class="artform-greviews__carousel artform-entrance artform-entrance--from-right" data-artform-entrance data-artform-entrance-delay="480">
     <button type="button" class="artform-greviews__nav" data-afg-prev aria-label="Previous reviews">
       <svg class="artform-greviews__nav-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M14 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -1791,15 +1834,50 @@ const HOME_VIDEO_REEL = [
   { src: '/videos/artform/laser-surgery-1.mp4', label: 'Laser and skin technology' },
 ];
 
+const HOME_VIDEO_REEL_ENTRANCES = ['from-left', 'from-bottom', 'from-right', 'from-top', 'from-left'];
+const HOME_VIDEO_REEL_ENTRANCE_DELAYS = [0, 90, 180, 270, 360];
+
+const VIDEO_REEL_MUTE_BTN = `<span class="artform-video-reel__ctrl artform-video-reel__ctrl--mute is-muted" data-artform-mute role="button" tabindex="0" aria-label="Unmute video" aria-pressed="true">
+  <span class="artform-video-reel__icon artform-video-reel__icon--muted" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <line x1="23" y1="9" x2="17" y2="15"></line>
+      <line x1="17" y1="9" x2="23" y2="15"></line>
+    </svg>
+  </span>
+  <span class="artform-video-reel__icon artform-video-reel__icon--unmuted" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    </svg>
+  </span>
+</span>`;
+
+const VIDEO_REEL_FS_BTN = `<span class="artform-video-reel__ctrl artform-video-reel__ctrl--fs" data-artform-fs role="button" tabindex="0" aria-label="Play fullscreen">
+  <svg viewBox="0 0 36 36" fill="currentColor" aria-hidden="true">
+    <path d="m 10,16 2,0 0,-4 4,0 0,-2 L 10,10 l 0,6 0,0 z"></path>
+    <path d="m 20,10 0,2 4,0 0,4 2,0 L 26,10 l -6,0 0,0 z"></path>
+    <path d="m 24,24 -4,0 0,2 L 26,26 l 0,-6 -2,0 0,4 0,0 z"></path>
+    <path d="M 12,20 10,20 10,26 l 6,0 0,-2 -4,0 0,-4 0,0 z"></path>
+  </svg>
+</span>`;
+
 /** Local TikTok-style video rail (replaces Smash Balloon feed on homepage). */
 function renderHomeVideoReel() {
-  const cards = HOME_VIDEO_REEL.map(
-    (video, index) => `<article class="artform-video-reel__card artform-video-reel__card--${index + 1}">
-      <video class="artform-video-reel__media" src="${escapeAttr(video.src)}" muted loop playsinline preload="metadata"${index < 2 ? ' autoplay' : ''}></video>
-      <div class="artform-video-reel__shade" aria-hidden="true"></div>
-      <p class="artform-video-reel__label">${video.label}</p>
-    </article>`
-  ).join('\n');
+  const cards = HOME_VIDEO_REEL.map((video, index) => {
+    const entrance = HOME_VIDEO_REEL_ENTRANCES[index] || 'from-bottom';
+    const delay = HOME_VIDEO_REEL_ENTRANCE_DELAYS[index] ?? index * 90;
+    return `<article class="artform-video-reel__card artform-video-reel__card--${index + 1}">
+      <div class="artform-video-reel__inner artform-entrance artform-entrance--${entrance}" data-artform-entrance data-artform-entrance-delay="${delay}">
+        <p class="artform-video-reel__label">${video.label}</p>
+        <video class="artform-video-reel__media" src="${escapeAttr(video.src)}" muted loop playsinline preload="metadata"></video>
+        <div class="artform-video-reel__shade" aria-hidden="true"></div>
+        ${VIDEO_REEL_MUTE_BTN}
+        ${VIDEO_REEL_FS_BTN}
+      </div>
+    </article>`;
+  }).join('\n');
 
   return `<div class="artform-video-reel" data-artform-video-reel>
   <div class="artform-video-reel__rail" aria-label="Practice video highlights">
@@ -1904,12 +1982,103 @@ function enhanceHomepage(html) {
 
   $('.elementor-element-6f14da7a').addClass('artform-video-reel-section');
 
+  enhanceHomepageHelpBand($);
   enhanceHomepageHelpBandLinks($);
+  enhanceHomepageEntrances($);
 
   return enhancePhotoCollage(enhancePortfolioGallery($('#wrap').html() || html));
 }
 
-/** Homepage help band — link each listed service to its procedure page. */
+/** Homepage scroll entrances — reviews photo, stats band, services kicker. */
+function enhanceHomepageEntrances($) {
+  const reviewsWrap = $('.elementor-element-63d63482 .elementor-element-78e5dbb2 > .elementor-widget-wrap.elementor-element-populated').first();
+  if (reviewsWrap.length && !reviewsWrap.find('.artform-greviews__photo').length) {
+    reviewsWrap.prepend(
+      '<div class="artform-greviews__photo artform-entrance artform-entrance--from-left" data-artform-entrance aria-hidden="true"></div>'
+    );
+  }
+
+  const statsWrap = $('.artform-stats-band .elementor-element-76035f93 > .elementor-element-populated').first();
+  if (statsWrap.length) {
+    statsWrap
+      .addClass('artform-entrance artform-entrance--from-bottom')
+      .attr('data-artform-entrance', '');
+  }
+
+  const servicesKicker = $('.elementor-element-5b9d1682 .elementor-element-75762c6c').first();
+  if (servicesKicker.length) {
+    servicesKicker
+      .removeClass('elementor-invisible fadeInLeft')
+      .addClass('artform-entrance artform-entrance--from-left')
+      .attr('data-artform-entrance', '');
+  }
+}
+
+const HOME_HELP_BAND_SERVICES = [
+  { label: 'Rhinoplasty', href: '/rhinoplasty-nose-job-sculpting-confidence-and-facial-harmony/' },
+  { label: 'Lip Lift', href: '/lip-lift-enhance-your-smile-and-achieve-fuller-youthful-lips/' },
+  { label: 'Facelift', href: '/facelift-rhytidectomy-rejuvenate-your-appearance-and-renew-confidence/' },
+  { label: 'Neck Lift', href: '/facelift-rhytidectomy-rejuvenate-your-appearance-and-renew-confidence/' },
+  {
+    label: 'Otoplasty',
+    href: '/otoplasty-ear-pinning-enhance-facial-harmony-with-natural-looking-results/',
+  },
+  { label: 'Blepharoplasty', href: '/blepharoplasty-eyelid-lift-refresh-and-brighten-your-eyes-with-a-youthful-look/' },
+  {
+    label: 'Skin Cancer Reconstruction',
+    href: '/mohs-reconstruction-restoring-natural-beauty-after-skin-cancer-removal/',
+  },
+];
+
+function renderHelpBandServicesList() {
+  const items = HOME_HELP_BAND_SERVICES.map((item, index) => {
+    const delay = Math.min(index * 70, 350);
+    return `<li class="artform-help-band__service-item artform-entrance artform-entrance--from-left" data-artform-entrance data-artform-entrance-delay="${delay}">
+      <a class="artform-help-band__service-link" href="${escapeAttr(item.href)}">
+        <span class="artform-help-band__service-icon" aria-hidden="true"><i class="fas fa-check-circle"></i></span>
+        <span class="artform-help-band__service-label">${escapeMapHtml(item.label)}</span>
+      </a>
+    </li>`;
+  }).join('\n');
+
+  return `<div class="artform-help-band__services-panel">
+  <p class="artform-help-band__services-kicker">Services include</p>
+  <ul class="artform-help-band__services-list">${items}</ul>
+</div>`;
+}
+
+/** Homepage help band — video backdrop, intro + services columns. */
+function enhanceHomepageHelpBand($) {
+  const band = $('.artform-help-band').first();
+  if (!band.length) return;
+
+  const cardCol = band.find('.elementor-element-dcb08e9 > .elementor-element-populated').first();
+  if (!cardCol.length) return;
+
+  cardCol.addClass('artform-help-band__card');
+  cardCol.find('> .elementor-background-overlay').first().addClass('artform-help-band__legacy-overlay');
+
+  if (!cardCol.find('.artform-help-band__bg').length) {
+    cardCol.prepend(`<div class="artform-help-band__bg" aria-hidden="true" data-artform-help-band-bg>
+  <div class="artform-help-band__bg-videos">
+    <video class="artform-help-band__bg-video" src="/videos/artform/dr-k2.mp4" muted loop playsinline preload="metadata"></video>
+    <video class="artform-help-band__bg-video" src="/videos/artform/dr-k3.mp4" muted loop playsinline preload="metadata"></video>
+  </div>
+  <div class="artform-help-band__bg-scrim"></div>
+</div>`);
+  }
+
+  band.find('.elementor-element-de3eb75').first().addClass('artform-help-band__intro');
+  band.find('.elementor-element-56864c16').first().addClass('artform-help-band__services');
+
+  const servicesCol = band.find('.artform-help-band__services > .elementor-element-populated').first();
+  if (servicesCol.length && !servicesCol.find('.artform-help-band__services-list').length) {
+    servicesCol.find('.elementor-element-fe18eed, .elementor-element-69b74e65').remove();
+    servicesCol.append(renderHelpBandServicesList());
+  }
+}
+
+/** Homepage help band — legacy Elementor icon-list fallback links. */
 function enhanceHomepageHelpBandLinks($) {
   $('.artform-help-band .elementor-icon-list-item').each((_, li) => {
     const $li = $(li);
@@ -2516,6 +2685,81 @@ function findPageElementor($, root = '#wrap') {
   return candidates.find(($el) => $el.length) || candidates[0];
 }
 
+/** Correct procedure article bodies when the WordPress export has the wrong post content. */
+const PROCEDURE_ARTICLE_OVERRIDES = {
+  '/lip-lift-enhance-your-smile-and-achieve-fuller-youthful-lips/': `
+<p>A lip lift shortens the distance between the nose and upper lip, elevates the vermillion border, and can improve tooth show for a more youthful, balanced smile. For Tampa Bay patients who feel their upper lip looks thin, elongated, or hidden, a surgical lip lift can create fuller-looking lips with definition that filler alone may not achieve.</p>
+<h3><b>1. What is a Lip Lift?</b></h3>
+<p>A lip lift is a facial plastic surgery procedure that removes a small strip of skin beneath the nose to raise the upper lip. The incision is typically hidden along the base of the nostrils in a bullhorn or subnasal pattern. By repositioning the upper lip rather than only adding volume, the procedure can refine the Cupid's bow and restore proportion between the nose, lip, and teeth.</p>
+<p><b>Key goals of a lip lift</b>:</p>
+<ul>
+<li>Shorten a long upper lip for a more youthful proportion</li>
+<li>Increase visible upper lip tissue and definition</li>
+<li>Improve gentle tooth show when smiling</li>
+<li>Create longer-lasting shape compared with filler alone in some patients</li>
+</ul>
+<h3><b>2. Benefits of a Lip Lift</b></h3>
+<p>A well-planned lip lift can enhance the perioral area while keeping results natural and harmonious with the rest of the face.</p>
+<ul>
+<li><b>More defined upper lip</b>: Elevates the lip border and can sharpen Cupid's bow contour.</li>
+<li><b>Improved facial balance</b>: Helps correct a long upper lip that can make the face appear aged or stern.</li>
+<li><b>Alternative or complement to filler</b>: Useful when patients want shape and position changes, not only volume.</li>
+<li><b>Long-lasting improvement</b>: Unlike temporary filler, surgical repositioning does not require repeat injections to maintain lift.</li>
+</ul>
+<h3><b>3. Ideal Candidates for a Lip Lift</b></h3>
+<p>Lip lift surgery may be appropriate for healthy adults who want a more youthful upper lip and understand both the benefits and the fine scar at the nose-lip junction.</p>
+<ul>
+<li>Patients with a long upper lip or limited tooth show when smiling</li>
+<li>Those seeking more permanent upper lip definition than filler provides</li>
+<li>Non-smokers in good health with realistic expectations</li>
+<li>Patients willing to follow scar-care instructions during healing</li>
+</ul>
+<p>During consultation, Dr. Kieliszak evaluates facial proportions, skin quality, prior filler use, and whether a lip lift, filler, or combination approach is the better fit.</p>
+<h3><b>4. The Lip Lift Procedure: Step-by-Step</b></h3>
+<ul>
+<li><b>Consultation and planning</b>: Measurements, photos, and discussion of bullhorn technique, expected scar placement, and desired tooth show.</li>
+<li><b>Anesthesia</b>: Usually performed under local anesthesia with sedation or light general anesthesia depending on the treatment plan.</li>
+<li><b>Incision and lift</b>: A carefully designed incision is placed along the subnasal border, excess skin is removed, and the upper lip is advanced upward.</li>
+<li><b>Closure</b>: Fine sutures are used to support precise alignment and minimize visible scarring.</li>
+</ul>
+<p><b>Duration</b>: Most lip lift procedures take about 45 to 90 minutes.</p>
+<h3><b>5. Recovery Process and Aftercare</b></h3>
+<p>Recovery is typically manageable, though swelling and temporary stiffness around the upper lip are common in the first week.</p>
+<ul>
+<li><b>Swelling and bruising</b>: Peaks in the first few days, then gradually improves.</li>
+<li><b>Activity limits</b>: Avoid strenuous exercise, heavy lifting, and wide mouth movements early in healing.</li>
+<li><b>Scar care</b>: Follow post-operative instructions for cleansing, ointments, sun protection, and follow-up visits.</li>
+</ul>
+<p>Most patients return to desk work within several days to a week, with social downtime often planned around the first 7 to 10 days of healing.</p>
+<h3><b>6. Lip Lift vs. Lip Filler</b></h3>
+<p>Filler adds volume, while a lip lift changes lip position and proportion. Patients with a long upper lip may see more meaningful improvement from surgery than from repeated filler alone. In some cases, a conservative combination plan is discussed after swelling resolves.</p>
+<h3><b>7. Frequently Asked Questions (FAQs)</b></h3>
+<p><b>Q: Will a lip lift look natural?</b> A: Yes. The goal is refined proportion and subtle tooth show, not an overdone or exaggerated lip.</p>
+<p><b>Q: Where is the scar placed?</b> A: The scar is typically hidden along the base of the nose. It fades over time with proper care and sun protection.</p>
+<p><b>Q: Can I still get filler after a lip lift?</b> A: Some patients do, but timing matters. Filler plans are usually discussed only after initial healing is complete.</p>
+<p><b>Q: How long do results last?</b> A: Surgical repositioning is considered long-lasting because the upper lip remains elevated after healing.</p>
+<p><b>Q: Am I a candidate if I have had filler before?</b> A: Often yes, but prior filler history should be reviewed during consultation so the surgical plan is safe and accurate.</p>
+<h3><b>Why Choose Art Form Plastic Surgery for Your Lip Lift?</b></h3>
+<p>Art Form Plastic Surgery provides board-certified facial plastic surgery in Safety Harbor and Tampa Bay. Dr. Christopher Kieliszak focuses on perioral harmony, natural proportions, and personalized planning so each lip lift supports the patient's overall facial aesthetics.</p>
+<h3><b>Schedule Your Consultation Today</b></h3>
+<p>Ready to explore whether a lip lift is right for your goals? Contact Art Form Plastic Surgery to schedule a consultation. We will review your anatomy, discuss lip lift vs filler options, and build a treatment plan tailored to you.</p>
+`.trim(),
+};
+
+function applyProcedureArticleOverride($, $elementor, pagePath) {
+  const replacement = PROCEDURE_ARTICLE_OVERRIDES[pagePath];
+  if (!replacement) return;
+
+  const $articleWidget = $elementor
+    .find('.elementor-widget-text-editor')
+    .filter((_, el) => (($(el).text() || '').replace(/\s+/g, ' ').trim().length > 200))
+    .first();
+  if (!$articleWidget.length) return;
+
+  const $container = $articleWidget.find('.elementor-widget-container').first();
+  if ($container.length) $container.html(replacement);
+}
+
 function cleanProcedureArticle($, $articleWidget) {
   const $container = $articleWidget.find('.elementor-widget-container').first();
   if (!$container.length) return;
@@ -2537,7 +2781,87 @@ function cleanProcedureArticle($, $articleWidget) {
     }
   }
 
+  $container
+    .find('[class*="BuiltinWidget"], [class*="rc-widgets"], [class*="src-widgets"]')
+    .remove();
+  $container.find('p, div').each((_, el) => {
+    const $el = $(el);
+    if ($el.find('[class*="BuiltinWidget"], [class*="rc-widgets"], [class*="src-widgets"]').length) {
+      $el.remove();
+      return;
+    }
+    const text = $el.text().replace(/\u00a0/g, ' ').trim();
+    if (!text && !$el.find('img, video, iframe, ul, ol, h2, h3, h4').length) {
+      $el.remove();
+    }
+  });
+
+  $container.find('[style]').removeAttr('style');
+  $container.find('li').removeAttr('style aria-level');
+
+  structureProcedureArticle($, $container);
+
   $articleWidget.addClass('artform-procedure-article');
+}
+
+/** Split long procedure posts into scroll-animated sections at each H3. */
+function structureProcedureArticle($, $container) {
+  if ($container.find('.artform-procedure-article__body').length) return;
+
+  const $children = $container.children().toArray().map((el) => $(el));
+  if (!$children.some(($el) => $el.is('h3'))) return;
+
+  const groups = [];
+  let group = { type: 'intro', $els: [] };
+
+  $children.forEach(($el) => {
+    if ($el.is('h3')) {
+      if (group.$els.length) groups.push(group);
+      group = { type: 'section', $els: [$el] };
+      return;
+    }
+    group.$els.push($el);
+  });
+  if (group.$els.length) groups.push(group);
+
+  const directions = ['from-left', 'from-right', 'from-bottom', 'from-left', 'from-right', 'from-top', 'from-left'];
+  const $wrapper = $('<div class="artform-procedure-article__body"></div>');
+  let sectionIndex = 0;
+
+  groups.forEach((g) => {
+    if (g.type === 'intro') {
+      const $intro = $(
+        '<section class="artform-procedure-section artform-procedure-section--lead artform-entrance artform-entrance--from-bottom" data-artform-entrance></section>'
+      );
+      g.$els.forEach(($el) => $intro.append($el));
+      $wrapper.append($intro);
+      return;
+    }
+
+    const $h3 = g.$els[0];
+    const title = $h3.text().replace(/^\s*\d+\.\s*/, '').trim();
+    const isFaq = /faq|frequently asked/i.test(title);
+    const isCta = /^(schedule your consultation|book your consultation)/i.test(title);
+
+    $h3.removeAttr('class').addClass('artform-procedure-section__heading');
+    $h3.empty().text(title);
+
+    const dir = directions[sectionIndex % directions.length];
+    const delay = Math.min(sectionIndex * 70, 280);
+    sectionIndex += 1;
+
+    let classes = `artform-procedure-section artform-entrance artform-entrance--${dir}`;
+    if (isFaq) classes += ' artform-procedure-section--faq';
+    if (isCta) classes += ' artform-procedure-section--cta';
+
+    const $sec = $(
+      `<section class="${classes}" data-artform-entrance data-artform-entrance-delay="${delay}"></section>`
+    );
+    g.$els.forEach(($el) => $sec.append($el));
+    $wrapper.append($sec);
+  });
+
+  $container.empty().append($wrapper);
 }
 
 function renderProcedureIntro(pagePath) {
@@ -2583,6 +2907,28 @@ function renderProcedureContentSection($, $articleWidget) {
   </section>`;
 }
 
+/** Drop legacy blog breadcrumb strip (Home › Blog) above procedure heroes. */
+function removeProcedureBlogBreadcrumbBand($, $elementor) {
+  $elementor.children('section.elementor-top-section').each((_, sec) => {
+    const $sec = $(sec);
+    if ($sec.find('h1.elementor-heading-title').length) return false;
+
+    const crumbText = $sec
+      .find('.elementor-icon-list-text')
+      .map((__, el) => $(el).text().replace(/\s+/g, ' ').trim())
+      .get()
+      .join(' ');
+    const isBlogCrumb = /home/i.test(crumbText) && /blog/i.test(crumbText);
+    const isThinBar =
+      !$sec.find('h1, h2, img, video, iframe, form').length &&
+      $sec.find('.elementor-widget').length <= 2;
+
+    if (isBlogCrumb && isThinBar) {
+      $sec.remove();
+    }
+  });
+}
+
 /** Procedure blog posts — compact service hero, full-width article, no sidebar. */
 function enhanceProcedurePage(html, pagePath) {
   if (!PROCEDURE_PAGE_PATTERN.test(pagePath)) return html;
@@ -2590,6 +2936,8 @@ function enhanceProcedurePage(html, pagePath) {
   const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
   const $elementor = findPageElementor($);
   if (!$elementor.length) return html;
+
+  removeProcedureBlogBreadcrumbBand($, $elementor);
 
   let $h1Section = null;
   let $h1Widget = null;
@@ -2610,6 +2958,7 @@ function enhanceProcedurePage(html, pagePath) {
 
   if (!$h1Section?.length || !$h1Widget?.length || !$articleWidget.length) return html;
 
+  applyProcedureArticleOverride($, $elementor, pagePath);
   cleanProcedureArticle($, $articleWidget);
 
   const articleHtml = $.html($articleWidget);
@@ -2797,7 +3146,7 @@ const PROCEDURE_CARD_LINKS = [
   [/buccal/i, '/buccal-fat-removal-sculpt-your-cheeks-for-a-slimmer-contoured-look/'],
   [/chin implant|chin augmentation|mentoplasty/i, '/chin-implant-enhance-your-profile-with-a-balanced-defined-chin/'],
   [/lip lift/i, '/lip-lift-enhance-your-smile-and-achieve-fuller-youthful-lips/'],
-  [/otoplasty|ear pinning/i, '/cosmetic-procedures/'],
+  [/otoplasty|ear pinning/i, '/otoplasty-ear-pinning-enhance-facial-harmony-with-natural-looking-results/'],
   [/neck\s*lift|necklift/i, '/facelift-rhytidectomy-rejuvenate-your-appearance-and-renew-confidence/'],
   [/split ear|earlobe|torn ear/i, '/split-earlobe-repair-restore-the-natural-look-of-your-earlobes/'],
   [/mohs|skin cancer reconstruction/i, '/mohs-reconstruction-restoring-natural-beauty-after-skin-cancer-removal/'],
@@ -3106,9 +3455,14 @@ function leanScriptsForPage(pagePath) {
     scripts.push('<script src="/js/artform-google-reviews.js" defer></script>');
     scripts.push('<script src="/js/artform-stats-counter.js" defer></script>');
     scripts.push('<script src="/js/artform-video-reel.js" defer></script>');
+    scripts.push('<script src="/js/artform-help-band.js" defer></script>');
+    scripts.push('<script src="/js/artform-home-entrance.js" defer></script>');
   }
   if (FORM_PAGE_PATHS.includes(pagePath)) {
     scripts.push('<script src="/js/artform-contact-form.js" defer></script>');
+  }
+  if (PROCEDURE_PAGE_PATTERN.test(pagePath)) {
+    scripts.push('<script src="/js/artform-home-entrance.js" defer></script>');
   }
   if (pagePath === '/book-consultation/') {
     scripts.push('<script src="/js/artform-intakeq.js" defer></script>');
@@ -3173,7 +3527,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <link rel="stylesheet" href="/css/artform-page-fixes.css">
   <link rel="stylesheet" href="/css/artform-content-typography.css">
   ${pagePath !== '/' ? '<link rel="stylesheet" href="/css/artform-hero-h1.css">' : ''}
-  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-portfolio-gallery.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-video-reel.css">' : ''}
+  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-portfolio-gallery.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-home-entrance.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-video-reel.css">' : ''}
   ${pagePath === '/' || pagePath === '/about-us/' || pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/artform-photo-collage.css">' : ''}
   ${pagePath === '/about-us/' ? '<link rel="stylesheet" href="/css/artform-about.css">' : ''}
   ${pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-meet-dr.css">' : ''}
@@ -3181,7 +3535,7 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   ${SERVICE_HERO_PATHS.includes(pagePath) || COMPACT_HERO_PATHS.includes(pagePath) || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-hero.css">' : ''}
   ${pagePath === '/services/' || APPOINTMENT_FORM_PATHS.includes(pagePath) || PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-service-intro.css">' : ''}
   ${pagePath === '/blog/' ? '<link rel="stylesheet" href="/css/artform-sidebar.css">' : ''}
-  ${PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-procedure.css">' : ''}
+  ${PROCEDURE_PAGE_PATTERN.test(pagePath) ? '<link rel="stylesheet" href="/css/artform-procedure.css">\n  <link rel="stylesheet" href="/css/artform-home-entrance.css">' : ''}
   ${seoProfile(pagePath).content ? '<link rel="stylesheet" href="/css/artform-seo.css">' : ''}
   ${pagePath === '/book-consultation/' ? '<link rel="stylesheet" href="/css/artform-book-consultation.css">' : ''}
   ${pagePath === '/areas-we-serve/' ? '<link rel="stylesheet" href="/css/artform-photo-collage.css">\n  <link rel="stylesheet" href="/css/artform-service-hero.css">\n  <link rel="stylesheet" href="/css/artform-areas.css">' : ''}

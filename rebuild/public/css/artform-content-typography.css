@@ -46,8 +46,8 @@ body.artform-service-page #content p.elementor-heading-title:not(.artform-headin
   color: var(--artform-gold) !important;
 }
 
-body.artform-service-page #content .elementor-widget-text-editor,
-body.artform-service-page #content .elementor-widget-text-editor p,
+body.artform-service-page #content .elementor-widget-text-editor:not(.artform-procedure-article),
+body.artform-service-page #content .elementor-widget-text-editor:not(.artform-procedure-article) p,
 body.artform-service-page #content .elementor-widget-icon-list .elementor-icon-list-text {
   color: var(--artform-gold-muted) !important;
 }

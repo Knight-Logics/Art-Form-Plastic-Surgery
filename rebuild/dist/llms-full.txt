@@ -50,6 +50,7 @@
 - Buccal Fat Removal in Tampa & Safety Harbor: https://artformplasticsurgery.com/buccal-fat-removal-sculpt-your-cheeks-for-a-slimmer-contoured-look/ — Buccal fat removal and cheek contouring consultations in Tampa Bay. Discuss candidacy, recovery, cost, facial slimming, and whether the result will age naturally.
 - Chin Implant & Chin Augmentation in Tampa: https://artformplasticsurgery.com/chin-implant-enhance-your-profile-with-a-balanced-defined-chin/ — Chin implant and chin augmentation consultations in Tampa Bay for profile balance, weak chin, jawline definition, rhinoplasty pairing, recovery, and cost.
 - Lip Lift in Tampa & Safety Harbor: https://artformplasticsurgery.com/lip-lift-enhance-your-smile-and-achieve-fuller-youthful-lips/ — Lip lift consultations in Tampa Bay for upper lip balance, tooth show, Cupid’s bow definition, lip lift vs filler, scar placement, recovery, and cost.
+- Otoplasty (Ear Pinning) in Tampa & Safety Harbor: https://artformplasticsurgery.com/otoplasty-ear-pinning-enhance-facial-harmony-with-natural-looking-results/ — Otoplasty and ear pinning consultations in Tampa Bay for prominent ears, ear asymmetry, recovery, cost, and natural-looking facial harmony.
 - Split Earlobe Repair in Tampa & Safety Harbor: https://artformplasticsurgery.com/split-earlobe-repair-restore-the-natural-look-of-your-earlobes/ — Split earlobe and torn earlobe repair consultations in Tampa Bay. Restore stretched or torn earlobes from earrings, gauges, trauma, or piercing changes.
 - Mohs Reconstruction in Tampa & Safety Harbor: https://artformplasticsurgery.com/mohs-reconstruction-restoring-natural-beauty-after-skin-cancer-removal/ — Mohs reconstruction and facial skin cancer repair consultations in Tampa Bay. Restore facial contour after Mohs surgery with attention to scars, function, and natural appearance.
 - Nasal Breathing Procedures in Tampa & Safety Harbor: https://artformplasticsurgery.com/nasal-breathing-procedures-achieve-lasting-relief-from-nasal-obstruction/ — Nasal breathing procedure consultations in Tampa Bay for nasal obstruction, deviated septum symptoms, nasal valve collapse, functional rhinoplasty, septoplasty concepts, and improved airflow.
@@ -209,6 +210,13 @@ Summary: Lip lift consultations in Tampa Bay for upper lip balance, tooth show, 
   - How is a lip lift different from lip filler? A lip lift changes upper lip position and tooth show surgically, while filler adds temporary volume. The best choice depends on anatomy and goals.
   - Who is a good candidate for lip lift? Good candidates for lip lift are patients with clear goals, realistic expectations, and anatomy or concerns that match the treatment. A consultation reviews health history, timing, facial balance, and whether a surgical or non-surgical option is the better fit.
   - What is recovery like after lip lift? Recovery depends on the procedure, treatment extent, and whether other services are combined. Most patients should plan around swelling, bruising, activity limits, and follow-up care; the office reviews expected downtime and return-to-work timing during consultation.
+
+### Otoplasty
+URL: https://artformplasticsurgery.com/otoplasty-ear-pinning-enhance-facial-harmony-with-natural-looking-results/
+Summary: Otoplasty and ear pinning consultations in Tampa Bay for prominent ears, ear asymmetry, recovery, cost, and natural-looking facial harmony.
+  - What age is appropriate for otoplasty? Many patients are evaluated in childhood or adulthood depending on ear development, goals and timing. Consultation helps determine whether now is the right time.
+  - How long is otoplasty recovery? Most patients plan for swelling, a protective headband period and activity limits during early healing. Return-to-work timing is reviewed during consultation.
+  - Who is a good candidate for otoplasty? Good candidates for otoplasty are patients with clear goals, realistic expectations, and anatomy or concerns that match the treatment. A consultation reviews health history, timing, facial balance, and whether a surgical or non-surgical option is the better fit.
 
 ### Split earlobe repair
 URL: https://artformplasticsurgery.com/split-earlobe-repair-restore-the-natural-look-of-your-earlobes/

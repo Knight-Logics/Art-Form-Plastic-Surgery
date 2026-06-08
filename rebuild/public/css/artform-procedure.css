@@ -39,36 +39,132 @@ body.artform-procedure-page .artform-procedure-content {
 
 body.artform-procedure-page .artform-procedure-article .elementor-widget-container {
   max-width: none;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
   font-family: Poppins, sans-serif;
   font-size: 1.02rem;
   line-height: 1.78;
-  color: #3f3b34 !important;
-  background: rgba(255, 255, 255, 0.94);
+  color: #2c2927 !important;
+  background: #f7f5f0;
   border: 1px solid rgba(184, 152, 86, 0.22);
   border-radius: 18px;
   box-shadow: 0 18px 45px rgba(18, 16, 12, 0.12);
 }
 
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container p,
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container li,
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container span {
-  color: #3f3b34 !important;
+body.artform-procedure-page .artform-procedure-article__body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.35rem);
 }
 
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container h3,
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container h3 b,
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container h3 strong {
-  margin: 2rem 0 0.75rem;
+body.artform-procedure-page .artform-procedure-section {
+  padding: clamp(1.15rem, 2.2vw, 1.65rem) clamp(1.1rem, 2vw, 1.5rem);
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(184, 152, 86, 0.16);
+  box-shadow: 0 8px 24px rgba(18, 16, 12, 0.05);
+}
+
+body.artform-procedure-page .artform-procedure-section--lead {
+  background: #ffffff;
+  border: 1px solid rgba(212, 183, 106, 0.28);
+  border-left: 4px solid #d4b76a;
+  font-size: 1.08rem;
+  line-height: 1.82;
+}
+
+body.artform-procedure-page .artform-procedure-section--lead::before {
+  content: 'Overview';
+  display: block;
+  margin-bottom: 0.7rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6b1f;
+}
+
+body.artform-procedure-page .artform-procedure-section__heading,
+body.artform-procedure-page .artform-procedure-article .elementor-widget-container h3.artform-procedure-section__heading {
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(184, 152, 86, 0.24);
   font-family: 'Antic Didone', Georgia, serif;
-  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-size: clamp(1.45rem, 2.5vw, 1.95rem);
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.22;
+}
+
+body.artform-procedure-page
+  #content
+  .artform-procedure-article
+  .artform-procedure-section:not(.artform-procedure-section--cta)
+  h3.artform-procedure-section__heading {
+  color: #12110f !important;
+  -webkit-text-fill-color: #12110f !important;
+}
+
+/* Override Astra/Elementor gold defaults inside the article card */
+body.artform-procedure-page #content .artform-procedure-article,
+body.artform-procedure-page #content .artform-procedure-article .elementor-widget-container,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) p,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) li,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) span {
+  color: #2c2927 !important;
+}
+
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) p > b:only-child,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) p > strong:only-child {
+  display: block;
+  margin: 1.15rem 0 0.45rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a6b1f !important;
+}
+
+body.artform-procedure-page .artform-procedure-section--faq {
+  background: #faf8f3;
+}
+
+body.artform-procedure-page .artform-procedure-section--faq .artform-procedure-section__heading {
   color: #12110f !important;
 }
 
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container h3:first-child {
-  margin-top: 0;
+body.artform-procedure-page .artform-procedure-section--faq p {
+  margin: 0.55rem 0;
+  padding-left: 0.85rem;
+  border-left: 3px solid rgba(212, 183, 106, 0.45);
+}
+
+body.artform-procedure-page .artform-procedure-section--faq p b,
+body.artform-procedure-page .artform-procedure-section--faq p strong {
+  color: #12110f !important;
+}
+
+body.artform-procedure-page .artform-procedure-section--cta {
+  background: linear-gradient(165deg, #12110f 0%, #1c1914 100%);
+  border-color: rgba(212, 183, 106, 0.35);
+  color: #f5f0e6;
+  text-align: center;
+}
+
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section--cta h3.artform-procedure-section__heading {
+  color: #e8c878 !important;
+  -webkit-text-fill-color: #e8c878 !important;
+  border-bottom-color: rgba(232, 200, 120, 0.45);
+  font-size: clamp(1.55rem, 2.6vw, 2.05rem);
+  text-shadow: 0 1px 18px rgba(232, 200, 120, 0.22);
+}
+
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section--cta p,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section--cta b,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section--cta strong,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section--cta span,
+body.artform-procedure-page #content .artform-procedure-article .artform-procedure-section--cta li {
+  color: #f5f0e6 !important;
 }
 
 body.artform-procedure-page .artform-procedure-article .elementor-widget-container ul,
@@ -81,8 +177,8 @@ body.artform-procedure-page .artform-procedure-article .elementor-widget-contain
   margin-top: 0.35rem;
 }
 
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container b,
-body.artform-procedure-page .artform-procedure-article .elementor-widget-container strong {
+body.artform-procedure-page .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) b,
+body.artform-procedure-page .artform-procedure-article .artform-procedure-section:not(.artform-procedure-section--cta) strong {
   color: #12110f !important;
   font-weight: 600;
 }
@@ -91,6 +187,13 @@ body.artform-procedure-page .artform-procedure-article .elementor-widget-contain
   max-width: 100%;
   height: auto;
   border-radius: 10px;
+}
+
+/* Legacy RingCentral click-to-call embeds from WordPress export — not used on rebuild */
+body.artform-procedure-page .artform-procedure-article [class*='BuiltinWidget'],
+body.artform-procedure-page .artform-procedure-article [class*='rc-widgets'],
+body.artform-procedure-page .artform-procedure-article [class*='src-widgets'] {
+  display: none !important;
 }
 
 body.artform-procedure-page .artform-seo {
@@ -108,5 +211,9 @@ body.artform-procedure-page .artform-seo {
 
   body.artform-procedure-page .artform-procedure-intro h2.elementor-heading-title {
     max-width: none;
+  }
+
+  body.artform-procedure-page .artform-procedure-section {
+    padding: 1rem 0.95rem;
   }
 }

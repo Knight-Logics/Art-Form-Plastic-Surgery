@@ -1,0 +1,108 @@
+/**
+ * Homepage scroll-triggered entrance animations.
+ */
+
+@keyframes artform-entrance-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-68px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes artform-entrance-right {
+  from {
+    opacity: 0;
+    transform: translate3d(68px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes artform-entrance-bottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 56px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes artform-entrance-top {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -56px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.artform-entrance {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.artform-entrance--from-left:not(.is-visible) {
+  transform: translate3d(-68px, 0, 0);
+}
+
+.artform-entrance--from-right:not(.is-visible) {
+  transform: translate3d(68px, 0, 0);
+}
+
+.artform-entrance--from-bottom:not(.is-visible) {
+  transform: translate3d(0, 56px, 0);
+}
+
+.artform-entrance--from-top:not(.is-visible) {
+  transform: translate3d(0, -56px, 0);
+}
+
+.artform-entrance--from-left.is-visible {
+  animation: artform-entrance-left 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.artform-entrance--from-right.is-visible {
+  animation: artform-entrance-right 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.artform-entrance--from-bottom.is-visible {
+  animation: artform-entrance-bottom 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.artform-entrance--from-top.is-visible {
+  animation: artform-entrance-top 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Google Reviews — dedicated photo layer behind carousel */
+.artform-greviews__photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('/wp-content/uploads/2024/11/071224-DRCK-0015-Edit-2-scaled-e1731100443763.webp');
+  background-size: contain;
+  background-position: top left;
+  background-repeat: no-repeat;
+}
+
+.elementor-element-63d63482 .elementor-element-78e5dbb2 > .elementor-widget-wrap.elementor-element-populated {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artform-entrance {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
