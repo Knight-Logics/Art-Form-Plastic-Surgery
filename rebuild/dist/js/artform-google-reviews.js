@@ -21,6 +21,11 @@
   var activeFilter = 'all';
   var pageIndex = 0;
   var TRACK_GAP = 12;
+  var MOBILE_MQ = window.matchMedia('(max-width: 639px)');
+
+  function isMobileLayout() {
+    return MOBILE_MQ.matches;
+  }
 
   function escapeHtml(value) {
     return String(value || '')
@@ -80,7 +85,7 @@
     var textStyle = bg === '#FBBC05' ? ' style="color:#1d1c1f;"' : '';
     var replyHtml = '';
 
-    if (hasReply(review)) {
+    if (hasReply(review) && !isMobileLayout()) {
       replyHtml =
         '<div class="artform-greviews__reply">' +
         '<strong>' +
@@ -136,10 +141,22 @@
     summaryEl.textContent = rating + ' \u2022 ' + count + ' reviews';
   }
 
+  function viewportWidth() {
+    var w = Math.floor(viewport.clientWidth || viewport.getBoundingClientRect().width);
+    if (w > 0) {
+      return w;
+    }
+    var carousel = root.querySelector('.artform-greviews__carousel');
+    return carousel ? Math.floor(carousel.clientWidth) : 0;
+  }
+
   /** Cards per slide — only use N columns if N cards actually fit in the viewport */
   function perView() {
-    var w = viewport.getBoundingClientRect().width;
+    var w = viewportWidth();
     if (w < 1) {
+      return 1;
+    }
+    if (w < 640) {
       return 1;
     }
     var minCard = 200;
@@ -159,11 +176,7 @@
     return Math.max(1, Math.ceil(cards / perView()));
   }
 
-  /** Size cards from visible viewport so flex % never references the full track */
-  function syncCardWidths() {
-    var vpW = viewport.getBoundingClientRect().width;
-    var n = perView();
-    var cardW = Math.max(180, Math.floor((vpW - TRACK_GAP * (n - 1)) / n));
+  function applyCardWidth(cardW) {
     viewport.style.setProperty('--afg-card-width', cardW + 'px');
     Array.prototype.forEach.call(track.children, function (card) {
       card.style.flex = '0 0 ' + cardW + 'px';
@@ -171,6 +184,20 @@
       card.style.minWidth = cardW + 'px';
       card.style.maxWidth = cardW + 'px';
     });
+  }
+
+  /** Size cards in px from the viewport — never % (breaks inside width:max-content tracks). */
+  function syncCardWidths() {
+    var vpW = viewportWidth();
+    var n = perView();
+    var gap = n > 1 ? TRACK_GAP : 0;
+    var cardW = vpW > 0 ? Math.floor((vpW - gap * (n - 1)) / n) : 260;
+    if (n === 1 && vpW > 0) {
+      cardW = vpW;
+    } else if (!isMobileLayout() && vpW >= 640) {
+      cardW = Math.max(180, cardW);
+    }
+    applyCardWidth(cardW);
     return cardW;
   }
 
@@ -184,7 +211,8 @@
     }
     var cardW = syncCardWidths();
     var n = perView();
-    var offset = pageIndex * n * (cardW + TRACK_GAP);
+    var gap = n > 1 ? TRACK_GAP : 0;
+    var offset = pageIndex * n * (cardW + gap);
     track.style.transform = 'translateX(' + -offset + 'px)';
     prev.disabled = pageIndex === 0;
     next.disabled = pageIndex === pages - 1;
@@ -195,6 +223,10 @@
     track.innerHTML = visible.map(cardMarkup).join('');
     pageIndex = 0;
     updateCarousel();
+    window.requestAnimationFrame(function () {
+      updateCarousel();
+      window.requestAnimationFrame(updateCarousel);
+    });
   }
 
   function onLayoutChange() {
@@ -215,9 +247,22 @@
       updateCarousel();
     });
     window.addEventListener('resize', onLayoutChange);
+    if (MOBILE_MQ.addEventListener) {
+      MOBILE_MQ.addEventListener('change', function () {
+        renderTrack();
+      });
+    } else if (MOBILE_MQ.addListener) {
+      MOBILE_MQ.addListener(function () {
+        renderTrack();
+      });
+    }
     if (typeof ResizeObserver !== 'undefined') {
       var ro = new ResizeObserver(onLayoutChange);
       ro.observe(viewport);
+      var carousel = root.querySelector('.artform-greviews__carousel');
+      if (carousel) {
+        ro.observe(carousel);
+      }
     }
   }
 

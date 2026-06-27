@@ -1,31 +1,43 @@
 /**
- * Custom Art Form header — 3-column grid: logo | centered nav | CTAs
+ * Custom Art Form header — logo | nav (centered in gap) | book | phone
  * Replaces Astra builder markup (no fighting ast-flex / absolute positioning).
  */
+
+:root {
+  --af-header-desktop-min: 1265px;
+  /* Hide header book CTA only on small phones — keep through all tablet widths */
+  --af-header-book-hide-max: 639.98px;
+  --af-header-book-height: 38px;
+  --af-header-book-pad-x: 0.85rem;
+  --af-header-book-font: 0.75rem;
+}
 
 .artform-header {
   position: sticky;
   top: 0;
   z-index: 10000;
-  background: #000000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: rgba(8, 8, 10, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 183, 106, 0.12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
 }
 
 .artform-header__bar {
   display: grid;
-  /* Equal side tracks = nav centered in full header width */
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  gap: 12px 20px;
-  min-height: 58px;
-  max-width: 100%;
+  gap: 12px clamp(16px, 2vw, 28px);
+  min-height: 74px;
+  max-width: min(1240px, 100%);
   margin: 0 auto;
-  padding: 6px clamp(16px, 2vw, 32px);
+  padding: 8px clamp(16px, 2vw, 32px);
   box-sizing: border-box;
 }
 
 .artform-header__logo {
   grid-column: 1;
+  grid-row: 1;
   justify-self: start;
   line-height: 0;
 }
@@ -39,10 +51,14 @@
   display: block;
 }
 
-/* Center column — nav truly centered in header */
+/* Center nav in the space between logo and Book Consultation */
 .artform-header__nav {
   grid-column: 2;
+  grid-row: 1;
   justify-self: center;
+  align-self: center;
+  width: max-content;
+  max-width: 100%;
   min-width: 0;
 }
 
@@ -149,12 +165,22 @@
 }
 
 .artform-header__ctas {
+  display: contents;
+}
+
+.artform-header__btn--book {
   grid-column: 3;
+  grid-row: 1;
   justify-self: end;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 10px;
+  align-self: center;
+}
+
+.artform-header__ctas .header-cta {
+  grid-column: 4;
+  grid-row: 1;
+  justify-self: end;
+  align-self: center;
+  margin-left: 0;
 }
 
 .artform-header__btn,
@@ -162,12 +188,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
-  padding: 6px 16px;
+  box-sizing: border-box;
+  min-height: var(--af-header-book-height);
+  height: var(--af-header-book-height);
+  max-height: var(--af-header-book-height);
+  padding: 0 var(--af-header-book-pad-x);
   font-family: Poppins, sans-serif;
-  font-size: clamp(12px, 0.68vw, 13px);
-  font-weight: 500;
-  line-height: 1.15;
+  font-size: var(--af-header-book-font);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
   text-decoration: none;
   white-space: nowrap;
   border-radius: 999px;
@@ -177,48 +207,30 @@
   transition: filter 0.18s ease, transform 0.18s ease, background 0.18s ease, color 0.18s ease;
 }
 
-.artform-header__btn--book {
-  background: #b89856;
-  box-shadow: 0 8px 20px rgba(184, 152, 86, 0.22);
+.artform-header__btn--book,
+.artform-header a.artform-header__btn--book {
+  min-height: var(--af-header-book-height) !important;
+  max-height: var(--af-header-book-height) !important;
+  height: var(--af-header-book-height) !important;
+  padding: 0 var(--af-header-book-pad-x) !important;
+  font-size: var(--af-header-book-font) !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  color: #0c0b0a !important;
+  background: linear-gradient(135deg, #e8c878 0%, #c9a84a 48%, #a88648 100%) !important;
+  background-image: linear-gradient(135deg, #e8c878 0%, #c9a84a 48%, #a88648 100%) !important;
+  box-shadow: 0 6px 14px rgba(168, 134, 72, 0.22) !important;
 }
 
 .artform-header__btn--book:hover,
 .artform-header__btn--book:focus-visible {
   filter: brightness(1.06);
   transform: translateY(-1px);
-  background: #ffffff;
-  color: #b89856 !important;
-}
-
-.artform-header__btn--phone {
-  flex-direction: column;
-  gap: 0;
-  padding: 5px 16px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #c9a96e 0%, #a88648 100%);
-  box-shadow: 0 8px 20px rgba(184, 152, 86, 0.28);
-}
-
-.artform-header__phone-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.92;
-  color: #ffffff !important;
-}
-
-.artform-header__btn--phone:hover,
-.artform-header__btn--phone:focus-visible {
-  filter: brightness(1.08);
-  transform: translateY(-1px);
-  color: #ffffff !important;
+  color: #0c0b0a !important;
 }
 
 .artform-header__toggle {
   display: none;
-  grid-column: 2;
-  justify-self: end;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -256,6 +268,16 @@
   background: #ffffff;
 }
 
+/* Beat Astra / Elementor global button padding on header book CTA */
+.artform-header a.artform-header__btn.artform-header__btn--book {
+  min-height: var(--af-header-book-height) !important;
+  max-height: var(--af-header-book-height) !important;
+  height: var(--af-header-book-height) !important;
+  padding: 0 var(--af-header-book-pad-x) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  line-height: 1 !important;
+}
 /* Beat theme button styles (pill shape / gradient) */
 .artform-header button.artform-header__toggle {
   border-radius: 8px !important;
@@ -291,14 +313,13 @@
     max-height: clamp(48px, 4.5vw, 56px);
   }
 
-  .artform-header__btn {
-    min-height: 38px;
-    padding: 6px 18px;
-    font-size: clamp(12px, 0.75vw, 14px);
-  }
-
-  .artform-header__btn--phone {
-    padding: 5px 18px;
+  .artform-header__btn,
+  .artform-header__btn--book {
+    min-height: var(--af-header-book-height) !important;
+    max-height: var(--af-header-book-height) !important;
+    height: var(--af-header-book-height) !important;
+    padding: 0 var(--af-header-book-pad-x) !important;
+    font-size: var(--af-header-book-font) !important;
   }
 }
 
@@ -308,23 +329,75 @@
   }
 }
 
-/* Mobile */
+/* Compact header — drawer toggle, book + phone stay visible on tablets */
 @media (max-width: 1264.98px) {
   .artform-header__bar {
-    grid-template-columns: 1fr auto;
-  }
-
-  .artform-header__logo {
-    grid-column: 1;
-  }
-
-  .artform-header__nav,
-  .artform-header__ctas {
-    display: none;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px 10px;
+    min-height: 68px;
+    max-width: 100%;
+    padding: 8px 14px;
   }
 
   .artform-header__toggle {
     display: inline-flex;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .artform-header__logo {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .artform-header__nav {
+    display: none;
+  }
+
+  .artform-header__ctas {
+    display: flex;
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .artform-header__btn--book {
+    display: inline-flex !important;
+    grid-column: auto;
+    grid-row: auto;
+    flex-shrink: 0;
+    min-height: var(--af-header-book-height) !important;
+    max-height: var(--af-header-book-height) !important;
+    height: var(--af-header-book-height) !important;
+    padding: 0 0.75rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  .artform-header__ctas .header-cta {
+    grid-column: auto;
+    grid-row: auto;
+    margin-left: 0;
+  }
+}
+
+/* Small phones only — hide header book; drawer + hero form cover consult */
+@media (max-width: 639.98px) {
+  .artform-header__btn--book {
+    display: none !important;
+  }
+
+  .artform-header__ctas {
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .artform-header__bar {
+    padding: 8px 10px;
   }
 }
 
@@ -462,29 +535,23 @@ button.artform-drawer-close,
   transition: color 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
-.artform-drawer-book,
-.artform-drawer-phone {
+.artform-drawer-book {
   background: linear-gradient(135deg, #e8c878 0%, #c9a84a 48%, #a88648 100%) !important;
   color: #0c0b0a !important;
   box-shadow: 0 10px 24px rgba(168, 134, 72, 0.28);
 }
 
 .artform-drawer-book:hover,
-.artform-drawer-book:focus-visible,
-.artform-drawer-phone:hover,
-.artform-drawer-phone:focus-visible {
+.artform-drawer-book:focus-visible {
   color: #ffffff !important;
   filter: brightness(1.06);
   transform: translateY(-1px);
 }
 
-.artform-drawer-phone-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.92;
-  color: inherit !important;
+.artform-drawer-cta .header-cta--drawer:hover,
+.artform-drawer-cta .header-cta--drawer:focus-visible {
+  transform: translateY(-1px);
+  opacity: 1;
 }
 
 .artform-drawer-social {

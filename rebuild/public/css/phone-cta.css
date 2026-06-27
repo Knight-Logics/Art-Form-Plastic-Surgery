@@ -1,0 +1,215 @@
+/**
+ * Phone CTA — Roof Monsters / Screen Team pattern (icon + label + number).
+ * Theme via CSS variables on :root or a parent (e.g. .artform-home-page).
+ */
+
+:root {
+  --phone-cta-accent: #d4b76a;
+  --phone-cta-accent-soft: rgba(212, 183, 106, 0.12);
+  --phone-cta-accent-border: rgba(212, 183, 106, 0.55);
+  --phone-cta-accent-glow: rgba(212, 183, 106, 0.55);
+  --phone-cta-label: #aaa;
+  --phone-cta-number: #ffffff;
+  --phone-cta-number-glow: #f8e8c8;
+}
+
+.header-cta {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 0.75vw, 8px);
+  flex-shrink: 0;
+  padding: 2px 0;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.header-cta:hover,
+.header-cta:focus-visible {
+  opacity: 0.92;
+}
+
+.header-cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(34px, 4.2cqi, 38px);
+  height: clamp(34px, 4.2cqi, 38px);
+  border-radius: 50%;
+  border: 1.5px solid var(--phone-cta-accent-border);
+  background: var(--phone-cta-accent-soft);
+  color: var(--phone-cta-accent);
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.header-cta-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.header-cta:hover .header-cta-icon,
+.header-cta:focus-visible .header-cta-icon {
+  border-color: var(--phone-cta-accent);
+  background: rgba(212, 183, 106, 0.22);
+}
+
+.header-cta-text {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.header-cta-label {
+  font-family: Poppins, sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--phone-cta-label);
+  line-height: 1.2;
+}
+
+.header-cta-number {
+  font-family: 'Antic Didone', Georgia, serif;
+  font-size: clamp(0.64rem, 1.75cqi, 0.86rem);
+  font-weight: 700;
+  color: var(--phone-cta-number) !important;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  white-space: nowrap;
+  animation: header-cta-number-glow 10s ease-in-out infinite;
+}
+
+@keyframes header-cta-number-glow {
+  0%, 84%, 100% {
+    color: var(--phone-cta-number);
+    text-shadow: none;
+  }
+
+  88%, 94% {
+    color: var(--phone-cta-number-glow);
+    text-shadow:
+      0 0 8px var(--phone-cta-accent-glow),
+      0 0 18px rgba(212, 183, 106, 0.45),
+      0 0 32px rgba(212, 183, 106, 0.25);
+  }
+}
+
+/* Hero — larger phone CTA beside copy */
+.header-cta--hero {
+  margin-top: 4px;
+}
+
+.header-cta--hero .header-cta-icon {
+  width: clamp(38px, 4vw, 44px);
+  height: clamp(38px, 4vw, 44px);
+}
+
+.header-cta--hero .header-cta-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.header-cta--hero .header-cta-label {
+  font-size: 0.62rem;
+}
+
+.header-cta--hero .header-cta-number {
+  font-size: clamp(0.78rem, 1.8vw, 1rem);
+}
+
+/* Mobile drawer — full width */
+.header-cta--drawer {
+  width: 100%;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(212, 183, 106, 0.08);
+  border: 1px solid rgba(212, 183, 106, 0.22);
+}
+
+.header-cta--drawer .header-cta-text {
+  align-items: center;
+}
+
+/* Inline “Prefer to call?” — compact row */
+.header-cta--inline {
+  display: inline-flex;
+  vertical-align: middle;
+  gap: 6px;
+  padding: 0;
+  margin-left: 0.15rem;
+}
+
+.header-cta--inline .header-cta-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.header-cta--inline .header-cta-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.header-cta--inline .header-cta-label {
+  display: none;
+}
+
+.header-cta--inline .header-cta-number {
+  font-size: 0.86rem;
+  animation: none;
+}
+
+.header-cta-number--link {
+  font-family: Poppins, sans-serif;
+  font-size: inherit;
+  font-weight: 700;
+  color: var(--phone-cta-accent) !important;
+  text-decoration: none;
+  animation: none;
+}
+
+.header-cta-number--link:hover,
+.header-cta-number--link:focus-visible {
+  color: var(--phone-cta-number-glow) !important;
+}
+
+@media (max-width: 1264.98px) {
+  .artform-header__ctas .header-cta-text {
+    display: flex !important;
+  }
+
+  .artform-header__ctas .header-cta-label {
+    display: block;
+    font-size: clamp(0.52rem, 2vw, 0.64rem);
+  }
+
+  .artform-header__ctas .header-cta-icon {
+    width: clamp(34px, 9vw, 42px);
+    height: clamp(34px, 9vw, 42px);
+  }
+
+  .artform-header__ctas .header-cta-number {
+    font-size: clamp(0.68rem, 2.6vw, 0.88rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-cta-number {
+    animation: none;
+  }
+}
+
+.artform-phone-cta-widget,
+.artform-service-intro-phone .elementor-widget-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.artform-service-intro-phone .header-cta {
+  margin-top: 0.25rem;
+}

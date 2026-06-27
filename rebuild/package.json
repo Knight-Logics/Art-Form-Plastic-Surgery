@@ -8,8 +8,9 @@
     "build": "node scripts/download-assets.mjs && node scripts/build.mjs",
     "build:fast": "node scripts/build.mjs",
     "serve": "npx --yes serve dist -l 3456",
-    "screenshot:header": "node scripts/screenshot-header.mjs",
+    "screenshot:hero": "node scripts/screenshot-hero-all.mjs 3470",
     "screenshot:hero-mobile": "node scripts/screenshot-hero-mobile.mjs",
+    "verify:hero": "node scripts/verify-hero-layout.mjs 3470",
     "screenshot:greviews": "node scripts/screenshot-greviews.mjs"
   },
   "dependencies": {

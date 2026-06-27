@@ -2,6 +2,49 @@
  * Google Reviews widget — Knight Logics layout, Art Form black & gold theme.
  */
 
+/* Flat section shell (replaces nested Elementor col-50 columns from build.mjs) */
+.elementor-975 .elementor-element.elementor-element-63d63482.artform-greviews-section,
+.artform-greviews-section,
+.artform-greviews-section > .artform-greviews-section__inner {
+  background-color: #0a0a0a !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+.artform-greviews-section__inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: min(1290px, 100%);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.artform-greviews-section__panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+@media (min-width: 1025px) {
+  .artform-greviews-section__inner {
+    min-height: clamp(420px, 42vw, 560px);
+    padding-left: min(380px, 32vw);
+  }
+
+  .artform-greviews-section .artform-greviews__photo {
+    width: min(380px, 32vw);
+    max-width: 40%;
+  }
+}
+
 .elementor-element-63d63482,
 .elementor-element-63d63482 > .elementor-container,
 .elementor-element-63d63482 .elementor-element-78e5dbb2,
@@ -20,12 +63,18 @@
   justify-content: flex-start !important;
   max-width: 100% !important;
   width: 100% !important;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .elementor-element-63d63482 .elementor-element-7691a215 {
-  overflow: hidden;
+  overflow: visible;
   max-width: 100%;
+}
+
+.artform-greviews-section--flat .elementor-element-7691a215,
+.artform-greviews-section--flat .elementor-element-57aabc70,
+.artform-greviews-section--flat .elementor-element-9feff1f {
+  display: none !important;
 }
 
 /* Layer 1 — full-size photo (contain / top-left) behind the reviews panel */
@@ -112,12 +161,13 @@
   width: 100%;
   max-width: 100%;
   margin-left: 0;
-  /* 5% inset via padding (margin + width:100% was clipping the right arrow off-screen) */
-  padding: clamp(24px, 2.5vw, 36px) clamp(20px, 2.5vw, 36px) clamp(24px, 2.5vw, 36px) 5%;
+  padding: clamp(20px, 2.5vw, 36px) clamp(12px, 2vw, 28px);
   background: transparent;
   color: var(--afg-ink);
   font-family: Poppins, Inter, sans-serif;
   overflow: visible;
+  --afg-nav-size: clamp(34px, 2.75vw, 42px);
+  --afg-nav-gap: clamp(6px, 0.75vw, 14px);
 }
 
 .artform-greviews *,
@@ -209,37 +259,39 @@
   }
 }
 
-/* All breakpoints: [prev] [cards] [next] — cards stay framed between arrows */
+/* Desktop/tablet: [prev] [cards] [next] */
 .artform-greviews__carousel {
   position: relative;
-  display: grid;
-  grid-template-columns: var(--afg-nav-size) minmax(0, 1fr) var(--afg-nav-size);
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  column-gap: clamp(4px, 0.45vw, 12px);
+  justify-content: stretch;
+  gap: var(--afg-nav-gap);
+  width: 100%;
   max-width: 100%;
   overflow: visible;
-  --afg-nav-size: 38px;
-  --afg-nav-edge: 0;
+  box-sizing: border-box;
 }
 
 .artform-greviews__viewport {
-  grid-column: 2;
-  grid-row: 1;
+  flex: 1 1 0;
+  order: 2;
   overflow: hidden;
   min-width: 0;
-  width: 100%;
+  width: auto;
   max-width: 100%;
   margin: 0 !important;
-  container-type: inline-size;
-  container-name: afg-reviews;
+  contain: inline-size;
 }
 
 .artform-greviews__track {
   display: flex;
+  flex-wrap: nowrap;
   gap: 12px;
   transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
   width: max-content;
+  max-width: none;
 }
 
 /* Widths use container queries (viewport), not % of the full track */
@@ -276,12 +328,20 @@
   flex-shrink: 0;
 }
 
+.artform-greviews__card-head > div {
+  min-width: 0;
+  flex: 1;
+}
+
 .artform-greviews__name {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
   color: var(--afg-card-ink);
   line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .artform-greviews__meta {
@@ -349,52 +409,58 @@
 }
 
 .artform-greviews__nav {
-  position: relative;
-  top: auto;
+  position: static !important;
+  top: auto !important;
   left: auto !important;
   right: auto !important;
-  transform: none;
+  bottom: auto !important;
+  transform: none !important;
   z-index: 4;
-  width: var(--afg-nav-size);
-  height: var(--afg-nav-size);
-  border: 1.5px solid var(--afg-accent);
-  border-radius: 50%;
-  background: rgba(12, 11, 10, 0.72);
-  color: var(--afg-accent);
-  padding: 0;
+  flex: 0 0 var(--afg-nav-size);
+  width: var(--afg-nav-size) !important;
+  height: var(--afg-nav-size) !important;
+  min-width: var(--afg-nav-size) !important;
+  min-height: var(--afg-nav-size) !important;
+  max-width: var(--afg-nav-size) !important;
+  max-height: var(--afg-nav-size) !important;
+  border: 1.5px solid var(--afg-accent) !important;
+  border-radius: 50% !important;
+  background: rgba(12, 11, 10, 0.82) !important;
+  color: var(--afg-accent) !important;
+  padding: 0 !important;
+  margin: 0 !important;
   cursor: pointer;
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  justify-self: center;
-  align-self: center;
   flex-shrink: 0;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  line-height: 0;
+  font: inherit;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .artform-greviews__nav[data-afg-prev] {
-  grid-column: 1;
-  grid-row: 1;
-  margin-right: -6px;
+  order: 1;
 }
 
 .artform-greviews__nav[data-afg-next] {
-  grid-column: 3;
-  grid-row: 1;
-  margin-left: -6px;
+  order: 3;
 }
 
 .artform-greviews__nav-icon {
   display: block;
-  width: 18px;
-  height: 18px;
+  width: clamp(14px, 1.15vw, 20px);
+  height: clamp(14px, 1.15vw, 20px);
   flex-shrink: 0;
 }
 
 .artform-greviews__nav:hover:not(:disabled),
 .artform-greviews__nav:focus-visible:not(:disabled) {
-  background: var(--afg-accent);
-  color: #0c0b0a;
+  background: var(--afg-accent) !important;
+  color: #0c0b0a !important;
   outline: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
@@ -443,46 +509,60 @@
   }
 
   .artform-greviews {
-    padding-left: clamp(12px, 2vw, 20px);
-    padding-right: clamp(16px, 2.5vw, 28px);
-  }
-
-  .artform-greviews {
-    --afg-nav-size: 34px;
+    padding-left: clamp(10px, 2vw, 20px);
+    padding-right: clamp(10px, 2vw, 20px);
   }
 }
 
-@container afg-reviews (max-width: 479px) {
-  .artform-greviews__card {
-    flex-basis: 100cqi;
-    width: 100cqi;
-    min-width: 100cqi;
-    max-width: 100cqi;
+/* Tablet + phone: photo is absolute — drop empty spacer column, reviews full width */
+@media (max-width: 1024px) {
+  .elementor-element-63d63482 .elementor-element-7691a215 > .elementor-container {
+    flex-wrap: wrap !important;
   }
-}
 
-/* Tablet + phone: stack photo above reviews */
-@media (max-width: 900px) {
   .elementor-element-63d63482 .elementor-element-57aabc70 {
+    display: none !important;
+    width: 0 !important;
     min-width: 0 !important;
-    width: 100% !important;
-    flex: 1 1 100% !important;
+    max-width: 0 !important;
+    flex: 0 0 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
   }
 
-  .elementor-element-63d63482 .elementor-element-9feff1f {
+  .elementor-element-63d63482 .elementor-element-9feff1f,
+  .elementor-975 .elementor-element-63d63482 .elementor-element-9feff1f {
     width: 100% !important;
-    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin-left: 0 !important;
   }
 
+  .elementor-975 .elementor-element.elementor-element-9feff1f > .elementor-element-populated {
+    margin-right: 0 !important;
+    --e-column-margin-right: 0px !important;
+  }
+
+  .elementor-975 .elementor-element.elementor-element-6a3d4f6f > .elementor-widget-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .elementor-element-63d63482 .elementor-element-6a3d4f6f,
+  .elementor-element-63d63482 .elementor-element-6a3d4f6f .elementor-widget-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 900px) {
   .artform-greviews {
-    padding-left: clamp(10px, 3vw, 18px);
-    padding-right: clamp(10px, 3vw, 18px);
-    --afg-nav-size: 36px;
-  }
-
-  .artform-greviews__nav-icon {
-    width: 17px;
-    height: 17px;
+    padding: clamp(18px, 3vw, 26px) clamp(8px, 2.5vw, 14px);
+    --afg-nav-size: clamp(32px, 8.5vw, 38px);
+    --afg-nav-gap: clamp(5px, 1.5vw, 10px);
   }
 
   .artform-greviews__card {
@@ -490,35 +570,113 @@
   }
 }
 
-@media (max-width: 400px) {
-  .artform-greviews {
-    --afg-nav-size: 34px;
-    padding-left: 8px;
-    padding-right: 8px;
+/* Phone: card above nav (nav no longer steals horizontal space) */
+@media (max-width: 639px) {
+  .elementor-element-63d63482,
+  .artform-greviews-section {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow-x: clip;
+    box-sizing: border-box;
+  }
+
+  .artform-greviews,
+  .artform-greviews__carousel {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Fallback when flatten has not run (live WP / stale build) */
+  .elementor-element-63d63482 .elementor-element-7691a215,
+  .elementor-element-63d63482 .elementor-element-7691a215 > .elementor-container,
+  .elementor-element-63d63482 .elementor-element-9feff1f,
+  .elementor-element-63d63482 .elementor-element-6a3d4f6f,
+  .elementor-element-63d63482 .elementor-element-6a3d4f6f > .elementor-widget-container,
+  .elementor-975 .elementor-element.elementor-element-9feff1f {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin: 0 !important;
+    --e-column-margin-right: 0px !important;
+    --e-column-margin-left: 0px !important;
+  }
+
+  .elementor-element-63d63482 .elementor-element-57aabc70 {
+    display: none !important;
   }
 
   .artform-greviews__carousel {
-    column-gap: 2px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'viewport viewport'
+      'prev next';
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .artform-greviews__viewport {
+    grid-area: viewport;
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .artform-greviews__nav[data-afg-prev] {
+    grid-area: prev;
+    justify-self: end;
+    margin-right: 0.35rem;
+  }
+
+  .artform-greviews__nav[data-afg-next] {
+    grid-area: next;
+    justify-self: start;
+    margin-left: 0.35rem;
+  }
+
+  /* Card width is set in px by JS — do not use % here (explodes inside max-content track) */
+
+  .artform-greviews__reply {
+    display: none !important;
+  }
+
+  .artform-greviews__text {
+    -webkit-line-clamp: 4;
+    word-break: break-word;
+  }
+
+  .artform-greviews__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .artform-greviews__footer span {
+    display: none;
+  }
+
+  .artform-greviews__footer a {
+    display: block;
+    line-height: 1.35;
+    min-height: 2.5rem;
+    padding: 0.35rem 0;
   }
 }
 
-@media (min-width: 1400px) {
+@media (max-width: 400px) {
   .artform-greviews {
-    --afg-nav-size: 40px;
+    padding-left: 6px;
+    padding-right: 6px;
+    --afg-nav-size: 32px;
+    --afg-nav-gap: 4px;
   }
 }
 
 @media (min-width: 2100px) {
-  .artform-greviews__carousel {
-    column-gap: clamp(8px, 0.35vw, 16px);
-  }
-
   .artform-greviews {
-    --afg-nav-size: 42px;
-  }
-
-  .artform-greviews__nav-icon {
-    width: 20px;
-    height: 20px;
+    --afg-nav-gap: clamp(10px, 0.35vw, 18px);
   }
 }

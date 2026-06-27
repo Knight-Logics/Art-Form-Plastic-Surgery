@@ -158,8 +158,15 @@ function renderCustomHeader(pagePath) {
     })
     .join('\n');
 
-  return `<header class="artform-header" id="artform-header">
+  return `<header class="artform-header" id="artform-header" data-phone-tel="${site.phoneTel}" data-phone-display="${site.phone}">
   <div class="artform-header__bar">
+    <button type="button" class="artform-header__toggle" aria-expanded="false" aria-label="Open menu">
+      <span class="artform-header__toggle-bars" aria-hidden="true">
+        <span class="artform-header__toggle-bar"></span>
+        <span class="artform-header__toggle-bar"></span>
+        <span class="artform-header__toggle-bar"></span>
+      </span>
+    </button>
     <a class="artform-header__logo" href="/">
       <img src="${LOGO_SRC}" width="168" height="73" alt="${site.name}" decoding="async">
     </a>
@@ -170,18 +177,8 @@ function renderCustomHeader(pagePath) {
     </nav>
     <div class="artform-header__ctas">
       <a class="artform-header__btn artform-header__btn--book" href="/book-consultation/">Book Consultation</a>
-      <a class="artform-header__btn artform-header__btn--phone" href="tel:${site.phoneTel}">
-        <span class="artform-header__phone-label">Call</span>
-        ${site.phone}
-      </a>
+      ${renderPhoneCta()}
     </div>
-    <button type="button" class="artform-header__toggle" aria-expanded="false" aria-label="Open menu">
-      <span class="artform-header__toggle-bars" aria-hidden="true">
-        <span class="artform-header__toggle-bar"></span>
-        <span class="artform-header__toggle-bar"></span>
-        <span class="artform-header__toggle-bar"></span>
-      </span>
-    </button>
   </div>
 </header>`;
 }
@@ -1674,6 +1671,25 @@ const CONSULT_SUBTITLE = 'Request a consultation with Art Form Plastic Surgery';
 const FORM_PHI_NOTICE =
   '<p class="artform-form__phi-notice">Please do not include sensitive medical information in this form. Our team will contact you to discuss next steps securely.</p>';
 
+const PHONE_CTA_ICON =
+  '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
+
+function renderPhoneCta({ modifier = '', className = '', label = 'Call or Text' } = {}) {
+  const mod = modifier ? ` header-cta--${modifier}` : '';
+  const extra = className ? ` ${className}` : '';
+  return `<a class="header-cta${mod}${extra}" href="tel:${site.phoneTel}" aria-label="Call ${site.name} at ${site.phone}">
+    <span class="header-cta-icon" aria-hidden="true">${PHONE_CTA_ICON}</span>
+    <span class="header-cta-text">
+      <span class="header-cta-label">${label}</span>
+      <span class="header-cta-number">${site.phone}</span>
+    </span>
+  </a>`;
+}
+
+function renderPreferCallLine(className = 'artform-consult-form__phone') {
+  return `<p class="${className}">Prefer to call? ${renderPhoneCta({ modifier: 'inline' })}</p>`;
+}
+
 /** Services page — replaces empty MetForm shell in white appointment card. */
 function renderServicesAppointmentForm() {
   return `<div class="artform-contact-form artform-contact-form--services">
@@ -1702,7 +1718,7 @@ function renderServicesAppointmentForm() {
     </div>
   </form>
   <p class="artform-contact-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
-  <p class="artform-contact-form__phone">Prefer to call? <a href="tel:${site.phoneTel}">${site.phone}</a></p>
+  ${renderPreferCallLine('artform-contact-form__phone')}
 </div>`;
 }
 
@@ -1770,13 +1786,13 @@ function renderHeroConsultForm() {
     </div>
     <div class="artform-consult-form__field">
       <label for="artform-hero-message">How can we help?</label>
-      <textarea id="artform-hero-message" name="message" rows="3" placeholder="Optional message"></textarea>
+      <textarea id="artform-hero-message" name="message" rows="2" placeholder="Optional message"></textarea>
     </div>
     ${FORM_PHI_NOTICE}
     <button type="submit" class="artform-consult-form__submit">Request Consultation</button>
   </form>
   <p class="artform-consult-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
-  <p class="artform-consult-form__phone">Prefer to call? <a href="tel:${site.phoneTel}">${site.phone}</a></p>
+  ${renderPreferCallLine()}
 </div>`;
 }
 
@@ -1889,61 +1905,182 @@ function renderHomeVideoReel() {
 </div>`;
 }
 
+const HOME_HERO_ALT = 'Dr. Christopher Kieliszak — facial plastic surgeon';
+
+function homeHeroDesktopImage() {
+  return (
+    site.heroImageDesktop ||
+    site.heroImage ||
+    '/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg'
+  );
+}
+
+function homeHeroMobileImage() {
+  return (
+    site.heroImageMobile ||
+    '/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-scaled-e1730014913672-768x981.jpg'
+  );
+}
+
+function homeHeroMobileImageLarge() {
+  return (
+    site.heroImageMobileLarge ||
+    '/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-scaled-e1730014913672-1202x1536.jpg'
+  );
+}
+
+/** Responsive hero photo — portrait crop on phone/tablet, landscape on desktop. */
+function renderHomeHeroParallaxPicture() {
+  const desktop = homeHeroDesktopImage();
+  const mobile = homeHeroMobileImage();
+  const mobileLarge = homeHeroMobileImageLarge();
+  return `<picture class="artform-hero-parallax-layer__picture">
+    <source media="(max-width: 1099px)" srcset="${escapeAttr(mobile)} 768w, ${escapeAttr(mobileLarge)} 1202w" sizes="100vw">
+    <img class="artform-hero-parallax-layer__img" src="${escapeAttr(desktop)}" alt="${escapeAttr(HOME_HERO_ALT)}" decoding="async" fetchpriority="high" width="2560" height="1707">
+  </picture>`;
+}
+
+function ensureHomeHeroParallaxLayer($, hero) {
+  let layer = hero.find('.artform-hero-parallax-layer').first();
+  if (!layer.length) {
+    hero.prepend(`<div class="artform-hero-parallax-layer">${renderHomeHeroParallaxPicture()}</div>`);
+    return;
+  }
+
+  layer.find('picture.artform-hero-parallax-layer__picture').remove();
+  layer.find('img.artform-hero-parallax-layer__img').remove();
+  layer.prepend(renderHomeHeroParallaxPicture());
+}
+
+/** Move h1 + subcopy into the hero image layer so copy always sits on the photo. */
+function mountHeroCopyInParallaxLayer($, hero) {
+  const parallax = hero.find('.artform-hero-parallax-layer').first();
+  if (!parallax.length) return;
+
+  const headlineCol = hero.find('.elementor-element-54fe6ad8').first();
+  const h1Widget = headlineCol.find('[data-id="30f4f016"]').first();
+  const h2Widget = headlineCol.find('.artform-hero-subcopy').first();
+
+  let copyWrap = parallax.find('.artform-hero-parallax-layer__copy').first();
+  if (!copyWrap.length) {
+    copyWrap = $('<div class="artform-hero-parallax-layer__copy"></div>');
+    parallax.append(copyWrap);
+  }
+
+  if (h1Widget.length && !h1Widget.parent().is(copyWrap)) copyWrap.append(h1Widget);
+  if (h2Widget.length && !h2Widget.parent().is(copyWrap)) copyWrap.append(h2Widget);
+
+  copyWrap.find('.elementor-invisible').removeClass('elementor-invisible');
+
+  headlineCol.addClass('artform-hero-headline-col');
+}
+
+function renderHeroLeadForm() {
+  return `<form class="artform-consult-form__form artform-consult-form__form--lead af-hero-estimate-form" action="/book-consultation/" method="get" novalidate>
+    <div class="af-form-row">
+      <div class="artform-consult-form__field">
+        <label for="artform-hero-name">Full name</label>
+        <input id="artform-hero-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
+      </div>
+      <div class="artform-consult-form__field">
+        <label for="artform-hero-email">Email</label>
+        <input id="artform-hero-email" name="email" type="email" autocomplete="email" placeholder="you@email.com">
+      </div>
+    </div>
+    <div class="artform-consult-form__field">
+      <label for="artform-hero-phone">Phone</label>
+      <input id="artform-hero-phone" name="phone" type="tel" autocomplete="tel" required placeholder="${site.phone}">
+    </div>
+    <div class="artform-consult-form__field artform-consult-form__field--message">
+      <label for="artform-hero-message">How can we help?</label>
+      <textarea id="artform-hero-message" name="message" rows="2" placeholder="Optional message"></textarea>
+    </div>
+    ${FORM_PHI_NOTICE}
+    <button type="submit" class="artform-consult-form__submit">Request Consultation</button>
+  </form>`;
+}
+
+function renderKnightStyleHomeHero() {
+  const desktop = homeHeroDesktopImage();
+  const mobile = homeHeroMobileImage();
+  const mobileLarge = homeHeroMobileImageLarge();
+  const heroList = [
+    `Board-certified facial plastic surgeon — ${site.stats.patients}+ patients helped`,
+    `Natural, refined results with ${site.doctor}`,
+    'Safety Harbor & Tampa offices with financing for qualified applicants',
+    'Rhinoplasty, facelifts, reconstructive care & medical skincare',
+  ]
+    .map((line) => `<li>${line}</li>`)
+    .join('');
+
+  return `<section class="af-hero" id="home-hero">
+  <div class="af-hero__media" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 1099px)" srcset="${escapeAttr(mobile)} 768w, ${escapeAttr(mobileLarge)} 1024w" sizes="100vw">
+      <source media="(min-width: 1100px)" srcset="${escapeAttr(desktop)} 2560w">
+      <img class="af-hero__img" src="${escapeAttr(desktop)}" alt="${escapeAttr(HOME_HERO_ALT)}" decoding="async" fetchpriority="high" width="2560" height="1707">
+    </picture>
+  </div>
+  <div class="af-hero__overlay" aria-hidden="true"></div>
+  <div class="af-hero__inner">
+    <div class="af-hero__content">
+      <p class="af-hero__eyebrow">Safety Harbor &amp; Tampa facial plastic surgery</p>
+      <h1 class="af-hero__title">Facial Plastic <span class="af-accent">Surgeon</span> in Safety Harbor &amp; Tampa</h1>
+      <ul class="af-hero__list">${heroList}</ul>
+      <div class="af-hero__actions">
+        <a class="af-btn af-btn--solid af-btn--book" href="/book-consultation/">Book Consultation</a>
+        ${renderPhoneCta({ modifier: 'hero' })}
+      </div>
+    </div>
+    <aside class="af-hero-form-card" id="homeLeadForm" aria-label="Schedule a consultation">
+      <div class="af-hero-form-header">
+        <span class="artform-consult-form__kicker">Schedule a Consultation</span>
+        <h2 class="af-hero-form-title">Let's <span class="af-accent">Book</span> Your Consultation!</h2>
+      </div>
+      <div class="af-hero-lead-form artform-consult-form artform-consult-form--hero">
+        ${renderHeroLeadForm()}
+        <p class="artform-consult-form__thanks" hidden>Thank you — taking you to schedule your consultation…</p>
+      </div>
+    </aside>
+  </div>
+  <aside class="af-hero-cred-bar" aria-label="Practice credentials">
+    <div class="af-hero-cred-bar__inner">
+      <p class="af-hero-cred-bar__primary">
+        <strong class="af-hero-cred-bar__name">Art Form Plastic Surgery</strong>
+        <span class="af-hero-cred-bar__sep" aria-hidden="true">·</span>
+        <span>${site.doctor}, MD</span>
+      </p>
+      <p class="af-hero-cred-bar__line">Board-Certified Facial Plastic &amp; Reconstructive Surgeon</p>
+      <p class="af-hero-cred-bar__badges">Safety Harbor &amp; Tampa Offices • Financing Available • Accepting New Patients</p>
+      <p class="af-hero-cred-bar__stats">${site.stats.patients}+ Patients Helped • Surgical, Non-Surgical &amp; Reconstructive Care</p>
+    </div>
+  </aside>
+</section>`;
+}
+
 /** Landing wrapper, consult form, layout fixes for homepage. */
 function enhanceHomepage(html) {
   const $ = cheerio.load(`<div id="wrap">${html}</div>`, { decodeEntities: false });
 
-  const col = $('[data-id="54fb05d4"] > .elementor-widget-wrap.elementor-element-populated').first();
-  if (col.length) {
-    col.empty();
-    col.append(renderHeroConsultForm());
-  }
-
-  const h1 = $('[data-id="30f4f016"] .elementor-heading-title').first();
-  if (h1.length) h1.addClass('artform-hero-h1');
-
-  const btnWidget = $('[data-id="5fc4d002"]').first();
-  if (btnWidget.length) {
-    btnWidget.replaceWith(`<div class="elementor-element artform-hero-subcopy elementor-widget elementor-widget-heading" data-id="artform-hero-sub">
-      <div class="elementor-widget-container">
-        <h2 class="artform-hero-h2">Board-certified facial plastic surgery in Safety Harbor &amp; Tampa — natural, refined results with Dr. Christopher Kieliszak.</h2>
-      </div>
-    </div>`);
-  }
-
   const hero = $('.elementor-element-79fd65b0').first();
   const cards = $('.elementor-element-37fbd314').first();
-  if (hero.length && !hero.parent().hasClass('artform-landing')) {
-    const landing = $('<div class="artform-landing"></div>');
-    hero.before(landing);
-    landing.append(hero);
+  const landing = $('<div class="artform-landing"></div>');
+  landing.append(renderKnightStyleHomeHero());
 
-    // Consult form → into the hero (right-side panel on desktop, stacked below the image on mobile).
-    const formCol = $('.elementor-element-54fb05d4').first();
-    const heroInner = hero.find('> .elementor-container').first();
-    if (formCol.length && heroInner.length) {
-      formCol.addClass('artform-hero-form-col');
-      heroInner.append(formCol);
-    }
+  if (hero.length) {
+    hero.replaceWith(landing);
+  } else if (!$('.af-hero').length) {
+    $('#wrap').prepend(landing);
+  }
 
-    if (!hero.find('.artform-hero-parallax-layer').length) {
-      hero.prepend(
-        `<div class="artform-hero-parallax-layer" aria-hidden="true">
-  <img class="artform-hero-parallax-layer__img" src="${escapeAttr(site.heroImage)}" alt="" decoding="async" fetchpriority="high">
-</div>`
-      );
+  if (cards.length) {
+    cards.addClass('artform-help-band');
+    cards.removeClass('fadeInUp').addClass('fadeInDown');
+    const settings = cards.attr('data-settings');
+    if (settings) {
+      cards.attr('data-settings', settings.replace(/fadeInUp/g, 'fadeInDown'));
     }
-
-    // "How Can We Help You" → its own full-width row BELOW the hero (same on every screen size).
-    if (cards.length) {
-      cards.addClass('artform-help-band');
-      cards.removeClass('fadeInUp').addClass('fadeInDown');
-      const settings = cards.attr('data-settings');
-      if (settings) {
-        cards.attr('data-settings', settings.replace(/fadeInUp/g, 'fadeInDown'));
-      }
-      landing.after(cards);
-    }
+    $('.artform-landing').last().after(cards);
   }
 
   // Google Reviews directly above Our Services; stats band tucked under reviews.
@@ -2076,6 +2213,10 @@ function enhanceHomepageHelpBand($) {
     servicesCol.find('.elementor-element-fe18eed, .elementor-element-69b74e65').remove();
     servicesCol.append(renderHelpBandServicesList());
   }
+
+  // Legacy second column duplicated the hero consult CTA — remove it.
+  band.find('.elementor-element-54fb05d4').remove();
+  band.find('.elementor-element-dcb08e9').removeClass('elementor-col-50').addClass('elementor-col-100');
 }
 
 /** Homepage help band — legacy Elementor icon-list fallback links. */
@@ -2230,12 +2371,15 @@ function enhanceMeetDrPage(html) {
 function renderServiceIntroButton(kind) {
   const isPricing = kind === 'pricing';
   const id = isPricing ? '9a2dc63' : '0822c17';
-  const href = isPricing
-    ? 'https://art-form-plastic-surgery.kit.com/8eb8f54814'
-    : `tel:${site.phoneTel}`;
-  const target = isPricing ? ' target="_blank" rel="noopener noreferrer"' : '';
-  const cls = isPricing ? 'artform-btn-gold-solid' : 'artform-btn-gold-outline';
-  const label = isPricing ? 'View Pricing Information Here' : site.phone;
+  if (!isPricing) {
+    return `<div class="elementor-element elementor-element-${id} artform-service-intro-phone elementor-widget" data-id="${id}" data-element_type="widget">
+    <div class="elementor-widget-container">${renderPhoneCta()}</div>
+  </div>`;
+  }
+  const href = 'https://art-form-plastic-surgery.kit.com/8eb8f54814';
+  const target = ' target="_blank" rel="noopener noreferrer"';
+  const cls = 'artform-btn-gold-solid';
+  const label = 'View Pricing Information Here';
 
   return `<div class="elementor-element elementor-element-${id} elementor-widget elementor-widget-button" data-id="${id}" data-element_type="widget" data-widget_type="button.default">
     <div class="elementor-widget-container">
@@ -3348,8 +3492,14 @@ function enhanceSharedButtons(html) {
       $a.addClass('artform-btn-gold-solid');
     }
     if (/\(813\)|563-3735|5633735/.test(text)) {
-      $a.addClass('artform-btn-gold-outline');
-      $a.attr('href', `tel:${site.phoneTel}`);
+      const $widget = $a.closest('.elementor-widget-button, .elementor-element');
+      if ($widget.length) {
+        $widget.first().replaceWith(
+          `<div class="artform-phone-cta-widget">${renderPhoneCta()}</div>`,
+        );
+      } else {
+        $a.attr('href', `tel:${site.phoneTel}`);
+      }
     }
     if (/book consultation/i.test(text)) {
       const sectionText = $a.closest('section').text().replace(/\s+/g, ' ');
@@ -3427,6 +3577,7 @@ function augmentBodyClass(bodyClass, pagePath) {
   if (pagePath === '/gallery/') cls += ' artform-gallery-page';
   if (pagePath === '/blog/') cls += ' artform-blog-page';
   if (pagePath === '/areas-we-serve/') cls += ' artform-areas-page';
+  if (pagePath === '/') cls += ' artform-home-page';
   if (PROCEDURE_PAGE_PATTERN.test(pagePath)) {
     cls += ' artform-procedure-page ast-page-builder-template';
   }
@@ -3441,7 +3592,6 @@ function leanScriptsForPage(pagePath) {
     scripts.push('<script src="/js/swiper-init.js" defer></script>');
   }
   scripts.push('<script src="/js/elementor-animations.js" defer></script>');
-  if (pagePath === '/') scripts.push('<script src="/js/home-hero-parallax.js" defer></script>');
   scripts.push('<script src="/js/site.js" defer></script>');
   if (site.chat?.enabled && site.chat?.provider === 'tidio' && site.chat?.tidioPublicKey) {
     scripts.push('<script src="/js/artform-chat.js" defer></script>');
@@ -3475,8 +3625,10 @@ function leanScriptsForPage(pagePath) {
 
 function lcpPreload(pagePath) {
   if (pagePath !== '/') return '';
-  const hero = site.heroImage || '/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.jpg';
-  return `<link rel="preload" as="image" href="${hero}" fetchpriority="high">`;
+  const desktop = homeHeroDesktopImage();
+  const mobile = homeHeroMobileImage();
+  return `<link rel="preload" as="image" href="${escapeAttr(desktop)}" media="(min-width: 1100px)" fetchpriority="high">
+  <link rel="preload" as="image" href="${escapeAttr(mobile)}" media="(max-width: 1099px)" fetchpriority="high">`;
 }
 
 function robotsContent() {
@@ -3523,11 +3675,13 @@ function layout({ pagePath, title, description, stylesheets, inlineStyles, bodyC
   <link rel="stylesheet" href="/css/replica-fixes.css">
   <link rel="stylesheet" href="/css/artform-layout.css">
   <link rel="stylesheet" href="/css/artform-header.css">
+  <link rel="stylesheet" href="/css/phone-cta.css">
+  <link rel="stylesheet" href="/css/artform-glimmer.css">
   <link rel="stylesheet" href="/css/artform-footer.css">
   <link rel="stylesheet" href="/css/artform-page-fixes.css">
   <link rel="stylesheet" href="/css/artform-content-typography.css">
   ${pagePath !== '/' ? '<link rel="stylesheet" href="/css/artform-hero-h1.css">' : ''}
-  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/hero-typography-fx.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-portfolio-gallery.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-home-entrance.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-video-reel.css">' : ''}
+  ${pagePath === '/' ? '<link rel="stylesheet" href="/css/artform-kg-hero.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-portfolio-gallery.css">\n  <link rel="stylesheet" href="/css/artform-google-reviews.css">\n  <link rel="stylesheet" href="/css/artform-home-entrance.css">\n  <link rel="stylesheet" href="/css/artform-services.css">\n  <link rel="stylesheet" href="/css/artform-video-reel.css">' : ''}
   ${pagePath === '/' || pagePath === '/about-us/' || pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/artform-photo-collage.css">' : ''}
   ${pagePath === '/about-us/' ? '<link rel="stylesheet" href="/css/artform-about.css">' : ''}
   ${pagePath === '/meet-dr-kieliszak/' ? '<link rel="stylesheet" href="/css/hero-responsive.css">\n  <link rel="stylesheet" href="/css/artform-landing.css">\n  <link rel="stylesheet" href="/css/home-hero-cards.css">\n  <link rel="stylesheet" href="/css/artform-meet-dr.css">' : ''}
@@ -3940,6 +4094,7 @@ ${pages
 
   const robots = `User-agent: *
 Allow: /
+Disallow: /admin/
 
 Sitemap: ${BASE}/sitemap.xml
 `;

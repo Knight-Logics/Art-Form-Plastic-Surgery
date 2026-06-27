@@ -121,6 +121,29 @@
   color: rgba(255, 255, 255, 0.72) !important;
 }
 
+.artform-consult-form__phone {
+  margin: 0.85rem 0 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.62) !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.artform-contact-form__phone {
+  margin: 0.75rem 0 0;
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 .artform-consult-form__form {
   display: flex;
   flex-direction: column;

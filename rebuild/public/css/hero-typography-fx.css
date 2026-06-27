@@ -2,8 +2,8 @@
  * Hero h1 — aura glow (Knight Group) + glimmer sweep (Knight hero-fx / Moms-style).
  */
 
-/* Soft gold aura behind headline column (desktop/tablet only) */
-@media (min-width: 768px) {
+/* Soft gold aura behind headline column (desktop only) */
+@media (min-width: 1100px) {
   .artform-landing .elementor-element.elementor-element-79fd65b0::after {
     content: '';
     position: absolute;
@@ -19,9 +19,19 @@
   }
 }
 
-.artform-landing .elementor-element.elementor-element-54fe6ad8 {
-  position: relative;
+.artform-landing .artform-hero-parallax-layer__copy {
   z-index: 2;
+}
+
+/* Hero copy always visible on load — do not wait for scroll intersection */
+.artform-landing .artform-hero-parallax-layer__copy .elementor-invisible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.artform-landing .artform-hero-parallax-layer__copy .elementor-invisible.animated,
+.artform-landing .artform-hero-parallax-layer__copy .elementor-widget {
+  animation: none !important;
 }
 
 @keyframes artformHeroGlimmer {
@@ -57,6 +67,10 @@
     color: transparent;
     animation: artformHeroGlimmer 8.4s ease-in-out infinite;
     text-shadow: none;
+    filter:
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
+      drop-shadow(0 4px 14px rgba(0, 0, 0, 0.75))
+      drop-shadow(0 8px 24px rgba(0, 0, 0, 0.55));
   }
 }
 
@@ -73,29 +87,33 @@
   margin: 0.65rem 0 0;
   padding: 0;
   font-family: Poppins, sans-serif !important;
-  font-size: clamp(1.05rem, 1.22vw, 1.32rem) !important;
+  font-size: clamp(0.95rem, 0.55rem + 0.9vw, 1.32rem) !important;
   font-weight: 400 !important;
-  line-height: 1.65 !important;
+  line-height: 1.5 !important;
   letter-spacing: 0.01em;
   color: rgba(255, 255, 255, 0.94) !important;
   max-width: 38em;
+  text-wrap: balance;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 2px 8px rgba(0, 0, 0, 0.65);
 }
 
 .artform-hero-subcopy .elementor-widget-container {
   padding: 0 !important;
 }
 
-/* ── Mobile only: vivid gold h1 (glimmer + aura) + black h2 ── */
-@media (max-width: 767px) {
+/* ── Tablet + phone on photo band: vivid gold h1 + white h2 ── */
+@media (max-width: 1099.98px) {
   /* Subtle gold glow — kept low so black scrim does the heavy lifting */
-  .artform-landing .elementor-element.elementor-element-54fe6ad8::before {
+  .artform-landing .artform-hero-parallax-layer__copy::before {
     content: '';
     position: absolute;
-    left: 50%;
-    bottom: 8%;
-    transform: translateX(-50%);
-    width: min(92vw, 360px);
-    height: min(38vw, 180px);
+    left: clamp(18px, 5vw, 28px);
+    top: clamp(5.5rem, 20vw, 7.5rem);
+    transform: none;
+    width: min(90vw, 360px);
+    height: min(52vw, 260px);
     border-radius: 50%;
     background: radial-gradient(
       ellipse at center,
@@ -165,14 +183,23 @@
   }
 
   .artform-landing .artform-hero-h2 {
-    color: #0a0a0a !important;
-    -webkit-text-fill-color: #0a0a0a !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+    color: rgba(255, 255, 255, 0.94) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.94) !important;
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.9),
+      0 2px 8px rgba(0, 0, 0, 0.65) !important;
     font-weight: 500 !important;
   }
 }
 
-@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 400px) {
+  .artform-landing .artform-hero-parallax-layer__copy::before {
+    width: min(92vw, 340px);
+    height: min(48vw, 220px);
+  }
+}
+
+@media (max-width: 1099.98px) and (prefers-reduced-motion: reduce) {
   .artform-landing .artform-hero-h1.elementor-heading-title,
   .artform-landing .elementor-element-30f4f016 .elementor-heading-title {
     animation: none !important;

@@ -1,0 +1,517 @@
+/**
+ * Homepage hero — Roof Monsters pattern: copy left, glass form right, cred bar below.
+ */
+
+:root {
+  --af-gold: #d4b76a;
+  --af-sticky-header-height: 90px;
+}
+
+.artform-home-page .af-hero {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - var(--af-sticky-header-height));
+  min-height: calc(100svh - var(--af-sticky-header-height));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 100%;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.af-hero__media {
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  line-height: 0;
+}
+
+.af-hero__media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.af-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  animation: afHeroKenBurns 7s ease-out forwards;
+}
+
+@keyframes afHeroKenBurns {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
+
+.af-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.84) 0%,
+    rgba(0, 0, 0, 0.58) 45%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+}
+
+.af-hero__inner {
+  position: relative;
+  z-index: 2;
+  flex: 1 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  gap: clamp(28px, 4vw, 48px);
+  align-items: stretch;
+  align-content: center;
+  width: min(1180px, calc(100% - 40px));
+  max-width: 100%;
+  margin-inline: auto;
+  padding: clamp(48px, 6vw, 80px) 0 clamp(28px, 4vw, 40px);
+  box-sizing: border-box;
+}
+
+.af-hero__content {
+  display: flex;
+  flex-direction: column;
+  max-width: 620px;
+  min-height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.artform-home-page .af-hero__content::before {
+  content: '';
+  position: absolute;
+  left: -12%;
+  top: -8%;
+  width: 130%;
+  height: 85%;
+  background: radial-gradient(
+    ellipse at 28% 42%,
+    rgba(212, 183, 106, 0.38) 0%,
+    rgba(184, 152, 86, 0.12) 38%,
+    transparent 68%
+  );
+  filter: blur(42px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.af-hero__list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 28px;
+  padding: 0;
+  max-width: 520px;
+  list-style: none;
+}
+
+.af-hero__list li {
+  display: flex;
+  gap: 0.55rem;
+  font-family: Poppins, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.af-hero__list li::before {
+  content: '•';
+  flex-shrink: 0;
+  color: var(--af-gold);
+  font-weight: 800;
+}
+
+.af-hero__eyebrow {
+  display: block;
+  margin: 0 0 16px;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.artform-home-page .af-hero__title {
+  margin: 0 0 24px;
+  font-family: Montserrat, Poppins, sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+}
+
+.af-hero-form-title {
+  margin: 0;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.artform-home-page .af-hero-form-card .af-hero-form-title {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.af-hero__sub {
+  margin: 0 0 28px;
+  max-width: 520px;
+  font-family: Poppins, sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.af-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.65rem 1.35rem;
+  border-radius: 999px;
+  font-family: Poppins, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.af-btn:hover,
+.af-btn:focus-visible {
+  transform: translateY(-2px);
+}
+
+.af-btn--solid {
+  color: #0c0b0a !important;
+  background: linear-gradient(135deg, #e8c878 0%, #c9a84a 48%, #a88648 100%);
+  box-shadow: 0 12px 28px rgba(168, 134, 72, 0.3);
+}
+
+.af-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 14px);
+  margin-top: auto;
+  padding-top: 2px;
+}
+
+.af-hero__content .header-cta--hero {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.af-accent {
+  color: var(--af-gold);
+}
+
+/* Glass form card — Roof Monsters / Knight Group pattern */
+.af-hero-form-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 420px;
+  justify-self: end;
+  align-self: stretch;
+  min-height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 20, 20, 0.55) 0%,
+    rgba(28, 28, 28, 0.72) 100%
+  );
+  border: 1px solid rgba(212, 183, 106, 0.28);
+  border-radius: 18px;
+  padding: 18px 20px 16px;
+  backdrop-filter: blur(20px) saturate(125%);
+  -webkit-backdrop-filter: blur(20px) saturate(125%);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.34);
+}
+
+.af-hero-lead-form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.af-hero-form-header {
+  flex-shrink: 0;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.af-hero-form-header .artform-consult-form__kicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  margin: 0 0 10px;
+  border-radius: 999px;
+  background: rgba(212, 183, 106, 0.18);
+  border: 1px solid rgba(212, 183, 106, 0.35);
+  color: #f8e8c8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.af-hero-estimate-form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  text-align: left;
+}
+
+.af-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.af-form-row__spacer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.af-hero-estimate-form .artform-consult-form__field {
+  margin: 0;
+}
+
+.af-hero-estimate-form .artform-consult-form__field label {
+  margin-bottom: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.af-hero-estimate-form .artform-consult-form__field input,
+.af-hero-estimate-form .artform-consult-form__field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.af-hero-estimate-form .artform-consult-form__field--message {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.af-hero-estimate-form .artform-consult-form__field textarea {
+  flex: 1 1 auto;
+  min-height: 48px;
+  max-height: none;
+  resize: none;
+}
+
+.af-hero-estimate-form .artform-consult-form__field input::placeholder,
+.af-hero-estimate-form .artform-consult-form__field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.af-hero-estimate-form .artform-consult-form__field input:focus,
+.af-hero-estimate-form .artform-consult-form__field textarea:focus {
+  outline: none;
+  border-color: var(--af-gold);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 0 0 3px rgba(212, 183, 106, 0.15);
+}
+
+.af-hero-estimate-form .artform-form__phi-notice {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 0.66rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.af-hero-estimate-form .artform-consult-form__submit {
+  width: 100%;
+  margin-top: auto;
+  flex-shrink: 0;
+  min-height: 2.75rem;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Credentials bar — Roof Monsters license bar pattern */
+.af-hero-cred-bar {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.88) 0%, rgba(28, 28, 28, 0.97) 100%);
+  border-top: 1px solid rgba(212, 183, 106, 0.38);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: clamp(10px, 1.4vw, 14px) clamp(20px, 3vw, 32px);
+}
+
+.af-hero-cred-bar__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 1180px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.af-hero-cred-bar__primary,
+.af-hero-cred-bar__line,
+.af-hero-cred-bar__badges,
+.af-hero-cred-bar__stats {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: clamp(0.62rem, 1.1vw, 0.78rem);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.af-hero-cred-bar__name {
+  color: #fff;
+  font-weight: 700;
+}
+
+.af-hero-cred-bar__sep {
+  margin: 0 0.35em;
+  color: rgba(212, 183, 106, 0.75);
+}
+
+.af-hero-cred-bar__line {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.af-hero-cred-bar__badges {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #f8e8c8;
+}
+
+.artform-home-page .artform-help-band.elementor-element-37fbd314 {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1024px) {
+  .af-hero__inner {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+    align-items: start;
+  }
+
+  .af-hero__content {
+    min-height: auto;
+  }
+
+  .af-hero__actions {
+    margin-top: clamp(18px, 3vw, 24px);
+    padding-top: 0;
+  }
+
+  .af-hero__content .header-cta--hero {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .af-hero-form-card {
+    max-width: none;
+    justify-self: stretch;
+    min-height: auto;
+  }
+
+  .af-hero-lead-form,
+  .af-hero-estimate-form {
+    flex: none;
+    min-height: auto;
+  }
+
+  .af-hero-estimate-form .artform-consult-form__field--message {
+    flex: none;
+  }
+
+  .af-hero-estimate-form .artform-consult-form__field textarea {
+    flex: none;
+    min-height: 56px;
+  }
+
+  .af-hero-estimate-form .artform-consult-form__submit {
+    margin-top: 2px;
+  }
+
+  .af-hero__content {
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .af-hero__inner {
+    padding: clamp(32px, 5vw, 48px) 0 clamp(20px, 4vw, 28px);
+  }
+
+  .af-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .af-form-row__spacer {
+    display: none;
+  }
+
+  .af-hero-cred-bar__primary,
+  .af-hero-cred-bar__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .af-hero-cred-bar__sep {
+    display: none;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .af-hero__actions .af-btn--book {
+    display: none;
+  }
+
+  .af-hero__actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .af-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .af-hero__actions .header-cta--hero {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-hero__img {
+    animation: none;
+  }
+}

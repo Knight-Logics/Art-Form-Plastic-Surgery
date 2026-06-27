@@ -5,6 +5,7 @@
 .elementor-element-6f14da7a.artform-video-reel-section {
   background-color: #0a0a0a !important;
   background-image: none !important;
+  overflow-x: clip;
 }
 
 .elementor-element-6f14da7a.artform-video-reel-section > .elementor-background-overlay {
@@ -18,6 +19,7 @@
 .artform-video-reel {
   max-width: 88rem;
   margin: 0 auto;
+  overflow-x: clip;
 }
 
 .artform-video-reel__rail {
@@ -25,6 +27,7 @@
   gap: clamp(0.8rem, 1.6vw, 1.3rem);
   grid-template-columns: repeat(5, minmax(0, 1fr));
   min-width: 0;
+  overflow-x: clip;
 }
 
 .artform-video-reel__card {
@@ -206,20 +209,38 @@
 
 @media (max-width: 1180px) {
   .artform-video-reel__rail {
-    overflow-x: auto;
-    padding-bottom: 3rem;
-    scroll-snap-type: x mandatory;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-bottom: 2.5rem;
   }
 
-  .artform-video-reel__card {
-    min-width: 13rem;
-    scroll-snap-align: start;
+  .artform-video-reel__card:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .artform-video-reel__rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-bottom: 2rem;
+  }
+
+  .artform-video-reel__card:nth-child(n + 4) {
+    display: none;
   }
 }
 
 @media (max-width: 760px) {
   .artform-video-reel__card:nth-child(even) {
     transform: none;
+  }
+
+  .artform-video-reel__rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-bottom: 1.5rem;
+  }
+
+  .artform-video-reel__card:nth-child(n + 3) {
+    display: none;
   }
 }
 

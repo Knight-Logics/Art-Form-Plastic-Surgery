@@ -16,13 +16,13 @@
 
 :root {
   --artform-chrome: 128px;
-  --artform-hero-base: 610px;
+  --artform-hero-base: clamp(720px, calc(100svh - var(--artform-chrome)), 920px);
   --artform-uw-start: 2100px;
   --artform-uw-end: 3440px;
-  /* Ultra-wide ramp: 80svh @ 2100px → 100svh @ 3440px */
   --artform-hero-vh-min: 80svh;
   --artform-hero-vh-max: 100svh;
   --artform-hero-content-max: 2100px;
+  --artform-hero-stack: 1099.98px;
 }
 
 /* ───────────────────────── Hero band ───────────────────────── */
@@ -37,7 +37,7 @@
   inset: auto !important;
   margin: 0 !important;
   width: 100% !important;
-  min-height: var(--artform-hero-base);
+  min-height: max(var(--artform-hero-base), 780px);
   overflow: hidden;
 }
 
@@ -62,14 +62,18 @@
   }
 }
 
-/* Headline column */
-.artform-landing .elementor-element.elementor-element-54fe6ad8 {
+/* Headline column — flex spacer on desktop (copy lives in parallax layer) */
+.artform-landing .artform-hero-headline-col.elementor-element-54fe6ad8 {
   flex: 1 1 auto;
   max-width: 58%;
 }
 
-/* ~1024–1400px: keep hero side-by-side; form ~half width (not full bleed at 1225px) */
-@media (min-width: 1024px) and (max-width: 1400px) {
+.artform-landing .artform-hero-headline-col > .elementor-widget-wrap:empty {
+  min-height: 1px;
+}
+
+/* ~1100–1400px: side-by-side hero + form */
+@media (min-width: 1100px) and (max-width: 1400px) {
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
     flex-direction: row !important;
     flex-wrap: nowrap !important;
@@ -79,7 +83,7 @@
     min-height: var(--artform-hero-base) !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
+  .artform-landing .artform-hero-headline-col.elementor-element-54fe6ad8 {
     flex: 1 1 50% !important;
     max-width: 50% !important;
     width: auto !important;
@@ -106,11 +110,14 @@
   align-items: flex-start !important;
 }
 
-.artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
-.artform-landing .artform-hero-h1.elementor-heading-title {
-  font-size: clamp(2rem, 4vw, 4.25rem) !important;
-  line-height: 1.08 !important;
-  max-width: 22ch;
+@media (min-width: 1100px) {
+  .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
+  .artform-landing .artform-hero-h1.elementor-heading-title {
+    font-size: clamp(2rem, 1.35rem + 2.2vw, 4.25rem) !important;
+    line-height: 1.08 !important;
+    max-width: 22ch;
+    text-wrap: balance;
+  }
 }
 
 /* Consult-form column → right-side panel on desktop */
@@ -145,19 +152,21 @@
   position: relative !important;
   width: 100% !important;
   max-width: 100% !important;
-  margin: 0 !important;
-  /* ~half prior band padding around the white card */
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
   padding: clamp(14px, 2vw, 28px) clamp(8px, 1.5vw, 16px) !important;
   background-color: #000000 !important;
   background-image: none !important;
-  z-index: auto !important;
+  z-index: 2 !important;
+  clear: both;
 }
 
 /* Entrance: slide down from well above final position (visible when scrolling after tall hero) */
 @keyframes artform-help-slide-down {
   from {
     opacity: 0;
-    transform: translate3d(0, calc(-1 * clamp(220px, 42vh, 560px)), 0);
+    transform: translate3d(0, -28px, 0);
   }
   to {
     opacity: 1;
@@ -423,53 +432,50 @@
   }
 }
 
-/* ───────────────────────── Tablet + phone ───────────────────────── */
-@media (max-width: 1023px) {
+/* Tablet + phone: image first, form below (no overlap) */
+@media (max-width: 1099.98px) {
   /* Hero stacks: image+headline first, consult form below */
-  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
+  .elementor-975 .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
     flex-direction: column !important;
     flex-wrap: wrap !important;
     align-items: stretch !important;
     gap: 0 !important;
     padding: 0 !important;
     min-height: 0 !important;
+    height: auto !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
-    max-width: 100% !important;
-    width: 100% !important;
-    min-height: clamp(260px, 48svh, 440px);
-    display: flex;
-    align-items: center;
-    padding: clamp(22px, 4.5vh, 44px) clamp(18px, 5vw, 28px) !important;
-    box-sizing: border-box;
+  .artform-landing > .elementor-element.elementor-element-79fd65b0,
+  .elementor-975 .artform-landing > .elementor-element.elementor-element-79fd65b0 {
+    min-height: 0 !important;
+    height: auto !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
-    align-content: center !important;
+  .artform-landing .artform-hero-headline-col {
+    display: none !important;
   }
 
-  /* Form below hero — inset on phones (not edge-to-edge) */
+  /* Form below hero image — centered, never overlapping */
   .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
-    width: min(88vw, 420px) !important;
-    max-width: min(88vw, 420px) !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: min(92vw, 420px) !important;
+    max-width: min(92vw, 420px) !important;
+    margin: clamp(1rem, 3vw, 1.5rem) auto clamp(1.25rem, 4vw, 2rem) !important;
     align-self: center;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding: 0 clamp(12px, 4vw, 20px) !important;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .elementor-975 .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    min-height: 0 !important;
   }
 
   .artform-landing .artform-hero-form-col > .elementor-element-populated {
     border-radius: 20px !important;
     border: 1px solid rgba(212, 183, 106, 0.3) !important;
     padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 24px) !important;
-  }
-
-  .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
-  .artform-landing .artform-hero-h1.elementor-heading-title {
-    max-width: 24ch;
-    font-size: clamp(1.85rem, 6.5vw, 2.75rem) !important;
   }
 
   /* Help band inner columns stack */
@@ -499,79 +505,60 @@
       rgba(0, 0, 0, 0.74) 100%
     );
   }
-}
 
-/* Phones: headline over single photo band; form on black below (see hero-responsive.css) */
-@media (max-width: 767px) {
   .artform-landing > .elementor-element.elementor-element-79fd65b0 {
+    display: flex !important;
+    flex-direction: column !important;
     min-height: 0 !important;
+    height: auto !important;
     overflow: visible !important;
+    padding-bottom: clamp(1rem, 3vw, 1.75rem) !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 60vh !important;
-    max-height: none;
-    margin: 0 !important;
-    padding: 0 !important;
-    align-items: stretch;
-    overflow: hidden;
+  .artform-landing .artform-hero-parallax-layer {
+    order: 1;
+    flex: 0 0 auto;
   }
 
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
-    align-content: flex-end !important;
-    justify-content: flex-end !important;
-    min-height: 60vh;
-    padding: clamp(16px, 3vh, 28px) clamp(14px, 4vw, 22px) clamp(20px, 4vh, 32px) !important;
-    box-sizing: border-box;
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    order: 2;
+    flex: 0 0 auto;
+    pointer-events: none;
   }
 
   .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
-    margin-top: 0 !important;
-    padding-top: clamp(12px, 2vh, 20px) !important;
-    padding-bottom: clamp(20px, 3vh, 32px) !important;
+    pointer-events: auto;
   }
 
-  .artform-landing .elementor-element.elementor-element-30f4f016 .elementor-heading-title,
-  .artform-landing .artform-hero-h1.elementor-heading-title {
-    font-size: clamp(2rem, 7.5vw, 2.55rem) !important;
-    line-height: 1.1 !important;
-  }
-
-  /* h1/h2 colors + glimmer → hero-typography-fx.css (mobile only) */
-
-  /* Dark scrim behind headline for readability */
-  .artform-landing .elementor-element.elementor-element-54fe6ad8::after {
+  /* Scrim: left + bottom so copy and form stay readable on photo */
+  .artform-landing .artform-hero-parallax-layer::after {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 70%;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.72) 38%,
-      rgba(0, 0, 0, 0.35) 62%,
-      transparent 100%
-    );
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.58) 0%,
+        rgba(0, 0, 0, 0.28) 42%,
+        transparent 68%
+      ),
+      linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.42) 28%,
+        transparent 52%
+      );
     pointer-events: none;
     z-index: 1;
-  }
-
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap {
-    position: relative;
-    z-index: 2;
   }
 }
 
 /* ───────────────────────── Stats band (below Google Reviews) ───────────────────────── */
 .artform-stats-band.elementor-top-section {
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin-left: calc(50% - 50vw) !important;
-  margin-right: calc(50% - 50vw) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   margin-top: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;

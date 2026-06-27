@@ -1,10 +1,14 @@
 /**
- * Homepage hero imagery — cover + top anchor on tablet/mobile; width-scale on desktop.
+ * Homepage hero — parallax image layer + copy overlay.
+ * Desktop (≥1100px): landscape cover + left scrim (Knight Group pattern)
+ * Mobile/tablet (<1100px): portrait <picture> at natural height, form stacks below
  */
 
 :root {
   --artform-chrome: 128px;
-  --artform-hero-base: 831px;
+  --artform-hero-base: clamp(720px, calc(100svh - var(--artform-chrome)), 920px);
+  --artform-hero-img-pos: 62% 22%;
+  --artform-hero-stack: 1099.98px;
 }
 
 .elementor-975 .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
@@ -18,47 +22,116 @@
   display: none !important;
 }
 
-/* Tablet + desktop: dedicated parallax image layer (see home-hero-parallax.js) */
-@media (min-width: 768px) {
-  .artform-landing > .elementor-element.elementor-element-79fd65b0 {
-    position: relative;
-    overflow: hidden;
-    background-color: #000 !important;
-    background-image: none !important;
-  }
+.artform-landing > .elementor-element.elementor-element-79fd65b0 {
+  position: relative;
+  overflow: hidden;
+  background-color: #000 !important;
+  background-image: none !important;
+}
 
-  .artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container,
-  .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
-  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-    background-image: none !important;
-  }
+.artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container,
+.artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
+.artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: none !important;
+}
 
+.artform-hero-parallax-layer {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.artform-hero-parallax-layer__picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.artform-hero-parallax-layer__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--artform-hero-img-pos);
+}
+
+.artform-hero-parallax-layer__copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+  padding: clamp(12px, 3vw, 20px) clamp(14px, 4vw, 22px) clamp(14px, 2.5vw, 18px);
+  box-sizing: border-box;
+}
+
+.artform-hero-parallax-layer__copy > .elementor-element {
+  pointer-events: auto;
+}
+
+/* Desktop: full-bleed cover image + left scrim for readable copy (Knight Group pattern) */
+@media (min-width: 1100px) {
   .artform-hero-parallax-layer {
     position: absolute;
     inset: 0;
-    z-index: 0;
-    overflow: hidden;
+  }
+
+  .artform-hero-parallax-layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     pointer-events: none;
+    background:
+      linear-gradient(
+        108deg,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.52) 34%,
+        rgba(0, 0, 0, 0.18) 58%,
+        transparent 78%
+      ),
+      linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.28) 36%,
+        transparent 62%
+      );
+  }
+
+  .artform-hero-parallax-layer__picture {
+    position: absolute;
+    inset: 0;
   }
 
   .artform-hero-parallax-layer__img {
     position: absolute;
-    top: -22%;
-    left: 0;
+    inset: 0;
     width: 100%;
-    height: auto;
-    min-height: 150%;
-    min-width: 100%;
-    display: block;
+    height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: var(--artform-hero-img-pos);
     will-change: transform;
-    transform: translate3d(0, 0, 0) scale(1.24);
+    transform: translate3d(0, 0, 0);
+  }
+
+  .artform-hero-parallax-layer__copy {
+    left: clamp(20px, 4vw, 60px);
+    right: auto;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    width: min(48%, 42rem);
+    max-width: 48%;
+    padding: 0;
+    z-index: 2;
   }
 
   .artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay {
     z-index: 1;
-    opacity: 0.29 !important;
+    opacity: 0 !important;
   }
 
   .artform-landing > .elementor-element.elementor-element-79fd65b0 > .elementor-container {
@@ -67,18 +140,140 @@
   }
 }
 
-/* Tablet: shorter hero band than desktop */
-@media (max-width: 1023px) and (min-width: 768px) {
-
-  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
-  .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {
-    min-height: clamp(260px, 48svh, 480px) !important;
+@media (min-width: 1400px) {
+  :root {
+    --artform-hero-img-pos: 58% 18%;
   }
 }
 
-/* Phones: ONE photo band (60vh) — no section bg + column bg stack */
+@media (min-width: 1920px) {
+  :root {
+    --artform-hero-img-pos: 55% 15%;
+  }
+}
+
+@media (min-width: 2560px) {
+  :root {
+    --artform-hero-img-pos: 52% 12%;
+  }
+}
+
+/* Tablet + phone: portrait image at full natural height, form below (Screen Team pattern) */
+@media (max-width: 1099.98px) {
+  .artform-landing > .elementor-element.elementor-element-79fd65b0 {
+    --artform-mobile-form-overlap: clamp(5rem, 14vw, 8.5rem);
+    overflow: visible !important;
+    padding-bottom: clamp(1.25rem, 3.5vw, 2rem) !important;
+  }
+
+  .artform-hero-parallax-layer {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .artform-hero-parallax-layer__picture {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .artform-hero-parallax-layer__img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: unset;
+    object-position: center top;
+    transform: none;
+    will-change: auto;
+  }
+
+  .artform-hero-parallax-layer__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: clamp(2.25rem, 9vw, 3.25rem) clamp(18px, 5vw, 28px) clamp(1rem, 3vw, 1.5rem);
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .artform-hero-parallax-layer__copy > .elementor-element {
+    width: min(calc(100% - clamp(36px, 10vw, 56px)), 340px);
+    max-width: min(calc(100% - clamp(36px, 10vw, 56px)), 340px);
+    flex-shrink: 0;
+    pointer-events: auto;
+  }
+
+  .artform-hero-parallax-layer__copy .elementor-widget-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .artform-hero-parallax-layer__copy .elementor-element-30f4f016 {
+    margin: 0;
+  }
+
+  .artform-hero-parallax-layer__copy .artform-hero-subcopy {
+    margin: 0;
+  }
+
+  .artform-hero-parallax-layer__copy .artform-hero-h1.elementor-heading-title {
+    font-size: clamp(1.65rem, 5.8vw + 0.45rem, 2.35rem) !important;
+    line-height: 1.06 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    text-wrap: balance;
+  }
+
+  .artform-hero-parallax-layer__copy .artform-hero-h2 {
+    font-size: clamp(0.84rem, 2.9vw + 0.38rem, 1.05rem) !important;
+    line-height: 1.36 !important;
+    max-width: 100% !important;
+    margin: clamp(0.45rem, 1.8vw, 0.65rem) 0 0 !important;
+    text-align: left !important;
+    text-wrap: balance;
+  }
+
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    position: relative;
+    z-index: 4;
+    width: 100% !important;
+    pointer-events: none;
+  }
+
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1099.98px) {
+  .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    margin-top: 0 !important;
+  }
+}
+
 @media (max-width: 767px) {
-  /* Kill outer hero section image (Elementor uses 100% auto = “floating” strip) */
+  .artform-hero-parallax-layer__copy > .elementor-element {
+    width: min(calc(100vw - clamp(36px, 10vw, 56px)), 360px);
+    max-width: min(calc(100vw - clamp(36px, 10vw, 56px)), 360px);
+  }
+}
+
+/* Tablet + phone: photo band on top, consult form on black below */
+@media (max-width: 1099.98px) {
   .artform-landing .elementor-element.elementor-element-79fd65b0:not(.elementor-motion-effects-element-type-background),
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay,
@@ -86,7 +281,7 @@
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-background-overlay {
     background-image: none !important;
-    background-color: #000000 !important;
+    background-color: #000 !important;
     opacity: 1 !important;
   }
 
@@ -94,46 +289,32 @@
     display: none !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-79fd65b0 {
-    min-height: 0 !important;
-    padding: 0 !important;
-    background: #000000 !important;
-  }
-
+  .artform-landing .elementor-element.elementor-element-79fd65b0,
   .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container,
   .elementor-975 .elementor-element.elementor-element-79fd65b0 > .elementor-container {
     min-height: 0 !important;
     padding: 0 !important;
-    background: #000000 !important;
+    background: #000 !important;
   }
 
-  /* Single full-width cover image on headline column only */
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-element-populated,
-  .artform-landing .elementor-element.elementor-element-54fe6ad8:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-    background-image: url('/wp-content/uploads/2024/10/071224-DRCK-0895-Edit-1-scaled.webp') !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    background-position: center 42% !important;
+  .elementor-975 .artform-landing .elementor-element.elementor-element-79fd65b0,
+  .elementor-975 .artform-landing .elementor-element.elementor-element-79fd65b0 > .elementor-container {
+    min-height: 0 !important;
+    margin-top: 0 !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-54fe6ad8 > .elementor-element-populated {
-    min-height: 60vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-end !important;
+  .artform-landing .artform-hero-headline-col {
+    display: none !important;
   }
 
-  /* Form column: solid black below photo — not over the image */
-  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col,
-  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col > .elementor-element-populated {
-    background: #000000 !important;
+  .artform-landing .elementor-element.elementor-element-54fb05d4.artform-hero-form-col {
+    background: transparent !important;
     background-image: none !important;
   }
 
-  .artform-landing .elementor-element.elementor-element-79fd65b0,
-  .elementor-975 .elementor-element.elementor-element-79fd65b0 {
+  .elementor-975 .elementor-element.elementor-element-54fb05d4 > .elementor-element-populated {
     margin-top: 0 !important;
+    --e-column-margin-top: 0px !important;
   }
 }
 

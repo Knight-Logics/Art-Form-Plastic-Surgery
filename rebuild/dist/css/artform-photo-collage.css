@@ -174,3 +174,73 @@ body.artform-meet-dr-page .elementor-element-7e9b034a {
     animation: none !important;
   }
 }
+
+/* ── Homepage About Dr. K — compact claim cards (drop bulky icon column) ── */
+.artform-home-page .elementor-element-33c51618 .elementor-widget-jkit_icon_box {
+  margin-bottom: 0.75rem !important;
+}
+
+.artform-home-page .elementor-element-33c51618 .jkit-icon-box.icon-position-left .jkit-icon-box-wrapper {
+  display: block !important;
+}
+
+.artform-home-page .elementor-element-33c51618 .icon-box.icon-box-header {
+  display: none !important;
+}
+
+.artform-home-page .elementor-element-33c51618 .icon-box.icon-box-body {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0.65rem 0 0.65rem 0.95rem !important;
+  border-left: 3px solid rgba(212, 183, 106, 0.55);
+}
+
+.artform-home-page .elementor-element-33c51618 .icon-box-body .title {
+  margin: 0 0 0.35rem !important;
+  font-family: 'Antic Didone', Georgia, serif;
+  font-size: clamp(1.05rem, 1.5vw, 1.18rem) !important;
+  line-height: 1.2 !important;
+  color: #fff !important;
+}
+
+.artform-home-page .elementor-element-33c51618 .icon-box-description {
+  margin: 0 !important;
+  max-width: none !important;
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* ── Homepage About Dr. K — icon boxes stack on mobile ── */
+@media (max-width: 767px) {
+  body.page-id-975 .elementor-element-33c51618 > .elementor-container {
+    flex-direction: column !important;
+  }
+
+  body.page-id-975 .elementor-element-33c51618 .elementor-column {
+    width: 100% !important;
+  }
+
+  body.page-id-975 .elementor-element-33c51618 .jkit-icon-box.icon-position-left .jkit-icon-box-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.65rem;
+  }
+
+  body.page-id-975 .elementor-element-33c51618 .jkit-icon-box .icon-box.icon-box-header {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  body.page-id-975 .elementor-element-33c51618 .jkit-icon-box .icon-box.icon-box-body {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.page-id-975 .elementor-element-33c51618 .icon-box-description {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}

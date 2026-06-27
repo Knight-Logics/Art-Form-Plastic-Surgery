@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Art Form Command | Admin</title>
+  <link rel="icon" href="/wp-content/uploads/2024/10/1000513861-removebg-preview-150x150.png">
+  <link rel="stylesheet" href="/css/artform-admin.css">
+  <script src="/js/artform-admin-dashboard.js" defer></script>
+</head>
+<body class="admin-body is-locked">
+  <a class="skip-link" href="#admin-password">Skip to password field</a>
+
+  <section class="admin-login" id="admin-login" aria-labelledby="admin-login-title">
+    <form class="login-panel" id="admin-login-form" autocomplete="off">
+      <img class="login-logo" src="/wp-content/uploads/2024/10/1000513852-removebg-preview-e1730100950292-186x81.png" alt="Art Form Plastic Surgery" width="120" height="52">
+      <p class="eyebrow">Private team dashboard</p>
+      <h1 id="admin-login-title">Art Form Command</h1>
+      <p class="login-subtitle">Command center for website edits, B2B referral CRM, leads, reviews, and campaign drafts — demo workspace for the rebuild.</p>
+      <label class="field-label" for="admin-password">Password</label>
+      <div class="password-row">
+        <input id="admin-password" name="password" type="password" required autocomplete="current-password" inputmode="text">
+        <button class="button button-primary" type="submit">Unlock</button>
+      </div>
+      <p class="login-message" id="admin-login-message" role="alert"></p>
+      <p class="guardrail-note">Demo mode only. No patient records, medical charts, payments, or PHI. Changes save to this browser only.</p>
+    </form>
+  </section>
+
+  <div class="admin-app" id="admin-app" hidden aria-hidden="true">
+    <aside class="admin-sidebar" aria-label="Admin navigation">
+      <a class="admin-brand" href="../" aria-label="Open Art Form Plastic Surgery website">
+        <img src="/wp-content/uploads/2024/10/1000513852-removebg-preview-e1730100950292-186x81.png" alt="" width="46" height="20">
+        <span><strong>Art Form Command</strong><small>artformplasticsurgery.com</small></span>
+      </a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <div class="sidebar-footer">
+        <span class="mode-pill">Demo workspace</span>
+        <button class="text-button" type="button" id="logout-button">Log out</button>
+      </div>
+    </aside>
+
+    <div class="admin-workspace">
+      <header class="admin-topbar">
+        <button class="icon-button" id="nav-toggle" type="button" aria-label="Toggle admin menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        <div>
+          <p class="eyebrow" id="view-kicker">Art Form Plastic Surgery</p>
+          <h1 id="view-title">Command Center</h1>
+        </div>
+        <div class="topbar-actions">
+          <a class="button button-secondary" href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">GSC</a>
+          <a class="button button-secondary" href="https://business.google.com/locations" target="_blank" rel="noopener noreferrer">GBP</a>
+          <button class="button button-primary" type="button" id="export-button">Export</button>
+        </div>
+      </header>
+
+      <main id="admin-main" class="admin-main" tabindex="-1">
+        <div class="loading-panel">Loading dashboard…</div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

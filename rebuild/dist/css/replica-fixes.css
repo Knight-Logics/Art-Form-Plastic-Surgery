@@ -2,10 +2,25 @@
  * Art Form Plastic Surgery rebuild — layout, header, animations
  */
 
-/* ── Page background ── */
+/* ── Page background + overflow guard ── */
+html {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 html,
 body {
   background-color: #000000 !important;
+}
+
+body,
+#page,
+.site,
+#content,
+.site-content,
+.artform-landing {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 /* ── Skip link (accessibility) ── */
@@ -39,29 +54,73 @@ body {
   background-color: #b89956 !important;
   color: #000000 !important;
   text-align: center;
-  padding: 0.5rem 1rem !important;
-  font-size: 0.8rem !important;
+  padding: 0.38rem 0.65rem !important;
+  font-size: 0.74rem !important;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.35;
   margin: 0;
 }
+
+.simple-banner-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.simple-banner-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.simple-banner-item:not(:last-child)::after {
+  content: '•';
+  margin-left: 0.55rem;
+  color: rgba(0, 0, 0, 0.42);
+  font-weight: 700;
+  pointer-events: none;
+}
+
 .simple-banner-text {
   margin: 0;
   color: #000000 !important;
 }
+
 .simple-banner-link {
   color: #000000 !important;
   text-decoration: none;
+  white-space: nowrap;
 }
+
 .simple-banner-link:hover,
 .simple-banner-link:focus-visible {
   color: #1a1a1a !important;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
 .simple-banner-sep {
   text-decoration: none;
   user-select: none;
+}
+
+@media (max-width: 420px) {
+  .simple-banner {
+    padding: 0.32rem 0.5rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .simple-banner-list {
+    gap: 0.15rem 0.42rem;
+  }
+
+  .simple-banner-item:nth-child(n + 4) {
+    display: none;
+  }
 }
 
 /* ── Elementor entrance (hidden until .animated runs) ── */

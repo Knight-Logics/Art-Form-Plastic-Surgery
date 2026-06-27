@@ -88,6 +88,9 @@
 
   if (!reduceMotion) {
     revealHelpBandOnLoad();
+    document.querySelectorAll('.artform-hero-parallax-layer__copy .elementor-invisible').forEach((el) => {
+      el.classList.remove('elementor-invisible');
+    });
     const targets = collectAnimationTargets();
     const io = new IntersectionObserver(
       (entries) => {

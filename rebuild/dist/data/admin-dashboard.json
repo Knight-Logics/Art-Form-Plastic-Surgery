@@ -1,0 +1,189 @@
+{
+  "generatedAt": "2026-06-19T18:30:00.000Z",
+  "site": {
+    "name": "Art Form Plastic Surgery",
+    "domain": "https://artformplasticsurgery.com",
+    "phoneDisplay": "(813) 563-3735",
+    "email": "info@artformplasticsurgery.com",
+    "doctor": "Dr. Christopher Kieliszak",
+    "googleReviewUrl": "https://g.page/r/artform-plastic-surgery/review",
+    "pageCount": 29,
+    "procedureCount": 14,
+    "locationCount": 2,
+    "patientCount": "452+"
+  },
+  "metrics": [
+    { "label": "Consult requests (30d)", "value": "47", "delta": "+12 vs prior month", "tone": "up" },
+    { "label": "Phone taps (30d)", "value": "186", "delta": "+8% from hero CTA", "tone": "up" },
+    { "label": "Referral partners", "value": "18", "delta": "6 active · 5 nurture", "tone": "neutral" },
+    { "label": "Google rating", "value": "4.9", "delta": "127 reviews indexed", "tone": "up" },
+    { "label": "TikTok views (30d)", "value": "284K", "delta": "14 posts live", "tone": "up" },
+    { "label": "Pages live", "value": "29", "delta": "14 procedure landings", "tone": "neutral" }
+  ],
+  "todayPlanner": [
+    { "time": "9:00 AM", "task": "Reply to 3 new consult form leads", "module": "leads", "priority": "high" },
+    { "time": "10:30 AM", "task": "Send nurture email to Bay Dermatology partner", "module": "referrals", "priority": "medium" },
+    { "time": "1:00 PM", "task": "Approve rhinoplasty hero copy draft", "module": "content", "priority": "medium" },
+    { "time": "3:30 PM", "task": "Post GBP update — Safety Harbor office hours", "module": "gbp", "priority": "low" }
+  ],
+  "content": {
+    "heroEyebrow": "Board-Certified Facial Plastic Surgeon",
+    "heroTitle": "Art Form Plastic Surgery",
+    "heroLead": "452+ patients trust Dr. Christopher Kieliszak for rhinoplasty, facelift, and facial harmony procedures across Safety Harbor and Tampa.",
+    "heroCtaPrimary": "Book Consultation",
+    "heroCtaPhone": "(813) 563-3735",
+    "aboutBlurb": "Dual-location practice focused on natural results, MOHS reconstruction, and patient education."
+  },
+  "servicePages": [
+    { "path": "/rhinoplasty-nose-job-sculpting-confidence-and-facial-harmony/", "title": "Rhinoplasty", "category": "Cosmetic", "status": "Live", "seoScore": 92, "lastEdited": "2026-06-12" },
+    { "path": "/facelift-rhytidectomy-rejuvenate-your-appearance-and-renew-confidence/", "title": "Facelift", "category": "Cosmetic", "status": "Live", "seoScore": 88, "lastEdited": "2026-06-10" },
+    { "path": "/blepharoplasty-eyelid-lift-refresh-and-brighten-your-eyes-with-a-youthful-look/", "title": "Blepharoplasty", "category": "Cosmetic", "status": "Live", "seoScore": 85, "lastEdited": "2026-06-08" },
+    { "path": "/mohs-reconstruction-restoring-natural-beauty-after-skin-cancer-removal/", "title": "MOHS Reconstruction", "category": "Functional", "status": "Live", "seoScore": 94, "lastEdited": "2026-06-14" },
+    { "path": "/nasal-breathing-procedures-achieve-lasting-relief-from-nasal-obstruction/", "title": "Nasal Breathing", "category": "Functional", "status": "Live", "seoScore": 81, "lastEdited": "2026-06-05" },
+    { "path": "/book-consultation/", "title": "Book Consultation", "category": "Conversion", "status": "Live", "seoScore": 96, "lastEdited": "2026-06-18" },
+    { "path": "/meet-dr-kieliszak/", "title": "Meet Dr. Kieliszak", "category": "Trust", "status": "Draft edits", "seoScore": 79, "lastEdited": "2026-06-17" },
+    { "path": "/gallery/", "title": "Gallery", "category": "Trust", "status": "Needs photos", "seoScore": 72, "lastEdited": "2026-05-28" }
+  ],
+  "seoOpportunities": [
+    { "query": "rhinoplasty tampa", "impressions": 1840, "position": 11.2, "action": "Add Tampa geo block to rhinoplasty page" },
+    { "query": "facelift safety harbor", "impressions": 620, "position": 8.4, "action": "Internal link from homepage hero" },
+    { "query": "mohs reconstruction near me", "impressions": 910, "position": 14.1, "action": "Add dermatologist referral CTA" },
+    { "query": "best facial plastic surgeon tampa bay", "impressions": 440, "position": 18.6, "action": "Expand reviews schema on homepage" },
+    { "query": "blepharoplasty recovery time", "impressions": 380, "position": 22.3, "action": "Add FAQ block to blepharoplasty page" }
+  ],
+  "leads": [
+    { "id": "L-1047", "name": "Sarah M.", "source": "Hero form", "procedure": "Rhinoplasty", "location": "Tampa", "status": "New", "received": "2026-06-19 08:14", "notes": "Asked about financing; prefers virtual consult first." },
+    { "id": "L-1046", "name": "James R.", "source": "Phone", "procedure": "Facelift consult", "location": "Safety Harbor", "status": "Scheduled", "received": "2026-06-18 16:42", "notes": "Booked Thu 2 PM — referred by med spa partner." },
+    { "id": "L-1045", "name": "Elena V.", "source": "Book page", "procedure": "Blepharoplasty", "location": "Clearwater", "status": "Follow-up", "received": "2026-06-18 11:05", "notes": "Sent pre-consult packet; waiting on photos." },
+    { "id": "L-1044", "name": "Michael T.", "source": "Referral CRM", "procedure": "MOHS reconstruction", "location": "Palm Harbor", "status": "New", "received": "2026-06-17 09:33", "notes": "Dermatology partner warm intro — post-MOHS consult." },
+    { "id": "L-1043", "name": "Priya K.", "source": "TikTok bio link", "procedure": "Lip lift", "location": "St. Petersburg", "status": "Contacted", "received": "2026-06-16 19:28", "notes": "DM follow-up sent; interested in Tampa location." }
+  ],
+  "referrals": [
+    {
+      "id": "R-201",
+      "business": "Bay Dermatology Associates — Clearwater",
+      "group": "Dermatologists",
+      "contactName": "Dr. Amanda Reyes",
+      "contactEmail": "partnerships@bayderm.example",
+      "city": "Clearwater, FL",
+      "angle": "MOHS reconstruction handoff after skin cancer excision — co-branded patient pathway.",
+      "status": "Active Partner",
+      "referralsSent": 14,
+      "lastTouch": "2026-06-12",
+      "nextStep": "Quarterly lunch-and-learn on nasal reconstruction"
+    },
+    {
+      "id": "R-202",
+      "business": "Radiance Med Spa — Westchase",
+      "group": "Med spas",
+      "contactName": "Jessica Cole, GM",
+      "contactEmail": "jessica@radiancemed.example",
+      "city": "Tampa, FL",
+      "angle": "Non-surgical patients aging into surgical consults — blepharoplasty & mini facelift.",
+      "status": "Nurture",
+      "referralsSent": 6,
+      "lastTouch": "2026-06-08",
+      "nextStep": "Send co-branded desk QR card PDF"
+    },
+    {
+      "id": "R-203",
+      "business": "Harbor Primary Care — Safety Harbor",
+      "group": "Primary care",
+      "contactName": "Office Manager",
+      "city": "Safety Harbor, FL",
+      "angle": "Nasal breathing & sleep-adjacent referrals from PCP panel.",
+      "status": "Contacted",
+      "referralsSent": 2,
+      "lastTouch": "2026-06-04",
+      "nextStep": "Follow up on physician liaison meeting"
+    },
+    {
+      "id": "R-204",
+      "business": "Glow Aesthetics Studio — St. Pete",
+      "group": "Med spas",
+      "contactName": "Owner",
+      "city": "St. Petersburg, FL",
+      "angle": "Event-season injectable clients exploring surgical options.",
+      "status": "Draft Email",
+      "referralsSent": 0,
+      "lastTouch": "2026-06-15",
+      "nextStep": "Preview partnership intro email"
+    },
+    {
+      "id": "R-205",
+      "business": "Tampa Bay Oral Surgery Group",
+      "group": "Dental / oral surgery",
+      "contactName": "Referral coordinator",
+      "city": "Tampa, FL",
+      "angle": "Facial trauma & reconstructive cross-referrals.",
+      "status": "Research",
+      "referralsSent": 0,
+      "lastTouch": "2026-06-10",
+      "nextStep": "Identify liaison contact on website"
+    },
+    {
+      "id": "R-206",
+      "business": "Coastal Wedding Collective",
+      "group": "Wedding planners",
+      "contactName": "Events director",
+      "city": "Tampa Bay, FL",
+      "angle": "Pre-event blepharoplasty & rhinoplasty consult pipeline.",
+      "status": "To Contact",
+      "referralsSent": 0,
+      "lastTouch": "2026-06-01",
+      "nextStep": "Add to Q3 bridal expo outreach list"
+    }
+  ],
+  "referralPackages": {
+    "Dermatologists": ["MOHS pathway one-pager", "Post-excision consult QR card", "Physician liaison deck"],
+    "Med spas": ["Surgical consult QR desk card", "Non-surgical to surgical pathway PDF", "Co-branded event flyer"],
+    "Primary care": ["Nasal breathing triage sheet", "Referral pad PDF", "Office lunch presentation"],
+    "Dental / oral surgery": ["Facial trauma protocol card", "Cross-referral letter template"],
+    "Wedding planners": ["Timeline consult guide", "Pre-event procedure overview", "Financing one-pager"]
+  },
+  "mailbox": [
+    { "id": "M-88", "to": "jessica@radiancemed.example", "subject": "Art Form × Radiance — surgical consult pathway", "status": "Queued", "sentAt": null, "preview": "Hi Jessica — following up on our Westchase conversation about patients ready for blepharoplasty consults..." },
+    { "id": "M-87", "to": "partnerships@bayderm.example", "subject": "MOHS reconstruction — Q2 referral summary", "status": "Sent", "sentAt": "2026-06-12", "preview": "Dr. Reyes — attached is our Q2 summary: 14 warm handoffs, avg consult-to-surgery 34 days..." },
+    { "id": "M-86", "to": "events@coastalwedding.example", "subject": "Bridal season consult windows", "status": "Draft", "sentAt": null, "preview": "Planning teams often ask about realistic timelines before destination weddings..." }
+  ],
+  "reviews": [
+    { "id": "RV-301", "author": "Michelle L.", "rating": 5, "source": "Google", "snippet": "Dr. Kieliszak explained rhinoplasty options clearly. Natural results and both offices are easy to reach.", "status": "Needs reply", "received": "2026-06-17" },
+    { "id": "RV-300", "author": "David P.", "rating": 5, "source": "Google", "snippet": "Facelift recovery was smoother than expected. Team checked in often from Safety Harbor office.", "status": "Draft ready", "received": "2026-06-14" },
+    { "id": "RV-299", "author": "Ana S.", "rating": 4, "source": "Google", "snippet": "Great consult experience. Wish Tampa parking was easier but results-focused care was excellent.", "status": "Replied", "received": "2026-06-09" }
+  ],
+  "reviewDrafts": {
+    "RV-301": "Thank you, Michelle — we're glad the consult helped you feel confident about your rhinoplasty plan. Our team is here if you need anything before your visit to Safety Harbor or Tampa.",
+    "RV-300": "David, thank you for trusting us with your facelift journey. Recovery support is a priority for our team — we'll keep checking in."
+  },
+  "campaigns": [
+    { "id": "C-41", "channel": "Instagram", "title": "Rhinoplasty confidence reel", "status": "Scheduled", "publishDate": "2026-06-21", "caption": "Facial harmony starts with a plan — book a consult with Dr. Kieliszak in Safety Harbor or Tampa." },
+    { "id": "C-40", "channel": "TikTok", "title": "Blepharoplasty recovery day 7", "status": "Live", "publishDate": "2026-06-16", "caption": "What normal swelling looks like one week after upper bleph — not medical advice." },
+    { "id": "C-39", "channel": "GBP", "title": "Dual-location hours update", "status": "Draft", "publishDate": "2026-06-20", "caption": "Now accepting consults at Safety Harbor (801 2nd St N) and Tampa (Kennedy Blvd)." }
+  ],
+  "gbp": {
+    "locations": [
+      { "name": "Art Form — Safety Harbor", "status": "Verified", "views30d": 4200, "actions30d": 312, "photoCount": 48 },
+      { "name": "Art Form — Tampa", "status": "Verified", "views30d": 2800, "actions30d": 198, "photoCount": 36 }
+    ],
+    "checklist": [
+      { "item": "Upload 6 new before/after gallery photos", "done": false },
+      { "item": "Add Q&A for financing options", "done": true },
+      { "item": "Post monthly procedure spotlight", "done": false },
+      { "item": "Verify holiday hours on both profiles", "done": true }
+    ],
+    "postDraft": {
+      "title": "Summer consult availability",
+      "body": "New patient consults available Mon–Fri at Safety Harbor and Tampa. Rhinoplasty, facelift, blepharoplasty, and MOHS reconstruction."
+    }
+  },
+  "approvals": [
+    { "id": "A-12", "item": "Homepage hero copy — gold glimmer headline", "requestedBy": "Marketing", "status": "Pending Dr. K review" },
+    { "id": "A-11", "item": "Radiance Med Spa co-branded PDF", "requestedBy": "Referral CRM", "status": "Approved" },
+    { "id": "A-10", "item": "TikTok bleph recovery script", "requestedBy": "Social", "status": "Pending compliance" }
+  ],
+  "complianceGuardrails": [
+    "Demo workspace only — no PHI, medical records, or payment data.",
+    "All patient names in lead log are fictional samples.",
+    "Publish actions update local demo state only; production site unchanged."
+  ]
+}
